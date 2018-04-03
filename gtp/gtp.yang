@@ -1,0 +1,770 @@
+module gtp {
+  namespace "urn:ietf:params:xml:ns:yang:gtp";
+  prefix gtp;
+
+  organization
+    "3GPP";
+
+  contact
+    "Some guyes";
+  description
+    "GTP";
+
+  extension presence {
+    description
+        "xxx";
+    argument value;
+  }
+
+  extension bit-length {
+    description
+        "number of bits (integer) the sub-type is limited to";
+    argument value;
+  }
+
+  extension gtp_ietype {
+    description
+        "IE Type value (decimal)";
+    argument value;
+  }
+
+  extension gtp_messagetype {
+    description
+        "Message Type value (decimal)";
+    argument value;
+  }
+
+  extension as_union {
+    description
+        "Indicates the containing statement is a union";
+    argument datatype;
+  }
+
+  extension as_struct {
+    description
+        "Indicates the containing statement is a struct";
+    argument datatype;
+  }
+  
+  extension format {
+	  description
+		  	"Data Format";
+	  argument datatype;
+  }
+
+  grouping gtp_header {
+    leaf version {
+      type uint8;
+      gtp:bit-length 3;
+    }
+    leaf segment {
+      type bits {
+        bit P {
+          position 0;
+        }
+        bit T {
+          position 1;
+        }
+        bit spare_1 {
+          position 2;
+        }
+        bit spare_2 {
+          position 3;
+        }
+        bit spare_3 {
+          position 4;
+        }
+      }
+    }
+    leaf message_type {
+      type uint8;
+    }
+    leaf message_length {
+      type uint16;
+    }
+    leaf teid {
+      type uint32;
+      when "../segment/T == 1";
+    }
+    leaf sequence_number {
+      type uint32;
+      gtp:bit-length 24;
+    }
+    leaf spare {
+      type uint8;
+    }
+  }
+
+  grouping ie_header {
+    leaf type {
+      type uint8;
+    }
+    leaf length {
+      type uint16;
+    }
+    leaf ie_header_spare {
+      type uint8;
+      gtp:bit-length 4;
+    }
+    leaf instance {
+      type uint8;
+      gtp:bit-length 4;
+    }
+    description "Section 8.2.1";
+  }
+
+  grouping ie_header_ext {
+    uses gtp:ie_header;
+    leaf ie_type_extension {
+      type uint16;
+    }
+    description "Section 8.2.1A";
+  }
+
+  grouping imsi {
+    gtp:gtp_ietype 1;
+    leaf-list number_digits {
+      min-elements 1;
+      max-elements 15;
+      type uint8 {
+        range "0..9";
+      }
+      gtp:bit-length 4;
+    }
+    leaf imsi_spare {
+      when "../count(number-digits) mod 2 = 1";
+      type uint8;
+      gtp:bit-length 4;
+      default 15;
+    }
+    description "Section 8.3";
+  }
+
+  grouping cause {
+    gtp:gtp_ietype 2;
+    leaf cause_value {
+      gtp:bit-length 8;
+      type enumeration {
+        enum Reserved {
+          value 1;
+          description "Reserved";
+        }
+        enum Local_Detach {
+          value 2;
+          description "Local Detach";
+        }
+        enum Complete_Detach {
+          value 3;
+          description "Complete Detach";
+        }
+        enum RAT_changed_from_3GPP_to_Non-3GPP {
+          value 4;
+          description "RAT changed from 3GPP to Non-3GPP";
+        }
+        enum ISR_deactivation {
+          value 5;
+          description "ISR deactivation";
+        }
+        enum Error_Indication_received_from_RNC_eNodeB_S4-SGSN_MME {
+          value 6;
+          description "Error Indication received from RNC/eNodeB/S4-SGSN/MME";
+        }
+        enum IMSI_Detach_Only {
+          value 7;
+          description "IMSI Detach Only";
+        }
+        enum Reactivation_Requested {
+          value 8;
+          description "Reactivation Requested";
+        }
+        enum PDN_reconnection_to_this_APN_disallowed {
+          value 9;
+          description "PDN reconnection to this APN disallowed";
+        }
+        enum Access_changed_from_Non-3GPP_to_3GPP {
+          value 10;
+          description "Access changed from Non-3GPP to 3GPP";
+        }
+        enum PDN_connection_inactivity_timer_expires {
+          value 11;
+          description "PDN connection inactivity timer expires";
+        }
+        enum PGW_not_responding {
+          value 12;
+          description "PGW not responding";
+        }
+        enum Network_Failure {
+          value 13;
+          description "Network Failure";
+        }
+        enum QoS_parameter_mismatch {
+          value 14;
+          description "QoS parameter mismatch";
+        }
+        enum Spare._This_value_range_shall_be_used_by_Cause_values_in_an_initial_request_message._See_NOTE_5. {
+          value 15;
+          description "Spare. This value range shall be used by Cause values
+                    in an initial/request message. See NOTE 5.";
+        }
+        enum Request_accepted {
+          value 16;
+          description "Request accepted";
+        }
+        enum Request_accepted_partially {
+          value 17;
+          description "Request accepted partially";
+        }
+        enum New_PDN_type_due_to_network_preference. {
+          value 18;
+          description "New PDN type due to network preference.";
+        }
+        enum New_PDN_type_due_to_single_address_bearer_only. {
+          value 19;
+          description "New PDN type due to single address bearer only.";
+        }
+        enum Context_Not_Found {
+          value 64;
+          description "Context Not Found";
+        }
+        enum Invalid_Message_Format {
+          value 65;
+          description "Invalid Message Format";
+        }
+        enum Version_not_supported_by_next_peer {
+          value 66;
+          description "Version not supported by next peer";
+        }
+        enum Invalid_length {
+          value 67;
+          description "Invalid length";
+        }
+        enum Service_not_supported {
+          value 68;
+          description "Service not supported";
+        }
+        enum Mandatory_IE_incorrect {
+          value 69;
+          description "Mandatory IE incorrect";
+        }
+        enum Mandatory_IE_missing {
+          value 70;
+          description "Mandatory IE missing";
+        }
+        enum Shall_not_be_used71 {
+          value 71;
+          description "Shall not be used. See NOTE 2 and NOTE 3.";
+        }
+        enum System_failure {
+          value 72;
+          description "System failure";
+        }
+        enum No_resources_available {
+          value 73;
+          description "No resources available";
+        }
+        enum Semantic_error_in_the_TFT_operation {
+          value 74;
+          description "Semantic error in the TFT operation";
+        }
+        enum Syntactic_error_in_the_TFT_operation {
+          value 75;
+          description "Syntactic error in the TFT operation";
+        }
+        enum Semantic_errors_in_packet_filter(s) {
+          value 76;
+          description "Semantic errors in packet filter(s)";
+        }
+        enum Syntactic_errors_in_packet_filter(s) {
+          value 77;
+          description "Syntactic errors in packet filter(s)";
+        }
+        enum Missing_or_unknown_APN {
+          value 78;
+          description "Missing or unknown APN";
+        }
+        enum Shall_not_be_used79. {
+          value 79;
+          description "Shall not be used. See NOTE 2 and NOTE 3.";
+        }
+        enum GRE_key_not_found {
+          value 80;
+          description "GRE key not found";
+        }
+        enum Relocation_failure {
+          value 81;
+          description "Relocation failure";
+        }
+        enum Denied_in_RAT {
+          value 82;
+          description "Denied in RAT";
+        }
+        enum Preferred_PDN_type_not_supported {
+          value 83;
+          description "Preferred PDN type not supported";
+        }
+        enum All_dynamic_addresses_are_occupied {
+          value 84;
+          description "All dynamic addresses are occupied";
+        }
+        enum UE_context_without_TFT_already_activated._See_NOTE_6. {
+          value 85;
+          description "UE context without TFT already activated. See NOTE
+                    6.";
+        }
+        enum Protocol_type_not_supported {
+          value 86;
+          description "Protocol type not supported";
+        }
+        enum UE_not_responding._See_NOTE_7. {
+          value 87;
+          description "UE not responding. See NOTE 7.";
+        }
+        enum UE_refuses {
+          value 88;
+          description "UE refuses";
+        }
+        enum Service_denied._See_NOTE_7. {
+          value 89;
+          description "Service denied. See NOTE 7.";
+        }
+        enum Unable_to_page_UE {
+          value 90;
+          description "Unable to page UE";
+        }
+        enum No_memory_available {
+          value 91;
+          description "No memory available";
+        }
+        enum User_authentication_failed {
+          value 92;
+          description "User authentication failed";
+        }
+        enum APN_access_denied_–_no_subscription {
+          value 93;
+          description "APN access denied – no subscription";
+        }
+        enum Request_rejected_(reason_not_specified) {
+          value 94;
+          description "Request rejected (reason not specified)";
+        }
+        enum P-TMSI_Signature_mismatch {
+          value 95;
+          description "P-TMSI Signature mismatch";
+        }
+        enum IMSI_IMEI_not_known {
+          value 96;
+          description "IMSI/IMEI not known";
+        }
+        enum Semantic_error_in_the_TAD_operation {
+          value 97;
+          description "Semantic error in the TAD operation";
+        }
+        enum Syntactic_error_in_the_TAD_operation {
+          value 98;
+          description "Syntactic error in the TAD operation";
+        }
+        enum Shall_not_be_used99. {
+          value 99;
+          description "Shall not be used. See NOTE 2 and NOTE 3.";
+        }
+        enum Remote_peer_not_responding {
+          value 100;
+          description "Remote peer not responding";
+        }
+        enum Collision_with_network_initiated_request {
+          value 101;
+          description "Collision with network initiated request";
+        }
+        enum Unable_to_page_UE_due_to_Suspension {
+          value 102;
+          description "Unable to page UE due to Suspension";
+        }
+        enum Conditional_IE_missing {
+          value 103;
+          description "Conditional IE missing";
+        }
+        enum APN_Restriction_type_Incompatible_with_currently_active_PDN_connection {
+          value 104;
+          description "APN Restriction type Incompatible with currently active
+                    PDN connection";
+        }
+        enum Invalid_overall_length_of_the_triggered_response_message_and_a_piggybacked_initial_message {
+          value 105;
+          description "Invalid overall length of the triggered response message
+                    and a piggybacked initial message";
+        }
+        enum Data_forwarding_not_supported {
+          value 106;
+          description "Data forwarding not supported";
+        }
+        enum Invalid_reply_from_remote_peer {
+          value 107;
+          description "Invalid reply from remote peer";
+        }
+        enum Fallback_to_GTPv1 {
+          value 108;
+          description "Fallback to GTPv1";
+        }
+        enum Invalid_peer {
+          value 109;
+          description "Invalid peer";
+        }
+        enum Temporarily_rejected_due_to_handover_TAU_RAU_procedure_in_progress {
+          value 110;
+          description "Temporarily rejected due to handover/TAU/RAU procedure
+                    in progress";
+        }
+        enum Modifications_not_limited_to_S1-U_bearers {
+          value 111;
+          description "Modifications not limited to S1-U bearers";
+        }
+        enum Request_rejected_for_a_PMIPv6_reason_(see_3GPP_TS_29.275_[26]). {
+          value 112;
+          description "Request rejected for a PMIPv6 reason (see 3GPP TS 29.275
+                    [26]).";
+        }
+        enum APN_Congestion {
+          value 113;
+          description "APN Congestion";
+        }
+        enum Bearer_handling_not_supported {
+          value 114;
+          description "Bearer handling not supported";
+        }
+        enum UE_already_re-attached._See_NOTE_7. {
+          value 115;
+          description "UE already re-attached. See NOTE 7.";
+        }
+        enum Multiple_PDN_connections_for_a_given_APN_not_allowed {
+          value 116;
+          description "Multiple PDN connections for a given APN not allowed";
+        }
+        enum Target_access_restricted_for_the_subscriber {
+          value 117;
+          description "Target access restricted for the subscriber";
+        }
+        enum Shall_not_be_used118. {
+          value 118;
+          description "Shall not be used. See NOTE 2 and NOTE 3.";
+        }
+        enum MME_SGSN_refuses_due_to_VPLMN_Policy {
+          value 119;
+          description "MME/SGSN refuses due to VPLMN Policy";
+        }
+        enum GTP-C_Entity_Congestion {
+          value 120;
+          description "GTP-C Entity Congestion";
+        }
+        enum Late_Overlapping_Request_ {
+          value 121;
+          description "Late Overlapping Request ";
+        }
+        enum Timed_out_Request_ {
+          value 122;
+          description "Timed out Request ";
+        }
+        enum UE_is_temporarily_not_reachable_due_to_power_saving {
+          value 123;
+          description "UE is temporarily not reachable due to power saving";
+        }
+        enum Relocation_failure_due_to_NAS_message_redirection {
+          value 124;
+          description "Relocation failure due to NAS message redirection";
+        }
+        enum UE_not_authorised_by_OCS_or_external_AAA_Server {
+          value 125;
+          description "UE not authorised by OCS or external AAA Server";
+        }
+        enum Multiple_accesses_to_a_PDN_connection_not_allowed {
+          value 126;
+          description "Multiple accesses to a PDN connection not allowed";
+        }
+        enum Request_rejected_due_to_UE_capability {
+          value 127;
+          description "Request rejected due to UE capability";
+        }
+      }
+    }
+    leaf cause_spare {
+      type uint8;
+      gtp:bit-length 5;
+    }
+    leaf pce {
+      type boolean;
+    }
+    leaf bce {
+      type boolean;
+    }
+    leaf cs {
+      type boolean;
+    }
+    leaf type_of_offending_ie {
+      when "../length = 6";
+      type uint8;
+    }
+    leaf length_of_offending_ie {
+      when "../length = 6";
+      type uint32;
+      gtp:bit-length 24;
+    }
+    description "Section 8.4";
+  }
+  
+  grouping recovery_ie {
+	  gtp:gtp_ietype 3;
+	  leaf recovery {
+		  type uint8;
+	  }
+	  description "Section 8.5";
+  }
+  
+  grouping apn_ie {
+	  gtp:gtp_ietype 71;
+	  leaf apn {
+		  type string;
+		  gtp:format "3GPP TS 23.003 [2] subclause 9.1";
+	  }
+	  description "Section 8.6";
+  }
+  
+  grouping ambr_ie {
+	  gtp:gtp_ietype 72;
+	  leaf apn_ambr_ul {
+		  type uint32;
+	  }
+	  leaf apn_ambr_dl {
+		  type uint32;
+	  }
+	  description "Section 8.7";
+  }
+  
+  grouping ebi_ie{
+	  gtp:gtp_ietype 73;
+	  leaf ebi_spare {
+		  type uint8;
+		  gtp:bit-length 4;
+	  }
+	  leaf ebi {
+		  type uint8 {
+		  	range "0..15";
+		  }
+		  gtp:bit-length 4;
+	  }
+	  description "Section 8.8";
+  }
+  
+  grouping ipaddress_ie {
+	  gtp:gtp_ietype 74;
+	  leaf ipv4_addr {
+		  when "../length = 4";
+		  type uint32;
+	  }
+	  leaf ipv6_addr_1 {
+		  when "../length = 16";
+		  type uint64;
+	  }
+	  leaf ipv6_addr_2{
+		  when "../length = 16";
+		  type uint64;
+	  }
+	  description "Section 8.9";
+  }
+  
+  grouping mei_ie {
+	gtp:gtp_ietype 75;
+    leaf-list number_digits {
+        min-elements 1;
+        max-elements 15;
+        type uint8;
+        gtp:bit-length 4;
+      }
+      leaf spare_or_sv {
+        type uint8;
+        gtp:bit-length 4;
+        default 15;
+      }
+	  description "Section 8.10";
+  }
+  
+  grouping msisdn_ie {
+	gtp:gtp_ietype 76;
+    leaf-list number_digits {
+        min-elements 1;
+        max-elements 15;
+        type uint8 {
+          range "0..9";
+        }
+        gtp:bit-length 4;
+      }
+      leaf filler {
+    	    when "../count(number-digits) mod 2 = 1";
+        type uint8;
+        gtp:bit-length 4;
+        default 15;
+      }
+	  description "Section 8.11";
+  }
+
+  grouping test_ie {
+    gtp:gtp_ietype 0;
+    leaf basic_int {
+      when "../count(number-digits) mod 2 = 1";
+      type uint8 {
+        range "1..5 | 7 | 15 | 19";
+      }
+      description "Basic Integer";
+      gtp:bit-length 9;
+      default 15;
+    }
+    leaf test_dec64 {
+      type decimal64 {
+        range "2.30 | 3 | 5.01";
+        fraction-digits 2;
+      }
+    }
+    leaf test_string {
+      type string {
+        length 42;
+        pattern "^not 42*";
+      }
+      description "A String";
+    }
+    leaf test_boolean {
+      type boolean;
+    }
+    leaf test_enum1 {
+      type enumeration {
+        enum zero;
+        enum one;
+        enum seven {
+          value 7;
+        }
+      }
+    }
+    leaf test_enum2 {
+      gtp:bit-length 9;
+      type enumeration {
+        enum white {
+          value 1;
+        }
+        enum yellow {
+          value 2;
+        }
+        enum red {
+          value 3;
+        }
+      }
+    }
+    leaf	test_bits {
+      type bits {
+        bit disable-nagle;
+        bit auto-sense-speed {
+          position 1;
+        }
+        bit ten-mb-only {
+          position 2;
+        }
+      }
+    }
+    leaf test_binary {
+      type binary {
+        length 255;
+      }
+      description "Just a Test";
+    }
+    leaf test_leafref1 {
+      type leafref {
+        path "/foo";
+      }
+    }
+    leaf test_identityref1 {
+      type identityref {
+        base "bar";
+      }
+    }
+    leaf test_empty {
+      type empty {
+      }
+    }
+    leaf test_instanceid1 {
+      type instance-identifier {
+        require-instance false;
+      }
+    }
+    leaf test_union {
+      type union {
+        type instance-identifier {
+          require-instance false;
+        }
+        type enumeration {
+          enum default-filter;
+        }
+      }
+    }
+    leaf-list test_leaflist {
+      type uint8;
+    }
+  }
+
+  identity bar {
+  }
+  container foo {
+  }
+
+  rpc example {
+    input {
+      leaf ex1 {
+        type uint8;
+      }
+    }
+  }
+
+  grouping test_ie2 {
+    gtp:gtp_ietype -1;
+    leaf test2_int {
+      type uint8;
+    }
+    container container_test1 {
+      gtp:as_union true;
+      leaf uint8_leaf {
+        type uint8;
+      }
+      leaf uint16_leaf {
+        type uint16;
+      }
+    }
+    leaf a {
+      type string;
+    }
+    container container_test2 {
+      gtp:as_struct true;
+      leaf uint32_leaf {
+        type uint32;
+      }
+      leaf uint64_leaf {
+        type uint64;
+      }
+    }
+    leaf b {
+      type string;
+    }
+  }
+
+  grouping create_session_request {
+    gtp:gtp_messagetype 32;
+    container imsi {
+      uses gtp:imsi;
+      gtp:presence "C";
+    }
+  }
+
+  grouping gtp_message {
+    uses gtp:gtp_header;
+    choice value {
+      case session_request {
+        when "../message_type == 32";
+        uses gtp:create_session_request;
+      }
+    }
+  }
+}
