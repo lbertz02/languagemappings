@@ -3664,6 +3664,456 @@ grouping pdn_connection {
                 type binary;
 	}	
 }
+grouping pdu_numbers {
+	gtp:ie-type 110;
+	leaf spare1 {
+		gtp:order 4;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+		gtp:spareformat;
+	}
+	leaf nsapi {
+		gtp:order 5;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf dl_gtp-u_sequence_number {
+		gtp:order 6;
+		mandatory true;
+		type binary {
+			length "16";
+		}
+	}
+	leaf ul_gtp-u_sequence_number {
+		gtp:order 7;
+		mandatory true;
+		type binary {
+			length "16";
+		}
+	}
+	leaf send_n-pdu_number {
+		gtp:order 8;
+		mandatory true;
+		type binary {
+			length "16";
+		}
+	}
+	leaf receive_n-pdu_number {
+		gtp:order 9;
+		mandatory true;
+		type binary {
+			length "16";
+		}
+	}
+	gtp:explicit-extensible true;
+}
+grouping packet_tmsi {
+	gtp:ie-type 111;
+	leaf packet_tmsi {
+		gtp:order 4;
+		mandatory true;
+		type binary; 
+		description "Defined in TS 23.003.";
+	}
+}
+grouping p_tmsi_signature {
+	gtp:ie-type 112;
+	leaf p_tmsi_signature {
+		gtp:order 4;
+		mandatory true;
+		type binary;
+	}
+}
+grouping hop_counter {
+	gtp:ie-type 113;
+	leaf hop_counter {
+		gtp:order 4;
+		mandatory true;
+		type binary;
+	}
+	gtp:explicit-extensible true;
+}
+grouping ue_time_zone {
+	gtp:ie-type 114;
+	leaf time_zone {
+		gtp:order 4;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+	leaf spare1 {
+		gtp:order 5;
+		mandatory true;
+		type binary {
+			length "6";
+		}
+		gtp:spareformat;
+	}
+	leaf daylight_saving_time {
+		gtp:order 6;
+		mandatory true;
+		type binary {
+			length "2";
+		}
+	}
+	gtp:explicit-extensible true;
+}
+typedef daylight_saving_time_e {
+	type enumeration {
+		enum "no_adjustment" { value 0; }
+		enum "plus_1_hour" { value 1; }
+		enum "plus_2_hour" { value 2; }
+	}
+}
+
+
+
+grouping trace_reference {
+	gtp:ie-type 115;
+	leaf mcc_digit_2 {
+		gtp:order 4;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mcc_digit_1 {
+		gtp:order 5;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mnc_digit_3 {
+		gtp:order 6;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mcc_digit_3 {
+		gtp:order 7;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mnc_digit_2 {
+		gtp:order 8;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mnc_digit_1 {
+		gtp:order 9;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf trace_id {
+		gtp:order 10;
+		mandatory true;
+		type binary {
+			length "24";
+		}
+	}
+}
+grouping complete_request_message {
+	gtp:ie-type 116;
+	leaf complete_request_message_type {
+		gtp:order 4;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+	leaf complete_request_message {
+		gtp:order 5;
+		mandatory true;
+		type binary;
+	}
+}
+typedef complete_request_message_type_e {
+	type enumeration {
+		enum "complete_attach_request" { value 0; }
+		enum "complete_tau_request"    { value 1; }
+	}
+}
+
+grouping guti {
+	gtp:ie-type 117;
+	leaf mcc_digit_2 {
+		gtp:order 4;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mcc_digit_1 {
+		gtp:order 5;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mnc_digit_3 {
+		gtp:order 6;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mcc_digit_3 {
+		gtp:order 7;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mnc_digit_2 {
+		gtp:order 8;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mnc_digit_1 {
+		gtp:order 9;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mme_group_id {
+		gtp:order 10;
+		mandatory true;
+		type binary {
+			length "16";
+		}
+	}
+	leaf mme_code {
+		gtp:order 11;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+	leaf m-tmsi {
+		gtp:order 12;
+		mandatory true;
+		type binary;
+	}
+}
+grouping full_qualified_container {
+	gtp:ie-type 118;
+	leaf spare1 {
+		gtp:order 4;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+		gtp:spareformat;
+	}
+	leaf container_type {
+		gtp:order 5;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf f_container_field {
+		gtp:order 6;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+}
+typedef container_type_e {
+	type enumeration {
+		enum "reserved" { value 0; }
+		enum "utran_transparent_container" { value 1; }
+		enum "bss_container" { value 2; }
+		enum "eutran_transparent_container" { value 3; }
+		enum "nbifom_container" { value 4; }
+	}
+}
+
+grouping bss_container {
+	leaf spare1 {
+		gtp:order 0;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+		gtp:spareformat;
+	}
+	leaf phx {
+		gtp:order 1;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf sapi {
+		gtp:order 2;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf rp {
+		gtp:order 3;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf pfi {
+		gtp:order 4;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf packet_flow_id {
+		gtp:order 5;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+	leaf sapi1 {
+		gtp:order 6;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf spare2 {
+		gtp:order 7;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+		gtp:spareformat;
+	}
+	leaf radio_priority {
+		gtp:order 8;
+		mandatory true;
+		type binary {
+			length "3";
+		}
+	}
+	leaf xid_parameters_length {
+		gtp:order 9;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+	leaf xid_parameters {
+		gtp:order 10;
+		mandatory true;
+		type binary;
+	}
+}
+grouping full_qualified_cause {
+	gtp:ie-type 119;
+	leaf spare1 {
+		gtp:order 4;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+		gtp:spareformat;
+	}
+	leaf cause_type {
+		gtp:order 5;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf f-cause_field {
+		gtp:order 6;
+		mandatory true;
+		type binary;
+	}
+}
+typedef cause_type_e {
+	type enumeration {
+		enum "radio_network_layer" { value 0; }
+		enum "transport_layer" { value 1; }
+		enum "nas" { value 2; }
+		enum "protocol" { value 3; }
+		enum "miscellaneous" { value 4; }
+	}
+}
+grouping plmn_id {
+	gtp:ie-type 120;
+	leaf plmn_id {
+		gtp:order 4;
+		mandatory true;
+		type binary;
+	}
+}
+
+grouping plmn_id_parameter_with_3digit_mnc {
+	leaf mcc_digit_2 {
+		gtp:order 0;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mcc_digit_1 {
+		gtp:order 1;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mnc_digit_1 {
+		gtp:order 2;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mcc_digit_3 {
+		gtp:order 3;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mnc_digit_3 {
+		gtp:order 4;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf mnc_digit_2 {
+		gtp:order 5;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+}
+
+
+
+
 
 
 
