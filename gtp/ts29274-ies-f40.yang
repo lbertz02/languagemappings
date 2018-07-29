@@ -1,4 +1,4 @@
-module ts29274-f40 {
+module ts29274-ies-f40 {
 
 namespace "urn:onf:params:xml:ns:yang:ts29274:f";
 prefix "gtp";
@@ -32,6 +32,10 @@ extension defval {
 	description "YANG does not support a default values for binary or mandatory nodes.";
 	argument "stringvalue";
 } 
+
+extension groupedie {
+	description "grouped ie value that contains other IEs.";
+}
 
 grouping imsi {
 	gtp:ie-type 1;
@@ -1670,6 +1674,12 @@ grouping delay_value {
 }
 grouping bearer_context {
 	gtp:ie-type 93;
+	gtp:groupedie;
+	leaf bearer_context {
+		gtp:order 4;
+		mandatory true;
+		type binary;
+	}
 	gtp:explicit-extensible true;
 }
 grouping charging_id {
@@ -3658,6 +3668,7 @@ typedef used_gprs_protection_algorithm_e {
 }
 grouping pdn_connection {
 	gtp:ie-type 109;
+	gtp:groupedie;
 	leaf pdn_connection {
 		gtp:order 4;
 		mandatory true;
@@ -6330,6 +6341,7 @@ grouping twan_identifier_timestamp {
 }
 grouping overload_control_information {
         gtp:ie-type 180;
+	gtp:groupedie;
         leaf overload_control_information {
                 gtp:order 4;
                 mandatory true;
@@ -6339,6 +6351,7 @@ grouping overload_control_information {
 }
 grouping load_control_information {
         gtp:ie-type 181;
+	gtp:groupedie;
         leaf load_control_information {
                 gtp:order 4;
                 mandatory true;
@@ -6527,6 +6540,7 @@ grouping ecgi_list {
 }
 grouping remote_ue_context {      
         gtp:ie-type 191;
+	gtp:groupedie;
         leaf remote_ue_context {
                 gtp:order 4;
                 mandatory true;
@@ -6645,6 +6659,7 @@ grouping ciot_optimizations_support_indication {
 }
 grouping scef_pdn_connection {
         gtp:ie-type 195;
+	gtp:groupedie;
         leaf scef_pdn_connection {
                 gtp:order 4;
                 mandatory true;
