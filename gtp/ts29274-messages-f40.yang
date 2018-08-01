@@ -1,0 +1,70 @@
+module ts29274-messages-f40 {
+
+namespace "urn:onf:params:xml:ns:yang:ts29274:f:messages";
+prefix "gtp";
+
+import ts29274-ies-f40 {	
+	prefix "gtp_ies";
+}
+
+extension intsancenum {
+	description "The instance number of the IE in the message";
+	argument "number";
+}
+
+extension messageTypeValue {
+	description "The eGTP Message Type number";
+	argument "number";
+}
+
+extension request {
+	description "GTP Message Request";
+}
+
+extension response {
+	description "GTP Message Response";
+}
+
+extension iemandatory {
+	description "Indicates an IE is mandatory when it is used in the message.
+	Such a refinement is not supported directly/easily with YANG 1.1";
+}
+
+extension iename {
+	description "A name (string) used to distinguish the IE present in the message.  If this
+		value is not present the iename is assumed to be the name of the IE type.";
+	argument "name";
+}
+
+grouping echo_request {
+	gtp:request;
+	gtp:messageTypeValue 1;
+	uses gtp_ies:recovery_restart_counter {
+		gtp_ies:order 2;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	uses gtp_ies:node_features {
+		gtp:iename "sending_node_features";
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+		description "This IE shall be sent towards a peer node on any GTPv2 interface if the sending node supports at least one feature on this interface or if the sending node supports at least one feature and does not know the interface type towards the peer node. This IE may be present otherwise. 
+";
+	}
+	uses gtp_ies:private_extension {
+		gtp_ies:order 4;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+}
+
+

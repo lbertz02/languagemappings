@@ -5286,7 +5286,7 @@ grouping local_distinguished_name {
 		type binary;
 	}
 }
-grouping node_features_ie {
+grouping node_features {
 	gtp:ie-type 152;
 	leaf supported-features {
 		gtp:order 4;
