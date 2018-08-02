@@ -25,37 +25,384 @@ extension response {
 	description "GTP Message Response";
 }
 
-extension iemandatory {
-	description "Indicates an IE is mandatory when it is used in the message.
-	Such a refinement is not supported directly/easily with YANG 1.1";
-}
-
 extension iename {
 	description "A name (string) used to distinguish the IE present in the message.  If this
 		value is not present the iename is assumed to be the name of the IE type.";
 	argument "name";
 }
 
-grouping echo_response {
-	gtp:response;
-	gtp:messageTypeValue 2;
-	uses gtp_ies:recovery_restart_counter {
+extension iemandatory {
+	description "Indicates that the IE (container) is mandatory";
+}
+
+grouping echo_request {
+	gtp:request;
+	gtp:messageTypeValue 1;
+	container recovery {
+		uses gtp_ies:recovery_restart_counter;
 		gtp_ies:order 2;
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 	}
-	uses gtp_ies:node_features {
-		gtp:iename "sending_node_features";
+	container sending_node_features {
+		uses gtp_ies:node_features;
 		gtp_ies:order 3;
 		gtp:intsancenum 0;
-		description "This IE shall be sent towards a peer node on any GTPv2 interface if the sending node supports at least one feature on this interface or if the sending node supports at least one feature and does not know the interface type towards the peer node. This IE may be present otherwise.
-";
+		description "This IE shall be sent towards a peer node on any GTPv2 interface if the sending node supports at least one feature on this interface or if the sending node supports at least one feature and does not know the interface type towards the peer node. This IE may be present otherwise. ";
 	}
-	uses gtp_ies:private_extension {
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 4;
+	}
+}
+grouping echo_response {
+	gtp:response;
+	gtp:messageTypeValue 2;
+	container recovery {
+		uses gtp_ies:recovery_restart_counter;
+		gtp_ies:order 2;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container sending_node_features {
+		uses gtp_ies:node_features;
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+		description "This IE shall be sent towards a peer node on any GTPv2 interface if the sending node supports at least one feature on this interface or if the sending node supports at least one feature and does not know the interface type towards the peer node. This IE may be present otherwise.";
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
 		gtp_ies:order 4;
 	}
 }
 
+grouping create_session_request {
+	gtp:request;
+	gtp:messageTypeValue 32;
+	container imsi {
+		uses gtp_ies:imsi;
+		gtp_ies:order 1;
+		gtp:intsancenum 0;
+	}
+	container msisdn {
+		uses gtp_ies:msisdn;
+		gtp_ies:order 2;
+		gtp:intsancenum 0;
+	}
+	container me_identity_ {
+		uses gtp_ies:mobile_equipment_identity;
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+	}
+	container user_location_information_ {
+		uses gtp_ies:user_location_information;
+		gtp_ies:order 4;
+		gtp:intsancenum 0;
+	}
+	container rat_type {
+		uses gtp_ies:rat_type;
+		gtp_ies:order 5;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container indication_flags {
+		uses gtp_ies:indication;
+		gtp_ies:order 6;
+		gtp:intsancenum 0;
+	}
+	container sender_fully_qualified_tunnel_endpoint_identifier_for_control_plane {
+		uses gtp_ies:fully_qualified_tunnel_endpoint_identifier;
+		gtp_ies:order 7;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container pgw_s5s8_address_for_control_plane_or_pmip {
+		uses gtp_ies:fully_qualified_tunnel_endpoint_identifier;
+		gtp_ies:order 8;
+		gtp:intsancenum 1;
+	}
+	container access_point_name_ {
+		uses gtp_ies:access_point_name;
+		gtp_ies:order 9;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container selection_mode {
+		uses gtp_ies:selection_mode;
+		gtp_ies:order 10;
+		gtp:intsancenum 0;
+	}
+	container pdn_type {
+		uses gtp_ies:pdn_type;
+		gtp_ies:order 11;
+		gtp:intsancenum 0;
+	}
+	container pdn_address_allocation_ {
+		uses gtp_ies:paa;
+		gtp_ies:order 12;
+		gtp:intsancenum 0;
+	}
+	container maximum_access_point_name_restriction {
+		uses gtp_ies:access_point_name_restriction;
+		gtp_ies:order 13;
+		gtp:intsancenum 0;
+	}
+	container aggregate_maximum_bit_rate_ {
+		uses gtp_ies:aggregate_maximum_bit_rate;
+		gtp_ies:order 14;
+		gtp:intsancenum 0;
+	}
+	container linked_eps_bearer_id {
+		uses gtp_ies:eps_bearer_id;
+		gtp_ies:order 15;
+		gtp:intsancenum 0;
+	}
+	container trusted_wlan_mode_indication {
+		uses gtp_ies:twmi;
+		gtp_ies:order 16;
+		gtp:intsancenum 0;
+	}
+	container protocol_configuration_options_ {
+		uses gtp_ies:pco;
+		gtp_ies:order 17;
+		gtp:intsancenum 0;
+	}
+	container bearer_contexts_to_be_created {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 18;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container bearer_contexts_to_be_removed {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 19;
+		gtp:intsancenum 1;
+	}
+	container trace_information {
+		uses gtp_ies:trace_information;
+		gtp_ies:order 20;
+		gtp:intsancenum 0;
+	}
+	container recovery {
+		uses gtp_ies:recovery_restart_counter;
+		gtp_ies:order 21;
+		gtp:intsancenum 0;
+	}
+	container mme-fq_csid {
+		uses gtp_ies:fq_csid;
+		gtp_ies:order 22;
+		gtp:intsancenum 0;
+	}
+	container sgw-fq_csid {
+		uses gtp_ies:fq_csid;
+		gtp_ies:order 23;
+		gtp:intsancenum 1;
+	}
+	container epdg-fq_csid {
+		uses gtp_ies:fq_csid;
+		gtp_ies:order 24;
+		gtp:intsancenum 2;
+	}
+	container twan-fq_csid {
+		uses gtp_ies:fq_csid;
+		gtp_ies:order 25;
+		gtp:intsancenum 3;
+	}
+	container ue_time_zone {
+		uses gtp_ies:ue_time_zone;
+		gtp_ies:order 26;
+		gtp:intsancenum 0;
+	}
+	container user_csg_information_ {
+		uses gtp_ies:uci;
+		gtp_ies:order 27;
+		gtp:intsancenum 0;
+	}
+	container charging_characteristics {
+		uses gtp_ies:charging_characteristics;
+		gtp_ies:order 28;
+		gtp:intsancenum 0;
+	}
+	container mme_s4-sgsn_ldn {
+		uses gtp_ies:local_distinguished_name;
+		gtp_ies:order 29;
+		gtp:intsancenum 0;
+	}
+	container sgw_ldn {
+		uses gtp_ies:local_distinguished_name;
+		gtp_ies:order 30;
+		gtp:intsancenum 1;
+	}
+	container epdg_ldn {
+		uses gtp_ies:local_distinguished_name;
+		gtp_ies:order 31;
+		gtp:intsancenum 2;
+	}
+	container twan_ldn {
+		uses gtp_ies:local_distinguished_name;
+		gtp_ies:order 32;
+		gtp:intsancenum 3;
+	}
+	container signalling_priority_indication {
+		uses gtp_ies:signalling_priority_indication;
+		gtp_ies:order 33;
+		gtp:intsancenum 0;
+	}
+	container ue_local_ip_address {
+		uses gtp_ies:ip_address;
+		gtp_ies:order 34;
+		gtp:intsancenum 0;
+	}
+	container ue_udp_port {
+		uses gtp_ies:port_number;
+		gtp_ies:order 35;
+		gtp:intsancenum 0;
+	}
+	container additional_protocol_configuration_options_ {
+		uses gtp_ies:additional_protocol_configuration_options;
+		gtp_ies:order 36;
+		gtp:intsancenum 0;
+	}
+	container h_enb_local_ip_address {
+		uses gtp_ies:ip_address;
+		gtp_ies:order 37;
+		gtp:intsancenum 1;
+	}
+	container h_enb_udp_port {
+		uses gtp_ies:port_number;
+		gtp_ies:order 38;
+		gtp:intsancenum 1;
+	}
+	container mme_s4-sgsn_identifier {
+		uses gtp_ies:ip_address;
+		gtp_ies:order 39;
+		gtp:intsancenum 2;
+	}
+	container twan_identifier {
+		uses gtp_ies:twan_identifier;
+		gtp_ies:order 40;
+		gtp:intsancenum 0;
+	}
+	container epdg_ip_address {
+		uses gtp_ies:ip_address;
+		gtp_ies:order 41;
+		gtp:intsancenum 3;
+	}
+	container cn_operator_selection_entity {
+		uses gtp_ies:cn_operator_selection_entity;
+		gtp_ies:order 42;
+		gtp:intsancenum 0;
+	}
+	container presence_reporting_area_information {
+		uses gtp_ies:presence_reporting_area_information;
+		gtp_ies:order 43;
+		gtp:intsancenum 0;
+	}
+	container mme_s4-sgsn_overload_control_information {
+		uses gtp_ies:overload_control_information;
+		gtp_ies:order 44;
+		gtp:intsancenum 0;
+	}
+	container sgw_overload_control_information {
+		uses gtp_ies:overload_control_information;
+		gtp_ies:order 45;
+		gtp:intsancenum 1;
+	}
+	container twan_epdg_overload_control_information {
+		uses gtp_ies:overload_control_information;
+		gtp_ies:order 46;
+		gtp:intsancenum 2;
+	}
+	container origination_time_stamp {
+		uses gtp_ies:millisecond_time_stamp;
+		gtp_ies:order 47;
+		gtp:intsancenum 0;
+	}
+	container maximum_wait_time {
+		uses gtp_ies:integer_number;
+		gtp_ies:order 48;
+		gtp:intsancenum 0;
+	}
+	container wlan_location_information {
+		uses gtp_ies:twan_identifier;
+		gtp_ies:order 49;
+		gtp:intsancenum 1;
+	}
+	container wlan_location_timestamp {
+		uses gtp_ies:twan_identifier_timestamp;
+		gtp_ies:order 50;
+		gtp:intsancenum 0;
+	}
+	container nbifom_container {
+		uses gtp_ies:f_container;
+		gtp_ies:order 51;
+		gtp:intsancenum 0;
+	}
+	container remote_ue_context_connected {
+		uses gtp_ies:remote_ue_context;
+		gtp_ies:order 52;
+		gtp:intsancenum 0;
+	}
+	container tgpp_aaa_server_identifier {
+		uses gtp_ies:node_identifier;
+		gtp_ies:order 53;
+		gtp:intsancenum 0;
+	}
+	container extended_protocol_configuration_options_ {
+		uses gtp_ies:extended_protocol_configuration_options;
+		gtp_ies:order 54;
+		gtp:intsancenum 0;
+	}
+	container serving_plmn_rate_control {
+		uses gtp_ies:serving_plmn_rate_control;
+		gtp_ies:order 55;
+		gtp:intsancenum 0;
+	}
+	container mo_exception_data_counter {
+		uses gtp_ies:counter;
+		gtp_ies:order 56;
+		gtp:intsancenum 0;
+	}
+	container ue_tcp_port {
+		uses gtp_ies:port_number;
+		gtp_ies:order 57;
+		gtp:intsancenum 2;
+	}
+	container mapped_ue_usage_type {
+		uses gtp_ies:mapped_ue_usage_type;
+		gtp_ies:order 58;
+		gtp:intsancenum 0;
+	}
+	container user_location_information_for_sgw_ {
+		uses gtp_ies:user_location_information;
+		gtp_ies:order 59;
+		gtp:intsancenum 1;
+	}
+	container sgw-u_node_name {
+		uses gtp_ies:fully_qualified_domain_name;
+		gtp_ies:order 60;
+		gtp:intsancenum 0;
+	}
+	container secondary_rat_usage_data_report {
+		uses gtp_ies:secondary_rat_usage_data_report;
+		gtp_ies:order 61;
+		gtp:intsancenum 0;
+	}
+	container up_function_selection_indication_flags {
+		uses gtp_ies:up_function_selection_indication_flags;
+		gtp_ies:order 62;
+		gtp:intsancenum 0;
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 63;
+	}
+}
+
+
+
+
+
 
 
 
@@ -66,5 +413,3 @@ grouping echo_response {
 
 
 }
-
-

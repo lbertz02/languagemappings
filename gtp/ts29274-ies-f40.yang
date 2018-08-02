@@ -4746,7 +4746,7 @@ grouping port_number {
 	}
 	gtp:explicit-extensible true;
 }
-grouping apn_restriction_type_information_element {
+grouping access_point_name_restriction {
 	gtp:ie-type 127;
 	leaf restriction_type_value {
 		gtp:order 4;
@@ -4758,7 +4758,7 @@ grouping apn_restriction_type_information_element {
 	description "Must follow Table 8.57-1: Valid Combinations of APN Restriction";
 	gtp:explicit-extensible true;
 }
-grouping selection_mode_information_element {
+grouping selection_mode {
 	gtp:ie-type 128;
 	leaf spare1 {
 		gtp:order 4;
