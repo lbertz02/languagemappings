@@ -575,6 +575,103 @@ grouping create_session_response {
 	}
 }
 
+grouping create_bearer_request {
+	gtp:request;
+	gtp:messageTypeValue 95;
+	container procedure_transaction_id_ {
+		uses gtp_ies:procedure_transaction_id;
+		gtp_ies:order 1;
+		gtp:intsancenum 0;
+	}
+	container linked_eps_bearer_id_ {
+		uses gtp_ies:eps_bearer_id;
+		gtp_ies:order 2;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container protocol_configuration_options_ {
+		uses gtp_ies:protocol_configuration_options;
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+	}
+	container bearer_contexts {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 4;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container pgw-fq-csid {
+		uses gtp_ies:fq_csid;
+		gtp_ies:order 5;
+		gtp:intsancenum 0;
+	}
+	container sgw-fq-csid {
+		uses gtp_ies:fq_csid;
+		gtp_ies:order 6;
+		gtp:intsancenum 1;
+	}
+	container change_reporting_action {
+		uses gtp_ies:change_reporting_action;
+		gtp_ies:order 7;
+		gtp:intsancenum 0;
+	}
+	container csg_information_reporting_action {
+		uses gtp_ies:csg_reporting_action ;
+		gtp_ies:order 8;
+		gtp:intsancenum 0;
+	}
+	container h_enb_information_reporting {
+		uses gtp_ies:h_e_nb_information_reporting;
+		gtp_ies:order 9;
+		gtp:intsancenum 0;
+	}
+	container presence_reporting_area_action {
+		uses gtp_ies:presence_reporting_area_action;
+		gtp_ies:order 10;
+		gtp:intsancenum 0;
+	}
+	container indication_flags {
+		uses gtp_ies:indication;
+		gtp_ies:order 11;
+		gtp:intsancenum 0;
+	}
+	container pgw_node_level_load_control_information {
+		uses gtp_ies:load_control_information;
+		gtp_ies:order 12;
+		gtp:intsancenum 0;
+	}
+	container pgw_apn_level_load_control_information {
+		uses gtp_ies:load_control_information;
+		gtp_ies:order 13;
+		gtp:intsancenum 1;
+	}
+	container sgw_node_level_load_control_information {
+		uses gtp_ies:load_control_information;
+		gtp_ies:order 14;
+		gtp:intsancenum 2;
+	}
+	container pgw_overload_control_information {
+		uses gtp_ies:overload_control_information;
+		gtp_ies:order 15;
+		gtp:intsancenum 0;
+	}
+	container sgw_overload_control_information {
+		uses gtp_ies:overload_control_information;
+		gtp_ies:order 16;
+		gtp:intsancenum 1;
+	}
+	container nbifom_container {
+		uses gtp_ies:fully_qualified_container;
+		gtp_ies:order 17;
+		gtp:intsancenum 0;
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 18;
+	}
+}
+
+
 
 
 
