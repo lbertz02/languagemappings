@@ -3922,7 +3922,7 @@ grouping guti {
 		type binary;
 	}
 }
-grouping full_qualified_container {
+grouping fully_qualified_container {
 	gtp:ie-type 118;
 	leaf spare1 {
 		gtp:order 4;
@@ -4036,7 +4036,7 @@ grouping bss_container {
 		type binary;
 	}
 }
-grouping full_qualified_cause {
+grouping fully_qualified_cause {
 	gtp:ie-type 119;
 	leaf spare1 {
 		gtp:order 4;

@@ -110,7 +110,7 @@ grouping create_session_request {
 		gtp_ies:order 6;
 		gtp:intsancenum 0;
 	}
-	container sender_fully_qualified_tunnel_endpoint_identifier_for_control_plane {
+	container sender_f-teid_for_control_plane {
 		uses gtp_ies:fully_qualified_tunnel_endpoint_identifier;
 		gtp_ies:order 7;
 		gtp:iemandatory;
@@ -138,11 +138,11 @@ grouping create_session_request {
 		gtp:intsancenum 0;
 	}
 	container pdn_address_allocation_ {
-		uses gtp_ies:paa;
+		uses gtp_ies:pdn_address_allocation;
 		gtp_ies:order 12;
 		gtp:intsancenum 0;
 	}
-	container maximum_access_point_name_restriction {
+	container maximum_apn_restriction {
 		uses gtp_ies:access_point_name_restriction;
 		gtp_ies:order 13;
 		gtp:intsancenum 0;
@@ -158,12 +158,12 @@ grouping create_session_request {
 		gtp:intsancenum 0;
 	}
 	container trusted_wlan_mode_indication {
-		uses gtp_ies:twmi;
+		uses gtp_ies:trusted_wlan_mode_indication;
 		gtp_ies:order 16;
 		gtp:intsancenum 0;
 	}
 	container protocol_configuration_options_ {
-		uses gtp_ies:pco;
+		uses gtp_ies:protocol_configuration_options;
 		gtp_ies:order 17;
 		gtp:intsancenum 0;
 	}
@@ -188,22 +188,22 @@ grouping create_session_request {
 		gtp_ies:order 21;
 		gtp:intsancenum 0;
 	}
-	container mme-fq_csid {
+	container mme-fq-csid {
 		uses gtp_ies:fq_csid;
 		gtp_ies:order 22;
 		gtp:intsancenum 0;
 	}
-	container sgw-fq_csid {
+	container sgw-fq-csid {
 		uses gtp_ies:fq_csid;
 		gtp_ies:order 23;
 		gtp:intsancenum 1;
 	}
-	container epdg-fq_csid {
+	container epdg-fq-csid {
 		uses gtp_ies:fq_csid;
 		gtp_ies:order 24;
 		gtp:intsancenum 2;
 	}
-	container twan-fq_csid {
+	container twan-fq-csid {
 		uses gtp_ies:fq_csid;
 		gtp_ies:order 25;
 		gtp:intsancenum 3;
@@ -214,7 +214,7 @@ grouping create_session_request {
 		gtp:intsancenum 0;
 	}
 	container user_csg_information_ {
-		uses gtp_ies:uci;
+		uses gtp_ies:user_csg_information;
 		gtp_ies:order 27;
 		gtp:intsancenum 0;
 	}
@@ -223,7 +223,7 @@ grouping create_session_request {
 		gtp_ies:order 28;
 		gtp:intsancenum 0;
 	}
-	container mme_s4-sgsn_ldn {
+	container mmex4-sgsn_ldn {
 		uses gtp_ies:local_distinguished_name;
 		gtp_ies:order 29;
 		gtp:intsancenum 0;
@@ -273,7 +273,7 @@ grouping create_session_request {
 		gtp_ies:order 38;
 		gtp:intsancenum 1;
 	}
-	container mme_s4-sgsn_identifier {
+	container mmes4-sgsn_identifier {
 		uses gtp_ies:ip_address;
 		gtp_ies:order 39;
 		gtp:intsancenum 2;
@@ -298,7 +298,7 @@ grouping create_session_request {
 		gtp_ies:order 43;
 		gtp:intsancenum 0;
 	}
-	container mme_s4-sgsn_overload_control_information {
+	container mmes4-sgsn_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 44;
 		gtp:intsancenum 0;
@@ -334,7 +334,7 @@ grouping create_session_request {
 		gtp:intsancenum 0;
 	}
 	container nbifom_container {
-		uses gtp_ies:f_container;
+		uses gtp_ies:fully_qualified_container;
 		gtp_ies:order 51;
 		gtp:intsancenum 0;
 	}
@@ -398,17 +398,6 @@ grouping create_session_request {
 		gtp_ies:order 63;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
