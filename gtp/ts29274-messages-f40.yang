@@ -399,6 +399,184 @@ grouping create_session_request {
 	}
 }
 
+grouping create_session_response {
+	gtp:response;
+	gtp:messageTypeValue 33;
+	container cause {
+		uses gtp_ies:cause;
+		gtp_ies:order 1;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container change_reporting_action_ {
+		uses gtp_ies:change_reporting_action;
+		gtp_ies:order 2;
+		gtp:intsancenum 0;
+	}
+	container csg_information_reporting_action {
+		uses gtp_ies:csg_reporting_action;
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+	}
+	container h_enb_information_reporting {
+		uses gtp_ies:h_e_nb_information_reporting;
+		gtp_ies:order 4;
+		gtp:intsancenum 0;
+	}
+	container sender_f-teid_for_control_plane {
+		uses gtp_ies:fully_qualified_tunnel_endpoint_identifier;
+		gtp_ies:order 5;
+		gtp:intsancenum 0;
+	}
+	container pgw_s5s8_s2as2b_f_teid_for_pmip_based_interface_or_for_gtp_based_control_plane_interface {
+		uses gtp_ies:fully_qualified_tunnel_endpoint_identifier;
+		gtp_ies:order 6;
+		gtp:intsancenum 1;
+	}
+	container pdn_address_allocation_ {
+		uses gtp_ies:pdn_address_allocation;
+		gtp_ies:order 7;
+		gtp:intsancenum 0;
+	}
+	container apn_restriction {
+		uses gtp_ies:access_point_name_restriction;
+		gtp_ies:order 8;
+		gtp:intsancenum 0;
+	}
+	container aggregate_maximum_bit_rate_ {
+		uses gtp_ies:aggregate_maximum_bit_rate;
+		gtp_ies:order 9;
+		gtp:intsancenum 0;
+	}
+	container linked_eps_bearer_id {
+		uses gtp_ies:eps_bearer_id;
+		gtp_ies:order 10;
+		gtp:intsancenum 0;
+	}
+	container protocol_configuration_options_ {
+		uses gtp_ies:protocol_configuration_options;
+		gtp_ies:order 11;
+		gtp:intsancenum 0;
+	}
+	container bearer_contexts_created {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 12;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container bearer_contexts_marked_for_removal {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 13;
+		gtp:intsancenum 1;
+	}
+	container recovery {
+		uses gtp_ies:recovery_restart_counter;
+		gtp_ies:order 14;
+		gtp:intsancenum 0;
+	}
+	container charging_gateway_name {
+		uses gtp_ies:fully_qualified_domain_name;
+		gtp_ies:order 15;
+		gtp:intsancenum 0;
+	}
+	container charging_gateway_address {
+		uses gtp_ies:ip_address;
+		gtp_ies:order 16;
+		gtp:intsancenum 0;
+	}
+	container pgw-fq-csid {
+		uses gtp_ies:fq_csid;
+		gtp_ies:order 17;
+		gtp:intsancenum 0;
+	}
+	container sgw-fq-csid {
+		uses gtp_ies:fq_csid;
+		gtp_ies:order 18;
+		gtp:intsancenum 1;
+	}
+	container sgw_ldn {
+		uses gtp_ies:local_distinguished_name;
+		gtp_ies:order 19;
+		gtp:intsancenum 0;
+	}
+	container pgw_ldn {
+		uses gtp_ies:local_distinguished_name;
+		gtp_ies:order 20;
+		gtp:intsancenum 1;
+	}
+	container pgw_back-off_time {
+		uses gtp_ies:epc_timer;
+		gtp_ies:order 21;
+		gtp:intsancenum 0;
+	}
+	container additional_protocol_configuration_options_ {
+		uses gtp_ies:additional_protocol_configuration_options;
+		gtp_ies:order 22;
+		gtp:intsancenum 0;
+	}
+	container trusted_wlan_ipv4_parameters_ {
+		uses gtp_ies:ipv4_configuration_parameters;
+		gtp_ies:order 23;
+		gtp:intsancenum 0;
+	}
+	container indication_flags {
+		uses gtp_ies:indication;
+		gtp_ies:order 24;
+		gtp:intsancenum 0;
+	}
+	container presence_reporting_area_action {
+		uses gtp_ies:presence_reporting_area_action;
+		gtp_ies:order 25;
+		gtp:intsancenum 0;
+	}
+	container pgw_node_level_load_control_information {
+		uses gtp_ies:load_control_information;
+		gtp_ies:order 26;
+		gtp:intsancenum 0;
+	}
+	container pgw_apn_level_load_control_information {
+		uses gtp_ies:load_control_information;
+		gtp_ies:order 27;
+		gtp:intsancenum 1;
+	}
+	container sgw_node_level_load_control_information {
+		uses gtp_ies:load_control_information;
+		gtp_ies:order 28;
+		gtp:intsancenum 2;
+	}
+	container pgw_overload_control_information {
+		uses gtp_ies:overload_control_information;
+		gtp_ies:order 29;
+		gtp:intsancenum 0;
+	}
+	container sgw_overload_control_information {
+		uses gtp_ies:overload_control_information;
+		gtp_ies:order 30;
+		gtp:intsancenum 1;
+	}
+	container nbifom_container {
+		uses gtp_ies:fully_qualified_container;
+		gtp_ies:order 31;
+		gtp:intsancenum 0;
+	}
+	container pdn_connection_charging_id {
+		uses gtp_ies:charging_id;
+		gtp_ies:order 32;
+		gtp:intsancenum 0;
+	}
+	container extended_protocol_configuration_options_ {
+		uses gtp_ies:extended_protocol_configuration_options;
+		gtp_ies:order 33;
+		gtp:intsancenum 0;
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 34;
+	}
+}
+
+
+
 
 
 }
