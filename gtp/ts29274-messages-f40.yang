@@ -671,6 +671,127 @@ grouping create_bearer_request {
 	}
 }
 
+grouping create_bearer_response {
+	gtp:response;
+	gtp:messageTypeValue 96;
+	container cause {
+		uses gtp_ies:cause;
+		gtp_ies:order 1;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container bearer_contexts {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 2;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container recovery {
+		uses gtp_ies:recovery_restart_counter;
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+	}
+	container mme-fq-csid {
+		uses gtp_ies:fq_csid;
+		gtp_ies:order 4;
+		gtp:intsancenum 0;
+	}
+	container sgw-fq-csid {
+		uses gtp_ies:fq_csid;
+		gtp_ies:order 5;
+		gtp:intsancenum 1_;
+	}
+	container epdg-fq-csid {
+		uses gtp_ies:fq_csid;
+		gtp_ies:order 6;
+		gtp:intsancenum 2;
+	}
+	container twan-fq-csid {
+		uses gtp_ies:fq_csid;
+		gtp_ies:order 7;
+		gtp:intsancenum 3;
+	}
+	container protocol_configuration_options_ {
+		uses gtp_ies:protocol_configuration_options;
+		gtp_ies:order 8;
+		gtp:intsancenum 0;
+	}
+	container ue_time_zone {
+		uses gtp_ies:ue_time_zone;
+		gtp_ies:order 9;
+		gtp:intsancenum 0;
+	}
+	container user_location_information_ {
+		uses gtp_ies:user_location_information;
+		gtp_ies:order 10;
+		gtp:intsancenum 0;
+	}
+	container twan_identifier {
+		uses gtp_ies:twan_identifier;
+		gtp_ies:order 11;
+		gtp:intsancenum 0;
+	}
+	container mmes4-sgsn_overload_control_information {
+		uses gtp_ies:overload_control_information;
+		gtp_ies:order 12;
+		gtp:intsancenum 0;
+	}
+	container sgw_overload_control_information {
+		uses gtp_ies:overload_control_information;
+		gtp_ies:order 13;
+		gtp:intsancenum 1;
+	}
+	container presence_reporting_area_information {
+		uses gtp_ies:presence_reporting_area_information;
+		gtp_ies:order 14;
+		gtp:intsancenum 0;
+	}
+	container mmes4-sgsn_identifier {
+		uses gtp_ies:ip_address;
+		gtp_ies:order 15;
+		gtp:intsancenum 0;
+	}
+	container twanepdg_overload_control_information {
+		uses gtp_ies:overload_control_information;
+		gtp_ies:order 16;
+		gtp:intsancenum 2;
+	}
+	container wlan_location_information {
+		uses gtp_ies:twan_identifier;
+		gtp_ies:order 17;
+		gtp:intsancenum 1;
+	}
+	container wlan_location_timestamp {
+		uses gtp_ies:twan_identifier_timestamp;
+		gtp_ies:order 18;
+		gtp:intsancenum 1;
+	}
+	container ue_local_ip_address {
+		uses gtp_ies:ip_address;
+		gtp_ies:order 19;
+		gtp:intsancenum 0;
+	}
+	container ue_udp_port {
+		uses gtp_ies:port_number;
+		gtp_ies:order 20;
+		gtp:intsancenum 0;
+	}
+	container nbifom_container {
+		uses gtp_ies:fully_qualified_container;
+		gtp_ies:order 21;
+		gtp:intsancenum 0;
+	}
+	container ue_tcp_port {
+		uses gtp_ies:port_number;
+		gtp_ies:order 22;
+		gtp:intsancenum 1;
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 23;
+	}
+}
+
 
 
 
