@@ -7,6 +7,10 @@ import ts29274-ies-f40 {
 	prefix "gtp_ies";
 }
 
+import ts29280-ies-f00 {
+	prefix "sv_ies";
+}
+
 extension intsancenum {
 	description "The instance number of the IE in the message";
 	argument "number";
@@ -23,6 +27,18 @@ extension request {
 
 extension response {
 	description "GTP Message Response";
+}
+
+extension notification {
+	description "GTP Message Request";
+}
+
+extension acknowledge  {
+	description "GTP Message Request";
+}
+
+extension indication  {
+	description "GTP Message Request";
 }
 
 extension iename {
@@ -2188,6 +2204,666 @@ grouping delete_bearer_failure_indication {
 		gtp_ies:order 7;
 	}
 }
+
+grouping create_indirect_data_forwarding_tunnel_request {
+	gtp:request;
+	gtp:messageTypeValue 166;
+	container imsi {
+		uses gtp_ies:imsi;
+		gtp_ies:order 1;
+		gtp:intsancenum 0;
+	}
+	container me_identity {
+		uses gtp_ies:mobile_equipment_identity;
+		gtp_ies:order 2;
+		gtp:intsancenum 0;
+	}
+	container indication_flags {
+		uses gtp_ies:indication;
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+	}
+	container sender_f-teid_for_control_plane {
+		uses gtp_ies:fully_qualified_tunnel_endpoint_identifier;
+		gtp_ies:order 4;
+		gtp:intsancenum 0;
+	}
+	container bearer_context {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 5;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container recovery {
+		uses gtp_ies:recovery_restart_counter;
+		gtp_ies:order 6;
+		gtp:intsancenum 0;
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 7;
+	}
+}
+
+grouping create_indirect_data_forwarding_tunnel_response {
+	gtp:response;
+	gtp:messageTypeValue 167;
+	container cause {
+		uses gtp_ies:cause;
+		gtp_ies:order 2;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container sender_f-teid_for_control_plane {
+		uses gtp_ies:fully_qualified_tunnel_endpoint_identifier;
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+		description "This IE shall be included by an SGW if the SGW receives a Sender F-TEID for Control Plane IE from an MME/SGSN in a Create Indirect Data Forwarding Tunnel Request message.
+See also NOTE 1 in Table 7.2.18-1.";
+	}
+	container bearer_context {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 4;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+		description "Several IEs with this type and instance value may be included as necessary to represent a list of Bearers";
+	}
+	container recovery {
+		uses gtp_ies:recovery_restart_counter;
+		gtp_ies:order 5;
+		gtp:intsancenum 0;
+		description "This IE shall be included if contacting the peer for the first time";
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 6;
+	}
+}
+
+grouping release_access_bearers_request {
+	gtp:request;
+	gtp:messageTypeValue 170;
+	container list_of_rabs {
+		uses gtp_ies:eps_bearer_id;
+		gtp_ies:order 1;
+		gtp:intsancenum 0;
+	}
+	container originating_node {
+		uses gtp_ies:node_type;
+		gtp_ies:order 2;
+		gtp:intsancenum 0;
+	}
+	container indication_flags {
+		uses gtp_ies:indication;
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+	}
+	container secondary_rat_usage_data_report {
+		uses gtp_ies:secondary_rat_usage_data_report;
+		gtp_ies:order 4;
+		gtp:intsancenum 0;
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 5;
+	}
+}
+grouping release_access_bearers_response {
+	gtp:response;
+	gtp:messageTypeValue 171;
+	container cause {
+		uses gtp_ies:cause;
+		gtp_ies:order 1;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container recovery {
+		uses gtp_ies:recovery_restart_counter;
+		gtp_ies:order 2;
+		gtp:intsancenum 0;
+	}
+	container indication_flags {
+		uses gtp_ies:indication;
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+	}
+	container sgw_node_level_load_control_information {
+		uses gtp_ies:load_control_information;
+		gtp_ies:order 4;
+		gtp:intsancenum 0;
+	}
+	container sgw_overload_control_information {
+		uses gtp_ies:overload_control_information;
+		gtp_ies:order 5;
+		gtp:intsancenum 0;
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 6;
+	}
+}
+grouping stop_paging_indication {
+	gtp:response;
+	gtp:messageTypeValue 73;
+	container imsi {
+		uses gtp_ies:imsi;
+		gtp_ies:order 2;
+		gtp:intsancenum 0;
+		description "This IE shall be included on the S11/S4 interface when the Stop Paging Indication message is sent to the restarted CN node (or another node in the same pool) as part of the network triggered service restoration procedure with ISR (see 3GPP TS 23.007 [17]).
+";
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 3;
+	}
+}
+grouping modify_access_bearers_request {
+	gtp:request;
+	gtp:messageTypeValue 211;
+	container indication_flags {
+		uses gtp_ies:indication;
+		gtp_ies:order 1;
+		gtp:intsancenum 0;
+	}
+	container sender_f-teid_for_control_plane {
+		uses gtp_ies:fully_qualified_tunnel_endpoint_identifier;
+		gtp_ies:order 2;
+		gtp:intsancenum 0;
+	}
+	container delay_downlink_packet_notification_request {
+		uses gtp_ies:delay_value;
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+	}
+	container bearer_contexts_to_be_modified {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 4;
+		gtp:intsancenum 0;
+	}
+	container bearer_contexts_to_be_removed {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 5;
+		gtp:intsancenum 1;
+	}
+	container recovery {
+		uses gtp_ies:recovery_restart_counter;
+		gtp_ies:order 6;
+		gtp:intsancenum 0;
+	}
+	container secondary_rat_usage_data_report {
+		uses gtp_ies:secondary_rat_usage_data_report;
+		gtp_ies:order 7;
+		gtp:intsancenum 0;
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 8;
+	}
+}
+grouping modify_access_bearers_response {
+	gtp:response;
+	gtp:messageTypeValue 212;
+	container cause {
+		uses gtp_ies:cause;
+		gtp_ies:order 1;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container bearer_contexts_modified {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 2;
+		gtp:intsancenum 0;
+	}
+	container bearer_contexts_marked_for_removal {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 3;
+		gtp:intsancenum 1;
+	}
+	container recovery {
+		uses gtp_ies:recovery_restart_counter;
+		gtp_ies:order 4;
+		gtp:intsancenum 0;
+	}
+	container indication_flags {
+		uses gtp_ies:indication;
+		gtp_ies:order 5;
+		gtp:intsancenum 0;
+	}
+	container sgw_node_level_load_control_information {
+		uses gtp_ies:load_control_information;
+		gtp_ies:order 6;
+		gtp:intsancenum 0;
+	}
+	container sgw_overload_control_information {
+		uses gtp_ies:overload_control_information;
+		gtp_ies:order 7;
+		gtp:intsancenum 0;
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 8;
+	}
+}
+
+grouping remote_ue_report_notification_request {
+	gtp:request;
+	gtp:messageTypeValue 40;
+	container remote_ue_context__connected {
+		uses gtp_ies:remote_ue_context;
+		gtp_ies:order 2;
+		gtp:intsancenum 0;
+		description "This IE shall be sent on the S11 interface and S5/S8 interface when the MME receives a report from the ProSe UE-to-Network Relay that a remote UE is newly connected.
+
+The SGW shall forward this IE to the PGW.
+
+Several IEs with the same type and instance value may be included as necessary to represent a list of remote UEs newly connected.
+";
+	}
+	container remote_ue_context_disconnected {
+		uses gtp_ies:remote_ue_context;
+		gtp_ies:order 3;
+		gtp:intsancenum 1;
+		description "This IE shall be sent on the S11 interface and S5/S8 interface when the MME receives a report from the ProSe UE-to-Network Relay that a remote UE is newly disconnected.
+
+The SGW shall forward this IE to the PGW.
+
+Several IEs with the same type and instance value may be included as necessary to represent a list of remote UEs newly disconnected.
+";
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 4;
+	}
+}
+grouping remote_ue_report_acknowledge_response {
+	gtp:response;
+	gtp:messageTypeValue 41;
+	container cause {
+		uses gtp_ies:cause;
+		gtp_ies:order 2;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 3;
+	}
+}
+grouping forward_relocation_request {
+	gtp:request;
+	gtp:messageTypeValue 133;
+	container imsi {
+		uses gtp_ies:imsi;
+		gtp_ies:order 1;
+		gtp:intsancenum 0;
+	}
+	container sender_f-teid_for_control_plane {
+		uses gtp_ies:fully_qualified_tunnel_endpoint_identifier;
+		gtp_ies:order 2;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container pdn_connection {
+		uses gtp_ies:pdn_connection;
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+	}
+	container sgw_s11s4_ip_address_and_teid_for_control_plane {
+		uses gtp_ies:fully_qualified_tunnel_endpoint_identifier;
+		gtp_ies:order 4;
+		gtp:intsancenum 1;
+	}
+	container sgw_node_name {
+		uses gtp_ies:fully_qualified_domain_name;
+		gtp_ies:order 5;
+		gtp:intsancenum 0;
+	}
+	container mmesgsn_amf_ue_mm_context {
+		uses gtp_ies:mm_context;
+		gtp_ies:order 6;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container indication_flags {
+		uses gtp_ies:indication;
+		gtp_ies:order 7;
+		gtp:intsancenum 0;
+	}
+	container e-utran_transparent_container {
+		uses gtp_ies:fully_qualified_container;
+		gtp_ies:order 8;
+		gtp:intsancenum 0;
+	}
+	container utran_transparent_container {
+		uses gtp_ies:fully_qualified_container;
+		gtp_ies:order 9;
+		gtp:intsancenum 1;
+	}
+	container bss_container {
+		uses gtp_ies:fully_qualified_container;
+		gtp_ies:order 10;
+		gtp:intsancenum 2;
+	}
+	container target_identification {
+		uses gtp_ies:target_identification;
+		gtp_ies:order 11;
+		gtp:intsancenum 0;
+	}
+	container hrpd_access_node_s101_ip_address {
+		uses gtp_ies:ip_address;
+		gtp_ies:order 12;
+		gtp:intsancenum 0;
+	}
+	container Onexiws_s102_ip_address {
+		uses gtp_ies:ip_address;
+		gtp_ies:order 13;
+		gtp:intsancenum 1;
+	}
+	container s1-ap_cause {
+		uses gtp_ies:fully_qualified_cause;
+		gtp_ies:order 14;
+		gtp:intsancenum 0;
+	}
+	container ranap_cause {
+		uses gtp_ies:fully_qualified_cause;
+		gtp_ies:order 15;
+		gtp:intsancenum 1;
+	}
+	container bssgp_cause {
+		uses gtp_ies:fully_qualified_cause;
+		gtp_ies:order 16;
+		gtp:intsancenum 2;
+	}
+	container source_identification {
+		uses gtp_ies:source_identification;
+		gtp_ies:order 17;
+		gtp:intsancenum 0;
+	}
+	container selected_plmn_id {
+		uses gtp_ies:plmn_id;
+		gtp_ies:order 18;
+		gtp:intsancenum 0;
+	}
+	container recovery {
+		uses gtp_ies:recovery_restart_counter;
+		gtp_ies:order 19;
+		gtp:intsancenum 0;
+	}
+	container trace_information {
+		uses gtp_ies:trace_information;
+		gtp_ies:order 20;
+		gtp:intsancenum 0;
+	}
+	container subscribed_rfsp_index {
+		uses gtp_ies:rfsp_index;
+		gtp_ies:order 21;
+		gtp:intsancenum 0;
+	}
+	container rfsp_index_in_use {
+		uses gtp_ies:rfsp_index;
+		gtp_ies:order 22;
+		gtp:intsancenum 1;
+	}
+	container csg_id {
+		uses gtp_ies:csg_id;
+		gtp_ies:order 23;
+		gtp:intsancenum 0;
+	}
+	container csg_membership_indication {
+		uses gtp_ies:csg_membership_indication;
+		gtp_ies:order 24;
+		gtp:intsancenum 0;
+	}
+	container ue_time_zone {
+		uses gtp_ies:ue_time_zone;
+		gtp_ies:order 25;
+		gtp:intsancenum 0;
+	}
+	container serving_network {
+		uses gtp_ies:serving_network;
+		gtp_ies:order 26;
+		gtp:intsancenum 0;
+	}
+	container mmes4-sgsn_ldn {
+		uses gtp_ies:local_distinguished_name;
+		gtp_ies:order 27;
+		gtp:intsancenum 0;
+	}
+	container additional_mm_context_for_srvcc {
+		uses gtp_ies:additional_mm_context_for_srvcc;
+		gtp_ies:order 28;
+		gtp:intsancenum 0;
+	}
+	container additional_flags_for_srvcc {
+		uses gtp_ies:additional_flags_for_srvcc;
+		gtp_ies:order 29;
+		gtp:intsancenum 0;
+	}
+	container stn-sr {
+		uses sv_ies:stn-sr;
+		gtp_ies:order 30;
+		gtp:intsancenum 0;
+	}
+	container c-msisdn {
+		uses gtp_ies:msisdn;
+		gtp_ies:order 31;
+		gtp:intsancenum 0;
+	}
+	container mdt_configuration {
+		uses gtp_ies:mdt_configuration;
+		gtp_ies:order 32;
+		gtp:intsancenum 0;
+	}
+	container sgsn_node_name {
+		uses gtp_ies:fully_qualified_domain_name;
+		gtp_ies:order 33;
+		gtp:intsancenum 1;
+	}
+	container mme_node_name {
+		uses gtp_ies:fully_qualified_domain_name;
+		gtp_ies:order 34;
+		gtp:intsancenum 2;
+	}
+	container user_csg_information {
+		uses gtp_ies:user_csg_information;
+		gtp_ies:order 35;
+		gtp:intsancenum 0;
+	}
+	container monitoring_event_information {
+		uses gtp_ies:monitoring_event_information;
+		gtp_ies:order 36;
+		gtp:intsancenum 0;
+	}
+	container ue_usage_type {
+		uses gtp_ies:integer_number;
+		gtp_ies:order 37;
+		gtp:intsancenum 0;
+	}
+	container mmesgsn_ue_scef_pdn_connections {
+		uses gtp_ies:scef_pdn_connection;
+		gtp_ies:order 38;
+		gtp:intsancenum 0;
+	}
+	container msisdn {
+		uses gtp_ies:msisdn;
+		gtp_ies:order 39;
+		gtp:intsancenum 1;
+	}
+	container source_udp_port_number {
+		uses gtp_ies:port_number;
+		gtp_ies:order 40;
+		gtp:intsancenum 0;
+	}
+	container serving_plmn_rate_control {
+		uses gtp_ies:serving_plmn_rate_control;
+		gtp_ies:order 41;
+		gtp:intsancenum 0;
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 42;
+	}
+}
+grouping forward_relocation_response {
+	gtp:response;
+	gtp:messageTypeValue 134;
+	container cause {
+		uses gtp_ies:cause;
+		gtp_ies:order 1;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container sender_f-teid_for_control_plane {
+		uses gtp_ies:fully_qualified_tunnel_endpoint_identifier;
+		gtp_ies:order 2;
+		gtp:intsancenum 0;
+	}
+	container indication_flags {
+		uses gtp_ies:indication;
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+	}
+	list list_of_set_up_bearers {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 4;
+		gtp:intsancenum 0;
+	}
+	list list_of_set_up_up_rabs {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 5;
+		gtp:intsancenum 1;
+	}
+	list list_of_set-up_pfcs {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 6;
+		gtp:intsancenum 2;
+	}
+	container s1-ap_cause {
+		uses gtp_ies:fully_qualified_cause;
+		gtp_ies:order 7;
+		gtp:intsancenum 0;
+	}
+	container ranap_cause {
+		uses gtp_ies:fully_qualified_cause;
+		gtp_ies:order 8;
+		gtp:intsancenum 1;
+	}
+	container bssgp_cause {
+		uses gtp_ies:fully_qualified_cause;
+		gtp_ies:order 9;
+		gtp:intsancenum 2;
+	}
+	container e-utran_transparent_container {
+		uses gtp_ies:fully_qualified_container;
+		gtp_ies:order 10;
+		gtp:intsancenum 0;
+	}
+	container utran_transparent_container {
+		uses gtp_ies:fully_qualified_container;
+		gtp_ies:order 11;
+		gtp:intsancenum 1;
+	}
+	container bss_container {
+		uses gtp_ies:fully_qualified_container;
+		gtp_ies:order 12;
+		gtp:intsancenum 2;
+	}
+	container mmes4-sgsn_ldn {
+		uses gtp_ies:local_distinguished_name;
+		gtp_ies:order 13;
+		gtp:intsancenum 0;
+	}
+	container sgsn_node_name {
+		uses gtp_ies:fully_qualified_domain_name;
+		gtp_ies:order 14;
+		gtp:intsancenum 0;
+	}
+	container mme_node_name {
+		uses gtp_ies:fully_qualified_domain_name;
+		gtp_ies:order 15;
+		gtp:intsancenum 1;
+	}
+	container sgsn_number {
+		uses gtp_ies:node_number;
+		gtp_ies:order 16;
+		gtp:intsancenum 0;
+	}
+	container sgsn_identifier {
+		uses gtp_ies:node_identifier;
+		gtp_ies:order 17;
+		gtp:intsancenum 0;
+	}
+	container mme_identifier {
+		uses gtp_ies:node_identifier;
+		gtp_ies:order 18;
+		gtp:intsancenum 1;
+	}
+	container mme_number_for_mt_sms {
+		uses gtp_ies:node_number;
+		gtp_ies:order 19;
+		gtp:intsancenum 1;
+	}
+	container sgsn_identifier_for_mt-sms {
+		uses gtp_ies:node_identifier;
+		gtp_ies:order 20;
+		gtp:intsancenum 2;
+	}
+	container mme_identifier_for_mt_sms {
+		uses gtp_ies:node_identifier;
+		gtp_ies:order 21;
+		gtp:intsancenum 3;
+	}
+	list list_of_set_up_bearers_for_scef_pdn_connections {
+		uses gtp_ies:bearer_context;
+		gtp_ies:order 22;
+		gtp:intsancenum 3;
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 23;
+	}
+}
+grouping forward_relocation_complete_notification {
+	gtp:notification;
+	gtp:messageTypeValue 135;
+	container indication_flags {
+		uses gtp_ies:indication;
+		gtp_ies:order 2;
+		gtp:intsancenum 0;
+		description "This IE shall be included if any of the flags are set to 1.
+Idle mode Signalling Reduction Activation Indication: This flag shall be set to 1 if the message is used for inter-RAT handover and the UE has ISR capability. This flag is set to indicate to the source MME/SGSN whether it shall maintain the UE context and whether it shall activate ISR.
+";
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 3;
+	}
+}
+grouping forward_relocation_complete_acknowledge {
+	gtp:acknowledge;
+	gtp:messageTypeValue 136;
+	container cause {
+		uses gtp_ies:cause;
+		gtp_ies:order 1;
+		gtp:iemandatory;
+		gtp:intsancenum 0;
+	}
+	container recovery {
+		uses gtp_ies:recovery_restart_counter;
+		gtp_ies:order 2;
+		gtp:intsancenum 0;
+	}
+	container secondary_rat_usage_data_report {
+		uses gtp_ies:secondary_rat_usage_data_report;
+		gtp_ies:order 3;
+		gtp:intsancenum 0;
+	}
+	container private_extension {
+		uses gtp_ies:private_extension;
+		gtp_ies:order 4;
+	}
+}
+
 
 
 

@@ -1867,7 +1867,7 @@ grouping procedure_transaction_id {
 	}
 	gtp:explicit-extensible true;
 }
-grouping gsm_key_and_triplets {
+grouping mm_context_gsm_key_and_triplets {
 	gtp:ie-type 103;
 	leaf security_mode {
 		gtp:order 4;
@@ -2092,7 +2092,7 @@ grouping gsm_key_and_triplets {
 	}
 	gtp:explicit-extensible true;
 }
-grouping umts_key_used_cipher_and_quintuplets {
+grouping mm_context_umts_key_used_cipher_and_quintuplets {
 	gtp:ie-type 104;
 	leaf security_mode {
 		gtp:order 4;
@@ -2365,7 +2365,7 @@ grouping umts_key_used_cipher_and_quintuplets {
 	}
 	gtp:explicit-extensible true;
 }
-grouping gsm_key_used_cipher_and_quintuplets {
+grouping mm_context_gsm_key_used_cipher_and_quintuplets {
 	gtp:ie-type 105;
 	leaf security_mode {
 		gtp:order 4;
@@ -2604,7 +2604,7 @@ grouping gsm_key_used_cipher_and_quintuplets {
 	}
 	gtp:explicit-extensible true;
 }
-grouping umts_key_and_quintuplets {
+grouping mm_context_umts_key_and_quintuplets {
 	gtp:ie-type 106;
 	leaf security_mode {
 		gtp:order 4;
@@ -2894,7 +2894,7 @@ grouping umts_key_and_quintuplets {
 	}
 	gtp:explicit-extensible true;
 }
-grouping eps_security_context_and_quadruplets {
+grouping mm_context_eps_security_context_and_quadruplets {
 	gtp:ie-type 107;
 	leaf security_mode {
 		gtp:order 4;
@@ -3274,7 +3274,7 @@ grouping eps_security_context_and_quadruplets {
 	}
 	gtp:explicit-extensible true;
 }
-grouping umts_key_quadruplets_and_quintuplets {
+grouping mm_context_umts_key_quadruplets_and_quintuplets {
 	gtp:ie-type 108;
 	leaf security_mode {
 		gtp:order 4;
@@ -3666,6 +3666,42 @@ typedef used_gprs_protection_algorithm_e {
 	}
 	description "NOTE - All other values are marked as 'spare'";
 }
+
+grouping mm_context {
+	choice mm_context {
+		case gsm_key_and_triplets {
+		  container gsm_key_and_triplets {
+			uses mm_context_gsm_key_and_triplets;
+		  }
+		}
+		case umts_key_used_cipher_and_quintuplets {
+		  container umts_key_used_cipher_and_quintuplet {
+			uses mm_context_umts_key_used_cipher_and_quintuplets;
+		  }
+		}
+		case gsm_key_used_cipher_and_quintuplets {
+		  container gsm_key_used_cipher_and_quintuplets {
+			uses mm_context_gsm_key_used_cipher_and_quintuplets;
+		  }
+		}
+		case umts_key_and_quintuplets {
+		  container umts_key_and_quintuplets {
+			uses mm_context_umts_key_and_quintuplets;
+		  }
+		}
+		case eps_security_context_and_quadruplets {
+		  container eps_security_context_and_quadruplets {
+			uses mm_context_eps_security_context_and_quadruplets;
+		  }
+		}
+		case umts_key_quadruplets_and_quintuplets {
+		  container umts_key_quadruplets_and_quintuplets {
+			uses mm_context_umts_key_quadruplets_and_quintuplets;
+		  }
+		}
+	}
+}
+
 grouping pdn_connection {
 	gtp:ie-type 109;
 	gtp:groupedie;
