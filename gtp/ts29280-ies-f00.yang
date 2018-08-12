@@ -9,7 +9,7 @@ import ts29274-ies-f40 {
 
 // NOTE - this module only fills in what is needed for 29274 messages
 
-grouping stn-sr {
+grouping stn_sr {
 	gtp_ies:ie-type 51;
 	leaf nanpi {
 		gtp_ies:order 4;
