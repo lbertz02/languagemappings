@@ -37,30 +37,9 @@ extension messageTypeValue {
 	argument "number";
 }
 
-extension request {
-	description "GTP Message Request";
-}
-
-extension response {
-	description "GTP Message Response";
-}
-
-extension notification {
-	description "GTP Message Request";
-}
-
-extension acknowledge  {
-	description "GTP Message Request";
-}
-
-extension indication  {
-	description "GTP Message Request";
-}
-
-extension iename {
-	description "A name (string) used to distinguish the IE present in the message.  If this
-		value is not present the iename is assumed to be the name of the IE type.";
-	argument "name";
+extension messageType {
+	description "GTP Message Type.  It is one of Request, Response, Notification, Acknowledge or Indication";
+    argument "string";
 }
 
 extension iemandatory {
@@ -68,7 +47,7 @@ extension iemandatory {
 }
 
 grouping echo_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 1;
 	container recovery {
 		uses gtp_ies:recovery_restart_counter;
@@ -88,7 +67,7 @@ grouping echo_request {
 	}
 }
 grouping echo_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 2;
 	container recovery {
 		uses gtp_ies:recovery_restart_counter;
@@ -108,11 +87,11 @@ grouping echo_response {
 	}
 }
 grouping version_not_supported_indication {
-	gtp:indication;
+	gtp:messageType "indication";
 	gtp:messageTypeValue 3;
 }
 grouping create_session_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 32;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -435,7 +414,7 @@ grouping create_session_request {
 }
 
 grouping create_session_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 33;
 	container cause {
 		uses gtp_ies:cause;
@@ -611,7 +590,7 @@ grouping create_session_response {
 }
 
 grouping create_bearer_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 95;
 	container procedure_transaction_id_ {
 		uses gtp_ies:procedure_transaction_id;
@@ -707,7 +686,7 @@ grouping create_bearer_request {
 }
 
 grouping create_bearer_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 96;
 	container cause {
 		uses gtp_ies:cause;
@@ -734,7 +713,7 @@ grouping create_bearer_response {
 	container sgw_fq_csid {
 		uses gtp_ies:fq_csid;
 		gtp_ies:order 5;
-		gtp:intsancenum 1_;
+		gtp:intsancenum 1;
 	}
 	container epdg_fq_csid {
 		uses gtp_ies:fq_csid;
@@ -828,7 +807,7 @@ grouping create_bearer_response {
 }
 
 grouping bearer_resource_command {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 68;
 	container linked_eps_bearer_id {
 		uses gtp_ies:eps_bearer_id;
@@ -929,7 +908,7 @@ grouping bearer_resource_command {
 }
 
 grouping bearer_resource_failure_indication {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 69;
 	container cause {
 		uses gtp_ies:cause;
@@ -981,7 +960,7 @@ grouping bearer_resource_failure_indication {
 }
 
 grouping modify_bearer_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 34;
 	container me_identity {
 		uses gtp_ies:mobile_equipment_identity;
@@ -1046,7 +1025,7 @@ grouping modify_bearer_request {
 	container sgw_fq_csid {
 		uses gtp_ies:fq_csid;
 		gtp_ies:order 13;
-		gtp:intsancenum 1_;
+		gtp:intsancenum 1;
 	}
 	container user_csg_information {
 		uses gtp_ies:user_csg_information;
@@ -1155,7 +1134,7 @@ grouping modify_bearer_request {
 }
 
 grouping modify_bearer_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 35;
 	container cause {
 		uses gtp_ies:cause;
@@ -1290,7 +1269,7 @@ grouping modify_bearer_response {
 }
 
 grouping delete_session_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 36;
 	container linked_eps_bearer_id {
 		uses gtp_ies:eps_bearer_id;
@@ -1404,7 +1383,7 @@ grouping delete_session_request {
 }
 
 grouping delete_bearer_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 99;
 	container eps_bearer_ids {
 		uses gtp_ies:eps_bearer_id;
@@ -1483,7 +1462,7 @@ grouping delete_bearer_request {
 }
 
 grouping delete_session_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 37;
 	container cause {
 		uses gtp_ies:cause;
@@ -1543,7 +1522,7 @@ grouping delete_session_response {
 }
 
 grouping delete_bearer_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 100;
 	container cause {
 		uses gtp_ies:cause;
@@ -1678,7 +1657,7 @@ grouping delete_bearer_response {
 }
 
 grouping downlink_data_notification {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 176;
 	container cause {
 		uses gtp_ies:cause;
@@ -1732,7 +1711,7 @@ grouping downlink_data_notification {
 }
 
 grouping downlink_data_notification_acknowledge {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 177;
 	container cause {
 		uses gtp_ies:cause;
@@ -1777,7 +1756,7 @@ grouping downlink_data_notification_acknowledge {
 }
 
 grouping downlink_data_notification_failure_indication {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 70;
 	container cause {
 		uses gtp_ies:cause;
@@ -1804,7 +1783,7 @@ grouping downlink_data_notification_failure_indication {
 }
 
 grouping delete_indirect_data_forwarding_tunnel_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 168;
 	container private_extension {
 		uses gtp_ies:private_extension;
@@ -1814,7 +1793,7 @@ grouping delete_indirect_data_forwarding_tunnel_request {
 }
 
 grouping  delete_indirect_data_forwarding_tunnel_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 169;
 	container cause {
 		uses gtp_ies:cause;
@@ -1836,7 +1815,7 @@ grouping  delete_indirect_data_forwarding_tunnel_response {
 }
 
 grouping modify_bearer_command {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 64;
 	container apn_aggregate_maximum_bit_rate {
 		uses gtp_ies:aggregate_maximum_bit_rate;
@@ -1877,7 +1856,7 @@ grouping modify_bearer_command {
 }
 
 grouping modify_bearer_failure_indication {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 65;
 	container cause {
 		uses gtp_ies:cause;
@@ -1912,7 +1891,7 @@ grouping modify_bearer_failure_indication {
 }
 
 grouping update_bearer_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 97;
 	container bearer_context {
 		uses gtp_ies:bearer_context;
@@ -2008,7 +1987,7 @@ grouping update_bearer_request {
 }
 
 grouping update_bearer_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 98;
 	container cause {
 		uses gtp_ies:cause;
@@ -2134,7 +2113,7 @@ grouping update_bearer_response {
 }
 
 grouping delete_bearer_command {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 66;
 	container bearer_context {
 		uses gtp_ies:bearer_context;
@@ -2184,7 +2163,7 @@ grouping delete_bearer_command {
 }
 
 grouping delete_bearer_failure_indication {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 67;
 	container cause {
 		uses gtp_ies:cause;
@@ -2225,7 +2204,7 @@ grouping delete_bearer_failure_indication {
 }
 
 grouping create_indirect_data_forwarding_tunnel_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 166;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -2265,7 +2244,7 @@ grouping create_indirect_data_forwarding_tunnel_request {
 }
 
 grouping create_indirect_data_forwarding_tunnel_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 167;
 	container cause {
 		uses gtp_ies:cause;
@@ -2300,7 +2279,7 @@ See also NOTE 1 in Table 7.2.18_1.";
 }
 
 grouping release_access_bearers_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 170;
 	container list_of_rabs {
 		uses gtp_ies:eps_bearer_id;
@@ -2328,7 +2307,7 @@ grouping release_access_bearers_request {
 	}
 }
 grouping release_access_bearers_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 171;
 	container cause {
 		uses gtp_ies:cause;
@@ -2362,7 +2341,7 @@ grouping release_access_bearers_response {
 	}
 }
 grouping stop_paging_indication {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 73;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -2377,7 +2356,7 @@ grouping stop_paging_indication {
 	}
 }
 grouping modify_access_bearers_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 211;
 	container indication_flags {
 		uses gtp_ies:indication;
@@ -2420,7 +2399,7 @@ grouping modify_access_bearers_request {
 	}
 }
 grouping modify_access_bearers_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 212;
 	container cause {
 		uses gtp_ies:cause;
@@ -2464,8 +2443,8 @@ grouping modify_access_bearers_response {
 	}
 }
 
-grouping remote_ue_report_notification_request {
-	gtp:request;
+grouping remote_ue_report_notification {
+	gtp:messageType "notification";
 	gtp:messageTypeValue 40;
 	container remote_ue_context__connected {
 		uses gtp_ies:remote_ue_context;
@@ -2494,8 +2473,8 @@ Several IEs with the same type and instance value may be included as necessary t
 		gtp_ies:order 4;
 	}
 }
-grouping remote_ue_report_acknowledge_response {
-	gtp:response;
+grouping remote_ue_report_acknowledge {
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 41;
 	container cause {
 		uses gtp_ies:cause;
@@ -2509,7 +2488,7 @@ grouping remote_ue_report_acknowledge_response {
 	}
 }
 grouping forward_relocation_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 133;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -2724,7 +2703,7 @@ grouping forward_relocation_request {
 	}
 }
 grouping forward_relocation_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 134;
 	container cause {
 		uses gtp_ies:cause;
@@ -2843,7 +2822,7 @@ grouping forward_relocation_response {
 	}
 }
 grouping forward_relocation_complete_notification {
-	gtp:notification;
+	gtp:messageType "notification";
 	gtp:messageTypeValue 135;
 	container indication_flags {
 		uses gtp_ies:indication;
@@ -2859,7 +2838,7 @@ Idle mode Signalling Reduction Activation Indication: This flag shall be set to 
 	}
 }
 grouping forward_relocation_complete_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 136;
 	container cause {
 		uses gtp_ies:cause;
@@ -2883,7 +2862,7 @@ grouping forward_relocation_complete_acknowledge {
 	}
 }
 grouping context_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 130;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -2986,7 +2965,7 @@ grouping context_request {
 	}
 }
 grouping context_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 131;
 	container cause {
 		uses gtp_ies:cause;
@@ -3125,7 +3104,7 @@ grouping context_response {
 	}
 }
 grouping context_acknowledge {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 132;
 	container cause {
 		uses gtp_ies:cause;
@@ -3174,7 +3153,7 @@ grouping context_acknowledge {
 	}
 }
 grouping identification_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 128;
 	container guti {
 		uses gtp_ies:guti;
@@ -3227,7 +3206,7 @@ grouping identification_request {
 	}
 }
 grouping identification_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 129;
 	container cause {
 		uses gtp_ies:cause;
@@ -3266,7 +3245,7 @@ grouping identification_response {
 	}
 }
 grouping forward_access_context_notification {
-	gtp:notification;
+	gtp:messageType "notification";
 	gtp:messageTypeValue 137;
 	container rab_context {
 		uses gtp_ies:rab_context;
@@ -3304,7 +3283,7 @@ Container Type shall be set to 3.
 	}
 }
 grouping forward_access_context_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 138;
 	container cause {
 		uses gtp_ies:cause;
@@ -3318,7 +3297,7 @@ grouping forward_access_context_acknowledge {
 	}
 }
 grouping detach_notification {
-	gtp:notification;
+	gtp:messageType "notification";
 	gtp:messageTypeValue 149;
 	container cause {
 		uses gtp_ies:cause;
@@ -3339,7 +3318,7 @@ grouping detach_notification {
 	}
 }
 grouping detach_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 150;
 	container cause {
 		uses gtp_ies:cause;
@@ -3358,7 +3337,7 @@ grouping detach_acknowledge {
 	}
 }
 grouping change_notification_request {
-	gtp:notification;
+	gtp:messageType "notification";
 	gtp:messageTypeValue 38;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -3422,7 +3401,7 @@ grouping change_notification_request {
 	}
 }
 grouping change_notification_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 39;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -3472,7 +3451,7 @@ Several IEs with the same type and instance value may be included as necessary t
 	}
 }
 grouping relocation_cancel_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 139;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -3515,7 +3494,7 @@ Unauthenticated IMSI: This flag shall be set to 1 if the IMSI present in the mes
 	}
 }
 grouping relocation_cancel_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 140;
 	container cause {
 		uses gtp_ies:cause;
@@ -3529,7 +3508,7 @@ grouping relocation_cancel_response {
 	}
 }
 grouping configuration_transfer_tunnel_message {
-	gtp:request;
+	gtp:messageType "indication";
 	gtp:messageTypeValue 141;
 	container e_utran_transparent_container {
 		uses gtp_ies:fully_qualified_container;
@@ -3550,7 +3529,7 @@ Container Type shall be set to 3.
 	}
 }
 grouping ran_information_relay {
-	gtp:request;
+	gtp:messageType "indication";
 	gtp:messageTypeValue 152;
 	container bss_container {
 		uses gtp_ies:fully_qualified_container;
@@ -3579,7 +3558,7 @@ the Target eNodeB ID when the target is E_UTRAN.
 	}
 }
 grouping isr_status_indication {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 157;
 	container action_indication {
 		uses gtp_ies:action_indication;
@@ -3598,7 +3577,7 @@ Paging Stop Indication: If the value is set to 3, this indicates to the ISR asso
 	}
 }
 grouping ue_registration_query_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 158;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -3612,7 +3591,7 @@ grouping ue_registration_query_request {
 	}
 }
 grouping ue_registration_query_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 159;
 	container cause {
 		uses gtp_ies:cause;
@@ -3638,7 +3617,7 @@ grouping ue_registration_query_response {
 	}
 }
 grouping suspend_notification {
-	gtp:notification;
+	gtp:messageType "notification";
 	gtp:messageTypeValue 162;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -3691,7 +3670,7 @@ grouping suspend_notification {
 	}
 }
 grouping suspend_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 163;
 	container cause {
 		uses gtp_ies:cause;
@@ -3705,7 +3684,7 @@ grouping suspend_acknowledge {
 	}
 }
 grouping resume_notification {
-	gtp:notification;
+	gtp:messageType "notification";
 	gtp:messageTypeValue 164;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -3734,7 +3713,7 @@ grouping resume_notification {
 	}
 }
 grouping resume_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 165;
 	container cause {
 		uses gtp_ies:cause;
@@ -3748,7 +3727,7 @@ grouping resume_acknowledge {
 	}
 }
 grouping cs_paging_indication {
-	gtp:indication;
+	gtp:messageType "indication";
 	gtp:messageTypeValue 151;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -3800,7 +3779,7 @@ grouping cs_paging_indication {
 	}
 }
 grouping alert_mme_notification {
-	gtp:notification;
+	gtp:messageType "notification";
 	gtp:messageTypeValue 153;
 	container private_extension {
 		uses gtp_ies:private_extension;
@@ -3808,7 +3787,7 @@ grouping alert_mme_notification {
 	}
 }
 grouping alert_mme_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 154;
 	container cause {
 		uses gtp_ies:cause;
@@ -3822,7 +3801,7 @@ grouping alert_mme_acknowledge {
 	}
 }
 grouping ue_activity_notification {
-	gtp:notification;
+	gtp:messageType "notification";
 	gtp:messageTypeValue 155;
 	container private_extension {
 		uses gtp_ies:private_extension;
@@ -3830,7 +3809,7 @@ grouping ue_activity_notification {
 	}
 }
 grouping ue_activity_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 156;
 	container cause {
 		uses gtp_ies:cause;
@@ -3844,7 +3823,7 @@ grouping ue_activity_acknowledge {
 	}
 }
 grouping create_forwarding_tunnel_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 160;
 	container s103_pdn_data_forwarding_info {
 		uses gtp_ies:s103_pdn_data_forwarding_info;
@@ -3861,7 +3840,7 @@ The Serving GW shall forward downlink data to the HSGW via the GRE tunnel identi
 	}
 }
 grouping create_forwarding_tunnel_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 161;
 	container cause {
 		uses gtp_ies:cause;
@@ -3884,7 +3863,7 @@ The eNodeB shall forward downlink data of the EPS bearer to the Serving GW via t
 }
 
 grouping delete_pdn_connection_set_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 101;
 	container mme_fq_csid {
 		uses gtp_ies:fq_csid;
@@ -3929,7 +3908,7 @@ grouping delete_pdn_connection_set_request {
 	}
 }
 grouping delete_pdn_connection_set_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 102;
 	container cause {
 		uses gtp_ies:cause;
@@ -3952,7 +3931,7 @@ grouping delete_pdn_connection_set_response {
 	}
 }
 grouping update_pdn_connection_set_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 200;
 	container mme_fq_csid {
 		uses gtp_ies:fq_csid;
@@ -3974,7 +3953,7 @@ grouping update_pdn_connection_set_request {
 	}
 }
 grouping update_pdn_connection_set_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 201;
 	container cause {
 		uses gtp_ies:cause;
@@ -4002,7 +3981,7 @@ grouping update_pdn_connection_set_response {
 	}
 }
 grouping pgw_restart_notification {
-	gtp:notification;
+	gtp:messageType "notification";
 	gtp:messageTypeValue 179;
 	container pgw_s5s8_ip_address_for_control_plane_or_pmip {
 		uses gtp_ies:ip_address;
@@ -4029,7 +4008,7 @@ grouping pgw_restart_notification {
 	}
 }
 grouping pgw_restart_notification_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 180;
 	container cause {
 		uses gtp_ies:cause;
@@ -4042,8 +4021,8 @@ grouping pgw_restart_notification_acknowledge {
 		gtp_ies:order 3;
 	}
 }
-grouping information_elements_in_pgw_downlink_triggering_notification {
-	gtp:notification;
+grouping pgw_downlink_triggering_notification {
+	gtp:messageType "notification";
 	gtp:messageTypeValue 103;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -4067,7 +4046,7 @@ grouping information_elements_in_pgw_downlink_triggering_notification {
 	}
 }
 grouping pgw_downlink_triggering_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 104;
 	container cause {
 		uses gtp_ies:cause;
@@ -4095,7 +4074,7 @@ grouping pgw_downlink_triggering_acknowledge {
 	}
 }
 grouping trace_session_activation {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 71;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -4115,7 +4094,7 @@ grouping trace_session_activation {
 	}
 }
 grouping trace_session_deactivation {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 72;
 	container trace_reference {
 		uses gtp_ies:trace_reference;
@@ -4125,7 +4104,7 @@ grouping trace_session_deactivation {
 	}
 }
 grouping mbms_session_start_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 231;
 	container sender_fully_qualified_tunnel_endpoint_identifier_for_control_plane {
 		uses gtp_ies:fully_qualified_tunnel_endpoint_identifier;
@@ -4209,7 +4188,7 @@ grouping mbms_session_start_request {
 	}
 }
 grouping mbms_session_start_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 232;
 	container cause {
 		uses gtp_ies:cause;
@@ -4250,7 +4229,7 @@ grouping mbms_session_start_response {
 	}
 }
 grouping mbms_session_update_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 233;
 	container mbms_service_area {
 		uses gtp_ies:mbms_service_area;
@@ -4311,7 +4290,7 @@ grouping mbms_session_update_request {
 	}
 }
 grouping mbms_session_update_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 234;
 	container cause {
 		uses gtp_ies:cause;
@@ -4346,7 +4325,7 @@ grouping mbms_session_update_response {
 	}
 }
 grouping mbms_session_stop_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 235;
 	container mbms_flow_identifier {
 		uses gtp_ies:mbms_flow_identifier;
@@ -4369,7 +4348,7 @@ grouping mbms_session_stop_request {
 	}
 }
 grouping mbms_session_stop_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 236;
 	container cause {
 		uses gtp_ies:cause;

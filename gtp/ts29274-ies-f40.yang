@@ -3,9 +3,8 @@ module ts29274-ies-f40 {
 namespace "urn:onf:params:xml:ns:yang:ts29274:f";
 prefix "gtp";
 
-
-description "Information Elements (IEs) defined in 
-	3GPP TS 29.274 (version f40).
+description "Information Elements (IEs) defined in
+        3GPP TS 29.274 (version f40).
 
    Copyright 2018 Lyle Bertz.
 
@@ -20,6 +19,7 @@ description "Information Elements (IEs) defined in
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.";
+
 
 extension ie-type {
 	description "IE Type Number";
@@ -943,6 +943,9 @@ grouping user_location_information {
 			length "1";
 		}
 	}
+    uses cgi_field {
+
+    }
 	container cgi1 {
 		gtp:order 12;
 		uses cgi_field;

@@ -8,9 +8,9 @@ import ts29274-ies-f40 {
 }
 
 description "Information Elements defined in TS 29.280 that
-	are required for TS 29.274 (f40).  This document is
-	based upon TS 29.280 f00 which was defined at the
-	time of TS 29.274 f40's creation.
+        are required for TS 29.274 (f40).  This document is
+        based upon TS 29.280 f00 which was defined at the
+        time of TS 29.274 f40's creation.
 
    Copyright 2018 Lyle Bertz.
 
