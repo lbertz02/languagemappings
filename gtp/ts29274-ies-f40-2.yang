@@ -668,6 +668,14 @@ grouping pdn_address_allocation {
 		}
 	}
 }
+typedef pdn_address_allocation {
+	type enumeration {
+		enum "IPv4" { value 1; }
+		enum "IPv6" { value 2; }
+		enum "IPv4v6" { value 3; }
+		enum "non-ip" { value 4; }
+	}
+}
 grouping bearer_quality_of_service {
 	gtp:ie-type 80;
 	leaf spare2 {
@@ -794,19 +802,19 @@ grouping rat_type {
 	}
 	gtp:explicit-extensible true;
 }
-typedef rat_type_e {
+typedef rat_type_values {
 	type enumeration {
-		enum "reserved" { value 0; }
-		enum "utran"    { value 1; }
-		enum "geran"    { value 2; }
-		enum "wlan"     { value 3; }
-		enum "gan"      { value 4; }
-		enum "hspa_evolution"   { value 5; }
-		enum "eutran_wb_eutran" { value 6; }
-		enum "virtual"          { value 7; }
-		enum "eutran-nb-iot"    { value 8; }
-		enum "lte-m"            { value 9; }
-		enum "nr"               { value 10; }
+		enum "<reserved>" { value 0;}
+		enum "UTRAN" { value 1; }
+		enum "GERAN" { value 2; }
+		enum "WLAN" { value 3; }
+		enum "GAN" { value 4; }
+		enum "HSPAEvolution" { value 5; }
+		enum "EUTRAN(WB-E-UTRAN)" { value 6;}
+		enum "Virtual" { value 7; }
+		enum "EUTRAN-NB-IoT" { value 8; }
+		enum "LTE-M" { value 9; }
+		enum "NR" { value 10; }
 	}
 }
 grouping serving_network {
@@ -1835,6 +1843,14 @@ grouping pdn_type {
 	}
 	gtp:explicit-extensible true;
 }
+typedef pdn_type_values {
+	type enumeration {
+		enum "IPv4" { value 1; }
+		enum "IPv6" { value 2; }
+		enum "IPv4v6" { value 3; }
+		enum “Non-IP” { value 4; }
+	}
+}
 grouping procedure_transaction_id {
 	gtp:ie-type 100;
 	leaf procedure_transaction_id {
@@ -2674,9 +2690,7 @@ grouping umts_key_and_quintuplets {
 		gtp:order 19;
 		min-elements 1;
 		max-elements 5;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf drx_parameter {
 		gtp:order 20;
@@ -2717,9 +2731,7 @@ grouping umts_key_and_quintuplets {
 	}
 	leaf ue_network_capability {
 		gtp:order 26;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf length_of_ms_network_capability {
 		gtp:order 27;
@@ -2730,9 +2742,7 @@ grouping umts_key_and_quintuplets {
 	}
 	leaf ms_network_capability {
 		gtp:order 28;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf length_of_mobile_equipment_identity {
 		gtp:order 29;
@@ -2743,9 +2753,7 @@ grouping umts_key_and_quintuplets {
 	}
 	leaf mobile_equipment_identity {
 		gtp:order 30;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf ecna {
 		gtp:order 31;
@@ -2812,9 +2820,7 @@ grouping umts_key_and_quintuplets {
 	}
 	leaf voice_domain_preference_and_ues_usage_setting {
 		gtp:order 40;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf length_of_higher_bitrates_than_16_mbps_flag {
 		gtp:order 41;
@@ -2825,11 +2831,8 @@ grouping umts_key_and_quintuplets {
 	}
 	leaf higher_bitrates_than_16_mbps_flag {
 		gtp:order 42;
-		mandatory true;
-		type binary {
-			length "8";
-		}
-	}
+		type binary;
+	}	
 	leaf iov_updates_counter {
 		gtp:order 43;
 		mandatory true;
@@ -2842,24 +2845,399 @@ grouping umts_key_and_quintuplets {
 		mandatory true;
 		type binary {
 			length "8";
-		}
+		} 
+	}
+	leaf extended_access_restriction_data {
+		gtp:order 45;
+		type binary;
 	}
 	leaf spare4 {
-		gtp:order 45;
+		gtp:order 46;
 		type binary {
 			length "7";
 		}
 		gtp:spareformat;
 	}
 	leaf nrsrna {
-		gtp:order 46;
+		gtp:order 47;
 		type binary {
 			length "1";
 		}
 	}
 	gtp:explicit-extensible true;
 }
-grouping umts_key,_quadruplets_and_quintuplets {
+grouping eps_security_context_and_quadruplets {
+	gtp:ie-type 107;
+	leaf security_mode {
+		gtp:order 5;
+		mandatory true;
+		type binary {
+			length "3";
+		}
+	}
+	leaf nhi {
+		gtp:order 6;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf drxi {
+		gtp:order 7;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf ksiasme {
+		gtp:order 8;
+		mandatory true;
+		type binary {
+			length "3";
+		}
+	}
+	leaf number_of_quintuplets {
+		gtp:order 9;
+		mandatory true;
+		type binary {
+			length "3";
+		}
+	}
+	leaf number_of_quadruuplets {
+		gtp:order 10;
+		mandatory true;
+		type binary {
+			length "3";
+		}
+	}
+	leaf uambri {
+		gtp:order 11;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf osci {
+		gtp:order 12;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf sambri {
+		gtp:order 13;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf used_nas_integrity_protection_algorithm {
+		gtp:order 14;
+		mandatory true;
+		type binary {
+			length "3";
+		}
+	}
+	leaf used_nas_cipher {
+		gtp:order 15;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
+	leaf nas_downlink_count {
+		gtp:order 16;
+		mandatory true;
+		type binary {
+			length "24";
+		}
+	}
+	leaf nas_uplink_count {
+		gtp:order 17;
+		mandatory true;
+		type binary {
+			length "24";
+		}
+	}
+	leaf ksiasme2 {
+		gtp:order 18;
+		mandatory true;
+		type binary {
+			length "256";
+		}
+	}
+	leaf-list authentication_quadruplet {
+		gtp:order 19;
+		min-elements 1;
+		max-elements 5;
+		type binary; 
+	}
+	leaf-list authentication_quintuuplet {
+		gtp:order 20;
+		min-elements 1;
+		max-elements 5;
+		type binary; 
+	}
+	leaf drx_parameter {
+		gtp:order 21;
+		mandatory true;
+		type binary {
+			length "32";
+		}
+	}
+	leaf nh {
+		gtp:order 22;
+		mandatory true;
+		type binary {
+			length "256";
+		}
+	}
+	leaf spare2 {
+		gtp:order 23;
+		mandatory true;
+		type binary {
+			length "5";
+		}
+		gtp:spareformat;
+	}
+	leaf ncc {
+		gtp:order 24;
+		mandatory true;
+		type binary {
+			length "3";
+		}
+	}
+	leaf uplink_subscribed_ue_ambr {
+		gtp:order 25;
+		type binary {
+			length "32";
+		}
+	}
+	leaf downlink_subscribed_ue_ambr {
+		gtp:order 26;
+		type binary {
+			length "32";
+		}
+	}
+	leaf uplink_used_ue_ambr {
+		gtp:order 27;
+		type binary {
+			length "32";
+		}
+	}
+	leaf downlink_used_ue_ambr {
+		gtp:order 28;
+		type binary {
+			length "32";
+		}
+	}
+	leaf length_of_ue_network_capability {
+		gtp:order 29;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+	leaf ue_network_capability {
+		gtp:order 30;
+		type binary; 
+	}
+	leaf length_of_ms_network_capability {
+		gtp:order 31;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+	leaf ms_network_capability {
+		gtp:order 32;
+		type binary; 
+	}
+	leaf length_of_mobile_equipment_identity {
+		gtp:order 33;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+	leaf mobile_equipment_identity {
+		gtp:order 34;
+		type binary; 
+	}
+	leaf ecna {
+		gtp:order 35;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf nbna {
+		gtp:order 36;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf hnna {
+		gtp:order 37;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf ena {
+		gtp:order 38;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf ina {
+		gtp:order 39;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf gana {
+		gtp:order 40;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf gena { 
+		gtp:order 41;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf una { 
+		gtp:order 42;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf nhi_old { 
+		gtp:order 43;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf spare3 { 
+		gtp:order 44;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+		gtp:spareformat;
+	}
+	leaf old_ksiasme { 
+		gtp:order 45;
+		mandatory true;
+		type binary {
+			length "3";
+		}
+	}
+	leaf old_ncc { 
+		gtp:order 46;
+		mandatory true;
+		type binary {
+			length "3";
+		}
+	}
+	leaf old_ksiasme2 {
+		gtp:order 47;
+		mandatory true;
+		type binary {
+			length "256";
+		}
+	}
+	leaf old_nh {
+		gtp:order 48;
+		mandatory true;
+		type binary {
+			length "256";
+		}
+	}
+	leaf length_of_voice_domain_preference_and_ues_usage_setting {
+		gtp:order 49;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+	leaf voice_domain_preference_and_ues_usage_setting {
+		gtp:order 50;
+		type binary; 
+	}
+	leaf length_of_ue_radio_capability_for_paging_information {
+		gtp:order 51;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+	leaf ue_radio_capability_for_paging_information {
+		gtp:order 52;
+		type binary; 
+	}
+	leaf length_of_extended_access_restriction_data {
+		gtp:order 53;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+	leaf spare4 {
+		gtp:order 54;
+		mandatory true;
+		type binary {
+			length "6";
+		}
+	}
+	leaf ussrna {
+		gtp:order 55;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf nrsrna {
+		gtp:order 56;
+		mandatory true;
+		type binary {
+			length "1";
+		}
+	}
+	leaf length_of_ue_additional_security_capability {
+		gtp:order 57;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+	leaf ue_additional_security_capability {
+		gtp:order 58;
+		type binary; 
+	}
+	leaf length_of_ue_nr_security_capability {
+		gtp:order 58;
+		mandatory true;
+		type binary {
+			length "8";
+		}
+	}
+	leaf ue_nr_security_capability {
+		gtp:order 59;
+		type binary; 
+	}
+	gtp:explicit-extensible true;	
+}
+grouping umts_key_quadruplets_and_quintuplets {
 	gtp:ie-type 108;
 	leaf security_mode {
 		gtp:order 5;
@@ -2944,17 +3322,13 @@ grouping umts_key,_quadruplets_and_quintuplets {
 		gtp:order 16;
 		min-elements 1;
 		max-elements 5;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf-list authentication_quintuplet {
 		gtp:order 17;
 		min-elements 1;
 		max-elements 5;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 	leaf drx_parameter {
 		gtp:order 18;
@@ -2995,9 +3369,7 @@ grouping umts_key,_quadruplets_and_quintuplets {
 	}
 	leaf ue_network_capability {
 		gtp:order 24;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf length_of_ms_network_capability {
 		gtp:order 25;
@@ -3008,9 +3380,7 @@ grouping umts_key,_quadruplets_and_quintuplets {
 	}
 	leaf ms_network_capability {
 		gtp:order 26;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf length_of_mobile_equipment_identity {
 		gtp:order 27;
@@ -3021,9 +3391,7 @@ grouping umts_key,_quadruplets_and_quintuplets {
 	}
 	leaf mobile_equipment_identity {
 		gtp:order 28;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf ecna {
 		gtp:order 29;
@@ -3090,9 +3458,7 @@ grouping umts_key,_quadruplets_and_quintuplets {
 	}
 	leaf voice_domain_preference_and_ues_usage_setting {
 		gtp:order 38;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 	gtp:explicit-extensible true;
 }
@@ -3137,9 +3503,7 @@ grouping authentication_quintuplet {
 	leaf xres {
 		gtp:order 3;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf ck {
 		gtp:order 4;
@@ -3162,9 +3526,7 @@ grouping authentication_quintuplet {
 	}
 	leaf autn {
 		gtp:order 7;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 }
 grouping authentication_quadruplet {
@@ -3185,16 +3547,12 @@ grouping authentication_quadruplet {
 	leaf xres {
 		gtp:order 3;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 	leaf autn_length {
 		gtp:order 4;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf autn {
 		gtp:order 5;
@@ -3209,15 +3567,77 @@ grouping authentication_quadruplet {
 		}
 	}
 }
+typedef security_mode_values {
+	type enumeration {
+		enum "GSMKeyandTriplets" { value 0; }
+		enum "UMTSKey,UsedCipherandQuintuplets" { value 1; }
+		enum "GSMKey,UsedCipherandQuintuplets" { value 2; }
+		enum "UMTSKeyandQuintuplets" { value 3; }
+		enum "EPSSecurityContextandQuadruplets" { value 4; }
+		enum "UMTSKey,QuadrupletsandQuintuplets" { value 5; }
+	}
+}
+typedef used_nas_cipher_values {
+	type enumeration {
+		enum "Nociphering" { value 0; }
+		enum "128-EEA1" { value 1; }
+		enum "128-EEA2" { value 2; }
+		enum "128-EEA3" { value 3; }
+		enum "EEA4" { value 4; }
+		enum "EEA5" { value 5; }
+		enum "EEA6" { value 6; }
+		enum "EEA7" { value 7; }
+	}
+}
+typedef used_cipher_values {
+	type enumeration {
+		enum "Nociphering" { value 0; }
+		enum "GEA/1" { value 1; }
+		enum "GEA/2" { value 2; }
+		enum "GEA/3" { value 3; }
+		enum "GEA/4" { value 4; }
+		enum "GEA/5" { value 5; }
+		enum "GEA/6" { value 6; }
+		enum "GEA/7" { value 7; }
+	}
+}
+typedef used_nas_integrity_protection_algorithm_values {
+	type enumeration {
+		enum "Nointegrityprotection" { value 0; }
+		enum "128-EIA1" { value 1; }
+		enum "128-EIA2" { value 2; }
+		enum "128-EIA3" { value 3; }
+		enum "EIA4" { value 4; }
+		enum "EIA5" { value 5; }
+		enum "EIA6" { value 6; }
+		enum "EIA7" { value 7; }
+	}
+}
+typedef used_gprs_integrity_protection_algorithm_values {
+	type enumeration {
+		enum "Nointegrityprotection" { value 0; }
+		enum "spare1" { value 1; }
+		enum "spare2" { value 2; }
+		enum "spare3" { value 3; }
+		enum "GIA4" { value 4; }
+		enum "GIA5" { value 5; }
+		enum "spare6" { value 6; }
+		enum "spare7" { value 7; }
+	}
+}
+grouping pdu_connection {
+	gtp:ie-type 109;
+	gtp:groupedie;
+}
 grouping pdu_numbers {
 	gtp:ie-type 110;
-	leaf spare(0_0_0_0 {
+	leaf spare2 {
 		gtp:order 5;
 		mandatory true;
 		type binary {
 			length "4";
 		}
-		gtp:spareformat;
+		description "Note-Value is all zeroes";
 	}
 	leaf nsapi {
 		gtp:order 6;
@@ -3226,32 +3646,32 @@ grouping pdu_numbers {
 			length "4";
 		}
 	}
-	leaf dl_gtp-u_sequence_number {
+	leaf dl_gtp_u_sequence_number {
 		gtp:order 7;
 		mandatory true;
 		type binary {
-			length "8";
+			length "16";
 		}
 	}
-	leaf ul_gtp-u_sequence_number {
+	leaf ul_gtp_u_sequence_number {
 		gtp:order 8;
 		mandatory true;
 		type binary {
-			length "8";
+			length "16";
 		}
 	}
-	leaf send_n-pdu_number {
+	leaf send_n_pdu_number {
 		gtp:order 9;
 		mandatory true;
 		type binary {
-			length "8";
+			length "16";
 		}
 	}
-	leaf receive_n-pdu_number {
+	leaf receive_n_pdu_number {
 		gtp:order 10;
 		mandatory true;
 		type binary {
-			length "8";
+			length "16";
 		}
 	}
 	gtp:explicit-extensible true;
@@ -3261,9 +3681,7 @@ grouping packet_tmsi {
 	leaf packet_tmsi {
 		gtp:order 5;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 }
 grouping p-tmsi_signature {
@@ -3271,9 +3689,7 @@ grouping p-tmsi_signature {
 	leaf p-tmsi_signature {
 		gtp:order 5;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 }
 grouping hop_counter {
@@ -3312,6 +3728,14 @@ grouping ue_time_zone {
 		}
 	}
 	gtp:explicit-extensible true;
+}
+typedef ue_time_zone_values {
+	type enumeration {
+		enum "no_adjustment" { value 0; }
+		enum "plus_1_hour" { value 1; }
+		enum "plus_2_hour" { value 2; }
+		enum "spare" { value 3; }
+	}
 }
 grouping trace_reference {
 	gtp:ie-type 115;
@@ -3377,9 +3801,13 @@ grouping complete_request_message {
 	leaf complete_request_message {
 		gtp:order 6;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
+	}
+}
+typedef complete_request_message_type_values {
+	type enumeration {
+		enum "complete_attach_request_message" { value 0; }
+		enum "complete_tau_request_message" { value 1; }
 	}
 }
 grouping guti {
@@ -3443,9 +3871,7 @@ grouping guti {
 	leaf m-tmsi {
 		gtp:order 13;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 }
 grouping full_qualified_container {
@@ -3468,13 +3894,20 @@ grouping full_qualified_container {
 	leaf f-container_field {
 		gtp:order 7;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary;
+	}
+}
+typedef container_type_values {
+	type enumeration {
+		enum "Reserved" { value 0; }
+		enum "UTRANTransparentContainer" { value 1; }
+		enum "BSSContainer" { value 2; }
+		enum "E-UTRANTransparentContainer" { value 3; }
+		enum "NBIFOMContainer" { value 4; }
 	}
 }
 grouping bss_container {
-	leaf spare {
+	leaf spare3 {
 		gtp:order 1;
 		mandatory true;
 		type binary {
@@ -3512,19 +3945,17 @@ grouping bss_container {
 	}
 	leaf packet_flow_id {
 		gtp:order 6;
-		mandatory true;
 		type binary {
 			length "8";
 		}
 	}
 	leaf sapi2 {
 		gtp:order 7;
-		mandatory true;
 		type binary {
 			length "4";
 		}
 	}
-	leaf spare2 {
+	leaf spare4 {
 		gtp:order 8;
 		mandatory true;
 		type binary {
@@ -3534,23 +3965,19 @@ grouping bss_container {
 	}
 	leaf radio_priority {
 		gtp:order 9;
-		mandatory true;
 		type binary {
 			length "3";
 		}
 	}
 	leaf xid_parameters_length {
 		gtp:order 10;
-		mandatory true;
 		type binary {
 			length "8";
 		}
 	}
 	leaf xid_parameters {
 		gtp:order 11;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 }
 grouping full_qualified_cause {
@@ -3578,13 +4005,22 @@ grouping full_qualified_cause {
 		}
 	}
 }
+typedef cause_type_values_and_their_meanings {
+	type enumeration {
+		enum "RadioNetworkLayer" { value 0; }
+		enum "TransportLayer" { value 1; }
+		enum "NAS" { value 2; }
+		enum "Protocol" { value 3; }
+		enum "Miscellaneous" { value 4; }
+	}
+}
 grouping plmn_id {
 	gtp:ie-type 120;
 	leaf plmn_id {
 		gtp:order 5;
 		mandatory true;
 		type binary {
-			length "8";
+			length "24";
 		}
 	}
 }
@@ -3593,42 +4029,42 @@ grouping plmn_id_parameter_with_3-digit_mnc {
 		gtp:order 1;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
 	}
 	leaf mcc_digit_1 {
 		gtp:order 2;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
 	}
 	leaf mnc_digit_1 {
 		gtp:order 3;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
 	}
 	leaf mcc_digit_3 {
 		gtp:order 4;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
 	}
 	leaf mnc_digit_3 {
 		gtp:order 5;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
 	}
 	leaf mnc_digit_2 {
 		gtp:order 6;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
 	}
 }
@@ -3637,42 +4073,43 @@ grouping plmn_id_parameter_with_2-digit_mnc {
 		gtp:order 1;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
 	}
 	leaf mcc_digit_1 {
 		gtp:order 2;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
 	}
-	leaf 1111 {
+	leaf spare2 {
 		gtp:order 3;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
+		gtp:spareformat;
 	}
 	leaf mcc_digit_3 {
 		gtp:order 4;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
 	}
 	leaf mnc_digit_2 {
 		gtp:order 5;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
 	}
 	leaf mnc_digit_1 {
 		gtp:order 6;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
 	}
 }
@@ -3688,11 +4125,22 @@ grouping target_identification {
 	leaf target_id {
 		gtp:order 6;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 }
+typedef target_type_values_and_their_meanings {
+	type enumeration {
+		enum "RNCID" { value 0; }
+		enum "MacroeNodeBID" { value 1; }
+		enum "CellIdentifier" { value 2; }
+		enum "HomeeNodeBID" { value 3; }
+		enum "ExtendedMacroeNodeBID" { value 4; }
+		enum "gNodeBID" { value 5; }
+		enum "Macrong-eNodeBID" { value 6; }
+		enum "Extendedng-eNodeBID" { value 7; }
+	}
+}
+
 grouping target_id_for_type_rnc_id {
 	leaf mcc_digit_2 {
 		gtp:order 1;
@@ -3807,7 +4255,7 @@ grouping target_id_for_type_macro_enodeb {
 			length "4";
 		}
 	}
-	leaf spare {
+	leaf spare2 {
 		gtp:order 7;
 		mandatory true;
 		type binary {
@@ -3819,18 +4267,11 @@ grouping target_id_for_type_macro_enodeb {
 		gtp:order 8;
 		mandatory true;
 		type binary {
-			length "4";
-		}
-	}
-	leaf macro_enodeb_id2 {
-		gtp:order 9;
-		mandatory true;
-		type binary {
-			length "16";
+			length "20";
 		}
 	}
 	leaf tracking_area_code {
-		gtp:order 10;
+		gtp:order 9;
 		mandatory true;
 		type binary {
 			length "16";
@@ -3880,7 +4321,7 @@ grouping target_id_for_type_home_enodeb {
 			length "4";
 		}
 	}
-	leaf spare {
+	leaf spare2 {
 		gtp:order 7;
 		mandatory true;
 		type binary {
@@ -3892,14 +4333,7 @@ grouping target_id_for_type_home_enodeb {
 		gtp:order 8;
 		mandatory true;
 		type binary {
-			length "4";
-		}
-	}
-	leaf home_enodeb_id2 {
-		gtp:order 9;
-		mandatory true;
-		type binary {
-			length "24";
+			length "20";
 		}
 	}
 	leaf tracking_area_code {
@@ -3960,7 +4394,7 @@ grouping target_id_for_type_extended_macro_enodeb {
 			length "1";
 		}
 	}
-	leaf spare {
+	leaf spare2 {
 		gtp:order 8;
 		mandatory true;
 		type binary {
@@ -3972,14 +4406,7 @@ grouping target_id_for_type_extended_macro_enodeb {
 		gtp:order 9;
 		mandatory true;
 		type binary {
-			length "5";
-		}
-	}
-	leaf extended_macro_enodeb_id2 {
-		gtp:order 10;
-		mandatory true;
-		type binary {
-			length "16";
+			length "21";
 		}
 	}
 	leaf tracking_area_code {
@@ -3987,6 +4414,14 @@ grouping target_id_for_type_extended_macro_enodeb {
 		mandatory true;
 		type binary {
 			length "16";
+		}
+	}
+}
+grouping target_id_for_type_cell_identifier {
+	leaf cell_identifier { 
+		gtp:order 0;
+		type binary {
+			length "64";
 		}
 	}
 }
@@ -4033,7 +4468,7 @@ grouping target_id_for_type_gnode_id {
 			length "4";
 		}
 	}
-	leaf spare {
+	leaf spare2 {
 		gtp:order 7;
 		mandatory true;
 		type binary {
@@ -4106,7 +4541,7 @@ grouping target_id_for_type_macro_ng-enodeb {
 			length "4";
 		}
 	}
-	leaf spare {
+	leaf sparei2 {
 		gtp:order 7;
 		mandatory true;
 		type binary {
@@ -4118,14 +4553,7 @@ grouping target_id_for_type_macro_ng-enodeb {
 		gtp:order 8;
 		mandatory true;
 		type binary {
-			length "4";
-		}
-	}
-	leaf macro_ng-enodeb_id {
-		gtp:order 9;
-		mandatory true;
-		type binary {
-			length "16";
+			length "20";
 		}
 	}
 	leaf fivegs_tracking_area_code {
@@ -4186,7 +4614,7 @@ grouping target_id_for_type_extended_macro_ng-enodeb {
 			length "1";
 		}
 	}
-	leaf spare {
+	leaf spare2 {
 		gtp:order 8;
 		mandatory true;
 		type binary {
@@ -4226,14 +4654,17 @@ grouping packet_flow_id {
 		}
 		gtp:spareformat;
 	}
-	uses eps_bearer_id;
-	gtp:order 6;
+	leaf ebi {
+		gtp:order 6;
+		mandatory true;
+		type binary {
+			length "4";
+		}
+	}
 	leaf packet_flow_id {
 		gtp:order 7;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 }
 grouping rab_context {
@@ -4287,9 +4718,7 @@ grouping source_rnc_pdcp_context_info {
 	leaf rrc_container {
 		gtp:order 5;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 }
 grouping port_number {
@@ -4303,7 +4732,7 @@ grouping port_number {
 	}
 	gtp:explicit-extensible true;
 }
-grouping apn_restriction_type_information_element {
+grouping apn_restriction {
 	gtp:ie-type 127;
 	leaf restriction_type_value {
 		gtp:order 5;
@@ -4313,6 +4742,15 @@ grouping apn_restriction_type_information_element {
 		}
 	}
 	gtp:explicit-extensible true;
+}
+typedef valid_combinations_of_apn_restriction {
+	type enumeration {
+		enum "No Existing Contexts or Restriction" { value 0; }
+		enum "public-1" { value 1; }
+		enum "public-2" { value 2; }
+		enum "private-1" { value 3; }
+		enum "private-2" { value 4; }
+	}
 }
 grouping selection_mode_information_element {
 	gtp:ie-type 128;
@@ -4333,6 +4771,15 @@ grouping selection_mode_information_element {
 	}
 	gtp:explicit-extensible true;
 }
+typedef selection_mode_values {
+	type enumeration {
+		enum "MS or network provided APN, subscription verified" { value 0;}
+		enum "MS provided APN,s ubscription not verified" { value 1; }
+		enum "Network provided APN, subscription not verified" { value 2; }
+		enum "For future use. If received, shall be interpreted as the value ‘2’" { value 3; }
+	}
+}
+
 grouping source_identification {
 	gtp:ie-type 129;
 	leaf target_cell_id {
@@ -4357,14 +4804,32 @@ grouping source_identification {
 		}
 	}
 }
+typedef source_type_values_and_their_meanings {
+	type enumeration {
+		enum "CellID" { value 0; }
+		enum "RNCID" { value 1; }
+		enum "reserved" { value 2; }
+	}
+}
 grouping change_reporting_action {
 	gtp:ie-type 131;
 	leaf action {
 		gtp:order 5;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary;
+	}
+}
+typedef figure_8.611_change_reporting_action {
+	type enumeration {
+		enum "StopReporting" { value 0; }
+		enum "StartReportingCGI_SAI" { value 1; }
+		enum "StartReportingRAI" { value 2; }
+		enum "StartReportingTAI" { value 3; }
+		enum "StartReportingECGI" { value 4; }
+		enum "StartReportingCGI_SAIandRAI" { value 5; }
+		enum "StartReportingTAIandECGI" { value 6; }
+		enum "StartReportingMacroeNodeBIDandExtendedMacroeNodeBID" { value 7; }
+		enum "StartReportingTAI_MacroeNodeBIDandExtendedMacroeNodeBID" { value 8; }
 	}
 }
 grouping fq-csid {
@@ -4381,43 +4846,35 @@ grouping fq-csid {
 		mandatory true;
 		type binary {
 			length "4";
-		}
+		} 
 	}
-	leaf node-id {
+	leaf node_id {
 		gtp:order 7;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
-	leaf first_pdn_connection_set_identifier {
+	leaf-list pdn_connection_set_identifiers {
+		min-elements 1;
 		gtp:order 8;
-		type binary {
-			length "16";
-		}
-	}
-	leaf second_pdn_connection_set_identifier {
-		gtp:order 9;
-		type binary {
-			length "16";
-		}
-	}
-	leaf m-th_pdn_connection_set_identifier {
-		gtp:order 11;
 		type binary {
 			length "16";
 		}
 	}
 	gtp:explicit-extensible true;
 }
+typedef node_id_type_values { 
+	type enumeration {
+		enum "GlobalUnicastIPv4" { value 0; }
+		enum "GlobalUnicastIPv6" { value 1; }
+		enum "4OctetsSpecificCoding" { value 2; }
+	}
+}
 grouping channel_needed {
 	gtp:ie-type 133;
 	leaf channel_needed {
 		gtp:order 5;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 }
 grouping emlpp_priority {
@@ -4425,9 +4882,7 @@ grouping emlpp_priority {
 	leaf emlpp-priority {
 		gtp:order 5;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 }
 grouping node_type {
@@ -4441,10 +4896,34 @@ grouping node_type {
 	}
 	gtp:explicit-extensible true;
 }
+typedef node_type_values {
+	type enumeration {
+		enum "MME" { value 0; }
+		enum "SGSN" { value 1; }
+	}
+}
 grouping fully_qualified_domain_name {
 	gtp:ie-type 136;
-	uses fully_qualified_domain_name;
-	gtp:order 5;
+	leaf fqdn {
+		gtp:order 5;
+		mandatory true;
+		type binary;
+	}
+}
+grouping private_extension {
+        gtp:ie-type 255;
+        leaf enterprise_id {
+                gtp:order 4;
+                mandatory true;
+                type binary {
+			length "16";
+		}
+        }
+        leaf proprietary_value {
+                gtp:order 5;
+                mandatory true;
+                type binary;
+        }
 }
 grouping transaction_identifier {
 	gtp:ie-type 137;
@@ -4455,6 +4934,36 @@ grouping transaction_identifier {
 			length "8";
 		}
 	}
+}
+grouping mbms_session_duration {
+        gtp:ie-type 138;
+        leaf mbms_session_duration {
+                gtp:order 4;
+                mandatory true;
+                type binary {
+			length "24";
+		}
+        }
+	gtp:explicit-extensible true;
+}
+grouping mbms_service_area {
+        gtp:ie-type 139;
+        leaf mbms_session_duration {
+                gtp:order 4;
+                mandatory true;
+                type binary; 
+        }
+}
+grouping mbms_session_identifier {
+        gtp:ie-type 140;
+        leaf mbms_session_identifier {
+                gtp:order 4;
+                mandatory true;
+                type binary {
+                        length "8";
+                }
+        }
+        gtp:explicit-extensible true;
 }
 grouping mbms_flow_identifier {
 	gtp:ie-type 141;
@@ -4545,6 +5054,14 @@ grouping mbms_distribution_acknowledge {
 	}
 	gtp:explicit-extensible true;
 }
+typedef distribution_indication_values {
+	type enumeration {
+		enum "No_RNCs_have_accepted" { value 0; }
+		enum "All_RNCs_have_accepted" { value 1; }
+		enum "Som_RNCs_have_accepted" { value 2; }
+		enum "Spare"	{ value 3; }
+	}
+}
 grouping user_csg_information {
 	gtp:ie-type 145;
 	leaf mcc_digit_2 {
@@ -4601,14 +5118,7 @@ grouping user_csg_information {
 		gtp:order 12;
 		mandatory true;
 		type binary {
-			length "3";
-		}
-	}
-	leaf csg_id2 {
-		gtp:order 13;
-		mandatory true;
-		type binary {
-			length "24";
+			length "27";
 		}
 	}
 	leaf access_mode {
@@ -4641,6 +5151,18 @@ grouping user_csg_information {
 		}
 	}
 	gtp:explicit-extensible true;
+}
+typedef access_mode_values {
+	type enumeration {
+		enum "closed_mode" { value 0; }
+		enum "hybrid_mode" { value 1; }
+	}
+}
+typedef csg_membership_indication_values {
+	type enumeration {
+		enum "non_csg_membership" { value 0; }
+		enum "csg_membership" { value 1; }	
+	}
 }
 grouping csg_reporting_action {
 	gtp:ie-type 146;
@@ -4699,14 +5221,7 @@ grouping csg_id {
 		gtp:order 6;
 		mandatory true;
 		type binary {
-			length "3";
-		}
-	}
-	leaf csg_id2 {
-		gtp:order 7;
-		mandatory true;
-		type binary {
-			length "24";
+			length "27";
 		}
 	}
 	gtp:explicit-extensible true;
@@ -4730,6 +5245,12 @@ grouping csg_membership_indication {
 	}
 	gtp:explicit-extensible true;
 }
+typedef csg_member_indicaiton_values {
+	type enumeration {
+		enum "csg_membership" { value 0; }
+		enum "non_csg_membership" { value 1; }
+	}
+}
 grouping service_indicator {
 	gtp:ie-type 149;
 	leaf service_indicator {
@@ -4738,6 +5259,12 @@ grouping service_indicator {
 		type binary {
 			length "8";
 		}
+	}
+}
+typedef service_indicator_values {
+	type enumeration {
+		enum "cs_call" { value 1; }
+		enum "sms" { value 2; }
 	}
 }
 grouping detach_type {
@@ -4750,10 +5277,19 @@ grouping detach_type {
 		}
 	}
 }
+typedef detach_type {
+	type enumeration {
+		enum "ps" { value 1; }
+		enum "combined_ps_cs" { value 2; }
+	}
+}
 grouping local_distinguished_name {
 	gtp:ie-type 151;
-	uses local_distinguished_name;
-	gtp:order 5;
+	leaf ldn {
+		gtp:order 5;
+		mandatory true;
+		type binary;
+	}
 }
 grouping node_features_ie {
 	gtp:ie-type 152;
@@ -4765,6 +5301,14 @@ grouping node_features_ie {
 		}
 	}
 	gtp:explicit-extensible true;
+}
+typedef support_features {
+	type enumeration {
+		enum "PRN" { value 1; }
+		enum "MABR" { value 2; }
+		enum "NTSR" { value 4; }
+		enum "CIOT" { value 8; }
+	}
 }
 grouping mbms_time_to_data_transfer {
 	gtp:ie-type 153;
@@ -4801,6 +5345,16 @@ grouping throttling {
 		}
 	}
 	gtp:explicit-extensible true;
+}
+typedef throttling_unit_values {
+	type enumeration {
+		enum "seconds_2" { value 0; }
+		enum "minutes_1" { value 1; }
+		enum "minutes_10" { value 2; }
+		enum "hours_1" { value 3; }
+		enum "hours_10" { value 4; }
+		enum "deactivated" { value 7; }
+	}
 }
 grouping allocationretention_priority {
 	gtp:ie-type 155;
@@ -4861,6 +5415,16 @@ grouping epc_timer {
 	}
 	gtp:explicit-extensible true;
 }
+typedef timer_unit_values {
+	type enumeration {
+		enum "seconds_2" { value 0; }
+                enum "minutes_1" { value 1; }
+                enum "minutes_10" { value 2; }
+                enum "hours_1" { value 3; }
+                enum "hours_10" { value 4; }
+                enum "deactivated" { value 7; }
+        }
+}
 grouping signalling_priority_indication {
 	gtp:ie-type 157;
 	leaf spare2 {
@@ -4882,8 +5446,13 @@ grouping signalling_priority_indication {
 }
 grouping tmgi {
 	gtp:ie-type 158;
-	uses tmgi;
-	gtp:order 5;
+	leaf tmgi {
+		gtp:order 5;
+		mandatory true;
+		type binary {
+			length "48";
+		}
+	}
 	gtp:explicit-extensible true;
 }
 grouping additional_mm_context_for_srvcc {
@@ -4898,9 +5467,7 @@ grouping additional_mm_context_for_srvcc {
 	leaf mobile_station_classmark_2 {
 		gtp:order 6;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf length_of_the_mobile_station_classmark_3 {
 		gtp:order 7;
@@ -4911,9 +5478,7 @@ grouping additional_mm_context_for_srvcc {
 	}
 	leaf mobile_station_classmark_3 {
 		gtp:order 8;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 	leaf length_of_the_supported_codec_list {
 		gtp:order 9;
@@ -4924,9 +5489,7 @@ grouping additional_mm_context_for_srvcc {
 	}
 	leaf supported_codec_list {
 		gtp:order 10;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	gtp:explicit-extensible true;
 }
@@ -5016,9 +5579,7 @@ grouping mdt_configuration {
 	}
 	leaf area_scope {
 		gtp:order 13;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf spare2 {
 		gtp:order 14;
@@ -5084,11 +5645,9 @@ grouping mdt_configuration {
 			length "8";
 		}
 	}
-	leaf mdt_plmn_list {
+	leaf-list mdt_plmn_list {
 		gtp:order 23;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	gtp:explicit-extensible true;
 }
@@ -5097,9 +5656,7 @@ grouping additional_protocol_configuration_options {
 	leaf additional_protocol_configuration_options {
 		gtp:order 5;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	gtp:explicit-extensible true;
 }
@@ -5114,7 +5671,7 @@ grouping absolute_time_of_mbms_data_transfer {
 	}
 	gtp:explicit-extensible true;
 }
-grouping  {
+grouping h_e_nb_information_reporting {
 	gtp:ie-type 165;
 	leaf spare2 {
 		gtp:order 5;
@@ -5187,9 +5744,22 @@ grouping action_indication {
 		}
 		gtp:spareformat;
 	}
-	uses indication;
-	gtp:order 6;
+	leaf indication {
+		gtp:order 6;
+		mandatory true;
+		type binary {
+			length "3";
+		}
+	}
 	gtp:explicit-extensible true;
+}
+typedef indication_values {
+	type enumeration {
+		enum "no_action" { value 0; }
+		enum "deactivation" { value 1; }
+		enum "paging" { value 2; }
+		enum "paging_stop" { value 3; }
+	}
 }
 grouping twan_identifier {
 	gtp:ie-type 169;
@@ -5246,9 +5816,7 @@ grouping twan_identifier {
 	leaf ssid {
 		gtp:order 12;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf bssid {
 		gtp:order 13;
@@ -5260,14 +5828,12 @@ grouping twan_identifier {
 		gtp:order 14;
 		mandatory true;
 		type binary {
-			length "8";
-		}
+                        length "8";
+                } 
 	}
 	leaf civic_address_information {
 		gtp:order 15;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf twan_plmn-id {
 		gtp:order 16;
@@ -5284,9 +5850,7 @@ grouping twan_identifier {
 	}
 	leaf twan_operator_name {
 		gtp:order 18;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf relay_identity_type {
 		gtp:order 19;
@@ -5304,9 +5868,7 @@ grouping twan_identifier {
 	}
 	leaf relay_identity {
 		gtp:order 21;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	leaf circuit-id_length {
 		gtp:order 22;
@@ -5317,9 +5879,7 @@ grouping twan_identifier {
 	}
 	leaf circuit-id {
 		gtp:order 23;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 	gtp:explicit-extensible true;
 }
