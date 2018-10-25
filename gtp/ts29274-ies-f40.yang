@@ -5979,7 +5979,7 @@ grouping cn_operator_selection_entity {
         }
         gtp:explicit-extensible true;
 }
-typedef selection_entity_e {
+typedef selection_entity_values {
 	type enumeration {
 		enum "ue_selected" { value 0; }
 		enum "network_selected" { value 1; }

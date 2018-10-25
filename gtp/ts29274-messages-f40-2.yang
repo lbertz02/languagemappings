@@ -1,6 +1,58 @@
-Message Tables
+module ts29274-messages-f40-2 {
+
+namespace "urn:onf:params:xml:ns:yang:ts29274:f:messages";
+prefix "gtp";
+
+import ts29274-ies-f40 {	
+	prefix "gtp_ies";
+}
+
+import ts29280-ies-f00 {
+	prefix "sv_ies";
+}
+
+description "Messages defined in 3GPP TS 29.274 (verision f40).
+
+   Copyright 2018 Lyle Bertz.
+
+   Licensed under the Apache License, Version 2.0 (the \"License\");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an \"AS IS\" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.";
+
+extension intsancenum {
+	description "The instance number of the IE in the message";
+	argument "number";
+}
+
+extension messageTypeValue {
+	description "The eGTP Message Type number";
+	argument "number";
+}
+
+extension messageType {
+	description "GTP Message Type.  It is one of Request, Response, Notification, Acknowledge or Indication";
+    argument "string";
+}
+
+extension iemandatory {
+	description "Indicates that the IE (container) is mandatory";
+}
+
+extension containingMessage {
+	description "Notes the message that contains the specific grouped IE subtype.";
+	argument "number";
+}
+
 grouping echo_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 1;
 	container recovery {
 		uses gtp_ies:recovery;
@@ -21,7 +73,7 @@ grouping echo_request {
 	}
 }
 grouping echo_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 2;
 	container recovery {
 		uses gtp_ies:recovery;
@@ -41,8 +93,8 @@ grouping echo_response {
 		gtp_ies:order 3;
 	}
 }
-grouping a_create_session_request {
-	gtp:request;
+grouping create_session_request {
+	gtp:messageType "request";
 	container imsi {
 		uses gtp_ies:imsi;
 		gtp_ies:order 1;
@@ -59,7 +111,7 @@ grouping a_create_session_request {
 		gtp:intsancenum 0;
 	}
 	container user_location_information {
-		uses gtp_ies:uli(note_10);
+		uses gtp_ies:uli;
 		gtp_ies:order 4;
 		gtp:intsancenum 0;
 	}
@@ -188,7 +240,7 @@ grouping a_create_session_request {
 		gtp:intsancenum 0;
 	}
 	container signalling_priority_indication {
-		uses gtp_ies:signalling_priority_indication;
+		uses gtp_ies:indication;
 		gtp_ies:order 33;
 		gtp:intsancenum 0;
 	}
@@ -202,12 +254,12 @@ grouping a_create_session_request {
 		gtp_ies:order 35;
 		gtp:intsancenum 0;
 	}
-	container h(e)nb_local_ip_address {
+	container henb_local_ip_address {
 		uses gtp_ies:ip_address;
 		gtp_ies:order 37;
 		gtp:intsancenum 1;
 	}
-	container h(e)nb_udp_port {
+	container henb_udp_port {
 		uses gtp_ies:port_number;
 		gtp_ies:order 38;
 		gtp:intsancenum 1;
@@ -237,17 +289,17 @@ grouping a_create_session_request {
 		gtp_ies:order 43;
 		gtp:intsancenum 0;
 	}
-	container mmes4sgsn's_overload_control_information {
+	container mmes4sgsns_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 44;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 45;
 		gtp:intsancenum 1;
 	}
-	container twanepdg's_overload_control_information {
+	container twanepdgs_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 46;
 		gtp:intsancenum 2;
@@ -282,7 +334,7 @@ grouping a_create_session_request {
 		gtp_ies:order 52;
 		gtp:intsancenum 0;
 	}
-	container 3gpp_aaa_server_identifier {
+	container tgpp_aaa_server_identifier {
 		uses gtp_ies:node_identifier;
 		gtp_ies:order 53;
 		gtp:intsancenum 0;
@@ -438,7 +490,7 @@ grouping create_session_request__overload_control_information {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 		description "See clause 12.3.5.1.2.2 for the description and use of this parameter.
-This IE should be set to '0' if the 'Overload Reduction Metric' is null. This IE shall be ignored by the receiver if the 'Overload Reduction Metric' is null.
+This IE should be set to 0 if the Overload Reduction Metric is null. This IE shall be ignored by the receiver if the Overload Reduction Metric is null.
 ";
 	}
 }
@@ -462,8 +514,8 @@ grouping create_session_request__remote_ue_context_connected {
 ";
 	}
 }
-grouping a_create_session_response {
-	gtp:response;
+grouping create_session_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -480,8 +532,8 @@ grouping a_create_session_response {
 		gtp_ies:order 3;
 		gtp:intsancenum 0;
 	}
-	container h(e)nb_information_reporting {
-		uses gtp_ies:h(e)nb_information_reporting;
+	container henb_information_reporting {
+		uses gtp_ies:henb_information_reporting;
 		gtp_ies:order 4;
 		gtp:intsancenum 0;
 	}
@@ -571,27 +623,27 @@ grouping a_create_session_response {
 		gtp_ies:order 25;
 		gtp:intsancenum 0;
 	}
-	container pgw's_node_level_load_control_information {
+	container pgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 26;
 		gtp:intsancenum 0;
 	}
-	container pgw's_apn_level_load_control_information {
+	container pgws_apn_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 27;
 		gtp:intsancenum 1;
 	}
-	container sgw's_node_level_load_control_information {
+	container sgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 28;
 		gtp:intsancenum 2;
 	}
-	container pgw's_overload_control_information {
+	container pgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 29;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 30;
 		gtp:intsancenum 1;
@@ -747,8 +799,8 @@ grouping create_session_response__overload_control_information {
 		gtp:intsancenum 0;
 	}
 }
-grouping a_create_bearer_request {
-	gtp:request;
+grouping create_bearer_request {
+	gtp:messageType "request";
 	container procedure_transaction_id {
 		uses gtp_ies:pti;
 		gtp_ies:order 1;
@@ -791,8 +843,8 @@ grouping a_create_bearer_request {
 		gtp_ies:order 8;
 		gtp:intsancenum 0;
 	}
-	container h(e)nb_information_reporting {
-		uses gtp_ies:h(e)nb_information_reporting;
+	container henb_information_reporting {
+		uses gtp_ies:henb_information_reporting;
 		gtp_ies:order 9;
 		gtp:intsancenum 0;
 	}
@@ -806,27 +858,27 @@ grouping a_create_bearer_request {
 		gtp_ies:order 11;
 		gtp:intsancenum 0;
 	}
-	container pgw's_node_level_load_control_information {
+	container pgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 12;
 		gtp:intsancenum 0;
 	}
-	container pgw's_apn_level_load_control_information {
+	container pgws_apn_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 13;
 		gtp:intsancenum 1;
 	}
-	container sgw's_node_level_load_control_information {
+	container sgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 14;
 		gtp:intsancenum 2;
 	}
-	container pgw's_overload_control_information {
+	container pgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 15;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 16;
 		gtp:intsancenum 1;
@@ -966,8 +1018,8 @@ grouping create_bearer_request__overload_control_information {
 		gtp:intsancenum 0;
 	}
 }
-grouping a_create_bearer_response {
-	gtp:response;
+grouping create_bearer_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -1025,12 +1077,12 @@ grouping a_create_bearer_response {
 		gtp_ies:order 11;
 		gtp:intsancenum 0;
 	}
-	container mmes4sgsn's_overload_control_information {
+	container mmes4sgsns_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 12;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 13;
 		gtp:intsancenum 1;
@@ -1041,12 +1093,11 @@ grouping a_create_bearer_response {
 		gtp:intsancenum 0;
 	}
 	container mmes4sgsn_identifier {
-		uses gtp_ies:ip_address
-(see_note_2);
+		uses gtp_ies:ip_address;
 		gtp_ies:order 15;
 		gtp:intsancenum 0;
 	}
-	container twanepdg's_overload_control_information {
+	container twanepdgs_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 16;
 		gtp:intsancenum 2;
@@ -1062,8 +1113,7 @@ grouping a_create_bearer_response {
 		gtp:intsancenum 1;
 	}
 	container ue_local_ip_address {
-		uses gtp_ies:ip_address
-(see_note_2);
+		uses gtp_ies:ip_address;
 		gtp_ies:order 19;
 		gtp:intsancenum 0;
 	}
@@ -1203,12 +1253,12 @@ grouping create_bearer_response__overload_control_information {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 		description "See clause 12.3.5.1.2.2 for the description and use of this parameter.
-This IE should be set to '0' if the 'Overload Reduction Metric' is null. This IE shall be ignored by the receiver if the 'Overload Reduction Metric' is null.
+This IE should be set to 0 if the Overload Reduction Metric is null. This IE shall be ignored by the receiver if the Overload Reduction Metric is null.
 ";
 	}
 }
-grouping a_bearer_resource_command_request {
-	gtp:request;
+grouping bearer_resource_command_request {
+	gtp:messageType "request";
 	container linked_eps_bearer_id {
 		uses gtp_ies:ebi;
 		gtp_ies:order 1;
@@ -1271,17 +1321,17 @@ grouping a_bearer_resource_command_request {
 		gtp_ies:order 12;
 		gtp:intsancenum 0;
 	}
-	container signalling_priority_indication_ {
+	container signalling_priority_indication {
 		uses gtp_ies:signalling_priority_indication;
 		gtp_ies:order 13;
 		gtp:intsancenum 0;
 	}
-	container mmes4sgsn's_overload_control_information {
+	container mmes4sgsns_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 14;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 15;
 		gtp:intsancenum 1;
@@ -1330,12 +1380,12 @@ grouping bearer_resource_command__overload_control_information {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 		description "See clause 12.3.5.1.2.2 for the description and use of this parameter.
-This IE should be set to '0' if the 'Overload Reduction Metric' is null. This IE shall be ignored by the receiver if the 'Overload Reduction Metric' is null.
+This IE should be set to 0 if the Overload Reduction Metric is null. This IE shall be ignored by the receiver if the Overload Reduction Metric is null.
 ";
 	}
 }
-grouping a_bearer_resource_failure_indication_request {
-	gtp:request;
+grouping bearer_resource_failure_indication_request {
+	gtp:messageType "request";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -1359,12 +1409,12 @@ grouping a_bearer_resource_failure_indication_request {
 		gtp_ies:order 4;
 		gtp:intsancenum 0;
 	}
-	container pgw's_overload_control_information {
+	container pgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 5;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 6;
 		gtp:intsancenum 1;
@@ -1410,20 +1460,20 @@ grouping bearer_resource_failure_indication__overload_control_information {
 		gtp:intsancenum 0;
 	}
 }
-grouping a_modify_bearer_request {
-	gtp:request;
+grouping modify_bearer_request {
+	gtp:messageType "request";
 	container me_identity {
 		uses gtp_ies:mei;
 		gtp_ies:order 1;
 		gtp:intsancenum 0;
 	}
 	container user_location_information {
-		uses gtp_ies:uli(note_15);
+		uses gtp_ies:uli;
 		gtp_ies:order 2;
 		gtp:intsancenum 0;
 	}
 	container serving_network {
-		uses gtp_ies:serving_network(note_15);
+		uses gtp_ies:serving_network;
 		gtp_ies:order 3;
 		gtp:intsancenum 0;
 	}
@@ -1492,12 +1542,12 @@ grouping a_modify_bearer_request {
 		gtp_ies:order 16;
 		gtp:intsancenum 1;
 	}
-	container h(e)nb_local_ip_address {
+	container henb_local_ip_address {
 		uses gtp_ies:ip_address;
 		gtp_ies:order 19;
 		gtp:intsancenum 0;
 	}
-	container h(e)nb_udp_port {
+	container henb_udp_port {
 		uses gtp_ies:port_number;
 		gtp_ies:order 20;
 		gtp:intsancenum 0;
@@ -1517,17 +1567,17 @@ grouping a_modify_bearer_request {
 		gtp_ies:order 23;
 		gtp:intsancenum 0;
 	}
-	container mmes4sgsn's_overload_control_information {
+	container mmes4sgsns_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 24;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 25;
 		gtp:intsancenum 1;
 	}
-	container epdg's_overload_control_information {
+	container epdgs_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 26;
 		gtp:intsancenum 2;
@@ -1642,12 +1692,12 @@ grouping modify_bearer_request__overload_control_information {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 		description "See clause 12.3.5.1.2.2 for the description and use of this parameter.
-This IE should be set to '0' if the 'Overload Reduction Metric' is null. This IE shall be ignored by the receiver if the 'Overload Reduction Metric' is null.
+This IE should be set to 0 if the Overload Reduction Metric is null. This IE shall be ignored by the receiver if the Overload Reduction Metric is null.
 ";
 	}
 }
-grouping a_modify_bearer_response {
-	gtp:response;
+grouping modify_bearer_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -1694,8 +1744,8 @@ grouping a_modify_bearer_response {
 		gtp_ies:order 9;
 		gtp:intsancenum 0;
 	}
-	container h(e)nb_information_reporting {
-		uses gtp_ies:h(e)nb_information_reporting;
+	container henb_information_reporting {
+		uses gtp_ies:henb_information_reporting;
 		gtp_ies:order 10;
 		gtp:intsancenum 0;
 	}
@@ -1734,27 +1784,27 @@ grouping a_modify_bearer_response {
 		gtp_ies:order 19;
 		gtp:intsancenum 0;
 	}
-	container pgw's_node_level_load_control_information {
+	container pgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 20;
 		gtp:intsancenum 0;
 	}
-	container pgw's_apn_level_load_control_information {
+	container pgws_apn_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 21;
 		gtp:intsancenum 1;
 	}
-	container sgw's_node_level_load_control_information {
+	container sgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 22;
 		gtp:intsancenum 2;
 	}
-	container pgw's_overload_control_information {
+	container pgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 23;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 24;
 		gtp:intsancenum 1;
@@ -1881,15 +1931,15 @@ grouping modify_bearer_response__overload_control_information {
 		gtp:intsancenum 0;
 	}
 }
-grouping a_delete_session_request {
-	gtp:request;
+grouping delete_session_request {
+	gtp:messageType "request";
 	container linked_eps_bearer_id {
 		uses gtp_ies:ebi;
 		gtp_ies:order 1;
 		gtp:intsancenum 0;
 	}
 	container user_location_information {
-		uses gtp_ies:uli(note_7);
+		uses gtp_ies:uli;
 		gtp_ies:order 2;
 		gtp:intsancenum 0;
 	}
@@ -1938,17 +1988,17 @@ grouping a_delete_session_request {
 		gtp_ies:order 11;
 		gtp:intsancenum 0;
 	}
-	container mmes4sgsn's_overload_control_information {
+	container mmes4sgsns_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 12;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 13;
 		gtp:intsancenum 1;
 	}
-	container twanepdg's_overload_control_information {
+	container twanepdgs_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 14;
 		gtp:intsancenum 2;
@@ -2018,12 +2068,12 @@ grouping delete_session_request__overload_control_information {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 		description "See clause 12.3.5.1.2.2 for the description and use of this parameter.
-This IE should be set to '0' if the 'Overload Reduction Metric' is null. This IE shall be ignored by the receiver if the 'Overload Reduction Metric' is null.
+This IE should be set to 0 if the Overload Reduction Metric is null. This IE shall be ignored by the receiver if the Overload Reduction Metric is null.
 ";
 	}
 }
-grouping a_delete_bearer_request {
-	gtp:request;
+grouping delete_bearer_request {
+	gtp:messageType "request";
 	container eps_bearer_ids {
 		uses gtp_ies:ebi;
 		gtp_ies:order 1;
@@ -2059,27 +2109,27 @@ grouping a_delete_bearer_request {
 		gtp_ies:order 7;
 		gtp:intsancenum 0;
 	}
-	container pgw's_node_level_load_control_information {
+	container pgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 8;
 		gtp:intsancenum 0;
 	}
-	container pgw's_apn_level_load_control_information {
+	container pgws_apn_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 9;
 		gtp:intsancenum 1;
 	}
-	container sgw's_node_level_load_control_information {
+	container sgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 10;
 		gtp:intsancenum 2;
 	}
-	container pgw's_overload_control_information {
+	container pgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 11;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 12;
 		gtp:intsancenum 1;
@@ -2165,8 +2215,8 @@ grouping delete_bearer_request__overload_control_information {
 		gtp:intsancenum 0;
 	}
 }
-grouping a_delete_session_response {
-	gtp:response;
+grouping delete_session_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -2188,27 +2238,27 @@ grouping a_delete_session_response {
 		gtp_ies:order 4;
 		gtp:intsancenum 0;
 	}
-	container pgw's_node_level_load_control_information {
+	container pgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 5;
 		gtp:intsancenum 0;
 	}
-	container pgw's_apn_level_load_control_information {
+	container pgws_apn_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 6;
 		gtp:intsancenum 1;
 	}
-	container sgw's_node_level_load_control_information {
+	container sgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 7;
 		gtp:intsancenum 2;
 	}
-	container pgw's_overload_control_information {
+	container pgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 8;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 9;
 		gtp:intsancenum 1;
@@ -2272,7 +2322,7 @@ grouping delete_session_response__overload_control_information {
 	}
 }
 grouping delete_bearer_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 100;
 	container cause {
 		uses gtp_ies:cause;
@@ -2345,12 +2395,12 @@ grouping delete_bearer_response {
 		gtp_ies:order 14;
 		gtp:intsancenum 0;
 	}
-	container mmes4sgsn's_overload_control_information {
+	container mmes4sgsns_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 15;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 16;
 		gtp:intsancenum 1;
@@ -2360,7 +2410,7 @@ grouping delete_bearer_response {
 		gtp_ies:order 17;
 		gtp:intsancenum 0;
 	}
-	container twanepdg's_overload_control_information {
+	container twanepdgs_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 18;
 		gtp:intsancenum 2;
@@ -2461,12 +2511,12 @@ grouping delete_bearer_response__overload_control_information {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 		description "See clause 12.3.5.1.2.2 for the description and use of this parameter.
-This IE should be set to '0' if the 'Overload Reduction Metric' is null. This IE shall be ignored by the receiver if the 'Overload Reduction Metric' is null.
+This IE should be set to 0 if the Overload Reduction Metric is null. This IE shall be ignored by the receiver if the Overload Reduction Metric is null.
 ";
 	}
 }
-grouping a_downlink_data_notification_request {
-	gtp:request;
+grouping downlink_data_notification_request {
+	gtp:messageType "request";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -2497,12 +2547,12 @@ grouping a_downlink_data_notification_request {
 		gtp_ies:order 6;
 		gtp:intsancenum 0;
 	}
-	container sgw's_node_level_load_control_information {
+	container sgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 7;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 8;
 		gtp:intsancenum 0;
@@ -2562,12 +2612,12 @@ grouping downlink_data_notification__overload_control_information {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 		description "See clause 12.3.5.1.2.2 for the description and use of this parameter.
-This IE should be set to '0' if the 'Overload Reduction Metric' is null. This IE shall be ignored by the receiver if the 'Overload Reduction Metric' is null.
+This IE should be set to 0 if the Overload Reduction Metric is null. This IE shall be ignored by the receiver if the Overload Reduction Metric is null.
 ";
 	}
 }
-grouping a_downlink_data_notification_acknowledge_response {
-	gtp:response;
+grouping downlink_data_notification_acknowledge_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -2609,8 +2659,8 @@ grouping a_downlink_data_notification_acknowledge_response {
 		gtp_ies:order 8;
 	}
 }
-grouping a_downlink_data_notification_failure_indication {
-	gtp:indication;
+grouping downlink_data_notification_failure_indication {
+	gtp:messageType "indication";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -2636,8 +2686,8 @@ grouping a_downlink_data_notification_failure_indication {
 		gtp_ies:order 4;
 	}
 }
-grouping a_modify_bearer_command {
-	gtp:command;
+grouping modify_bearer_command {
+	gtp:messageType "command";
 	container apnaggregate_maximum_bit_rate {
 		uses gtp_ies:ambr;
 		gtp_ies:order 1;
@@ -2650,17 +2700,17 @@ grouping a_modify_bearer_command {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 	}
-	container mmes4sgsn's_overload_control_information {
+	container mmes4sgsns_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 3;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 4;
 		gtp:intsancenum 1;
 	}
-	container twanepdg's_overload_control_information {
+	container twanepdgs_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 5;
 		gtp:intsancenum 2;
@@ -2713,12 +2763,12 @@ grouping modify_bearer_command__overload_control_information {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 		description "See clause 12.3.5.1.2.2 for the description and use of this parameter.
-This IE should be set to '0' if the 'Overload Reduction Metric' is null. This IE shall be ignored by the receiver if the 'Overload Reduction Metric' is null.
+This IE should be set to 0 if the Overload Reduction Metric is null. This IE shall be ignored by the receiver if the Overload Reduction Metric is null.
 ";
 	}
 }
-grouping a_modify_bearer_failure_indication_ {
-	gtp:;
+grouping modify_bearer_failure_indication {
+	gtp:messageType "request";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -2735,12 +2785,12 @@ grouping a_modify_bearer_failure_indication_ {
 		gtp_ies:order 3;
 		gtp:intsancenum 0;
 	}
-	container pgw's_overload_control_information {
+	container pgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 4;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 5;
 		gtp:intsancenum 1;
@@ -2776,8 +2826,8 @@ grouping modify_bearer_failure_indication__overload_control_information {
 		gtp:intsancenum 0;
 	}
 }
-grouping an_update_bearer_request {
-	gtp:request;
+grouping update_bearer_request {
+	gtp:messageType "request";
 	container bearer_contexts {
 		uses gtp_ies:bearer_context_;
 		gtp_ies:order 1;
@@ -2810,8 +2860,8 @@ grouping an_update_bearer_request {
 		gtp_ies:order 6;
 		gtp:intsancenum 0;
 	}
-	container h(e)nb_information_reporting {
-		uses gtp_ies:h(e)nb_information_reporting;
+	container henb_information_reporting {
+		uses gtp_ies:henb_information_reporting;
 		gtp_ies:order 7;
 		gtp:intsancenum 0;
 	}
@@ -2835,27 +2885,27 @@ grouping an_update_bearer_request {
 		gtp_ies:order 11;
 		gtp:intsancenum 0;
 	}
-	container pgw's_node_level_load_control_information {
+	container pgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 12;
 		gtp:intsancenum 0;
 	}
-	container pgw's_apn_level_load_control_information {
+	container pgws_apn_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 13;
 		gtp:intsancenum 1;
 	}
-	container sgw's_node_level_load_control_information {
+	container sgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 14;
 		gtp:intsancenum 2;
 	}
-	container pgw's_overload_control_information {
+	container pgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 15;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 16;
 		gtp:intsancenum 1;
@@ -2958,8 +3008,8 @@ grouping update_bearer_request__overload_control_information {
 		gtp:intsancenum 0;
 	}
 }
-grouping an_update_bearer_response {
-	gtp:response;
+grouping update_bearer_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -3022,12 +3072,12 @@ grouping an_update_bearer_response {
 		gtp_ies:order 12;
 		gtp:intsancenum 0;
 	}
-	container mmes4sgsn's_overload_control_information {
+	container mmes4sgsns_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 13;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 14;
 		gtp:intsancenum 1;
@@ -3042,7 +3092,7 @@ grouping an_update_bearer_response {
 		gtp_ies:order 16;
 		gtp:intsancenum 0;
 	}
-	container twanepdg's_overload_control_information {
+	container twanepdgs_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 17;
 		gtp:intsancenum 2;
@@ -3148,12 +3198,12 @@ grouping update_bearer_response__overload_control_information {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 		description "See clause 12.3.5.1.2.2 for the description and use of this parameter.
-This IE should be set to '0' if the 'Overload Reduction Metric' is null. This IE shall be ignored by the receiver if the 'Overload Reduction Metric' is null.
+This IE should be set to 0 if the Overload Reduction Metric is null. This IE shall be ignored by the receiver if the Overload Reduction Metric is null.
 ";
 	}
 }
 grouping delete_bearer_command {
-	gtp:command;
+	gtp:messageType "command";
 	container bearer_contexts {
 		uses gtp_ies:bearer_context_;
 		gtp_ies:order 1;
@@ -3175,12 +3225,12 @@ grouping delete_bearer_command {
 		gtp_ies:order 4;
 		gtp:intsancenum 0;
 	}
-	container mmes4sgsn's_overload_control_information {
+	container mmes4sgsns_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 5;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 6;
 		gtp:intsancenum 1;
@@ -3221,7 +3271,7 @@ Vind (vSRVCC indicator) indicator shall be set to indicate a video bearer for PS
 		uses gtp_ies:rannas_cause;
 		gtp_ies:order 3;
 		gtp:intsancenum 0;
-		description "The MME shall include this IE on the S11 interface to indicate the RAN release cause and/or NAS release cause to release the bearer, if available and this information is permitted to be sent to the PGW operator according to MME operator's policy. 
+		description "The MME shall include this IE on the S11 interface to indicate the RAN release cause and/or NAS release cause to release the bearer, if available and this information is permitted to be sent to the PGW operator according to MME operators policy. 
 If both a RAN release cause and a NAS release cause are generated, then several IEs with the same type and instance value shall be included to represent a list of causes.
 The SGW shall include this IE on the S5/S8 interface if it receives it from the MME.
 ";
@@ -3251,12 +3301,12 @@ grouping delete_bearer_command__overload_control_information {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 		description "See clause 12.3.5.1.2.2 for the description and use of this parameter.
-This IE should be set to '0' if the 'Overload Reduction Metric' is null. This IE shall be ignored by the receiver if the 'Overload Reduction Metric' is null.
+This IE should be set to 0 if the Overload Reduction Metric is null. This IE shall be ignored by the receiver if the Overload Reduction Metric is null.
 ";
 	}
 }
-grouping a_delete_bearer_failure_indication {
-	gtp:indication;
+grouping delete_bearer_failure_indication {
+	gtp:messageType "indication";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -3279,12 +3329,12 @@ grouping a_delete_bearer_failure_indication {
 		gtp_ies:order 4;
 		gtp:intsancenum 0;
 	}
-	container pgw's_overload_control_information {
+	container pgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 5;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 6;
 		gtp:intsancenum 1;
@@ -3301,7 +3351,7 @@ grouping delete_bearer_failure_indication__bearer_context {
 		gtp_ies:order 1;
 		gtp:iemandatory;
 		gtp:intsancenum 0;
-		description "See subclause 6.1.1 'Presence requirements of Information Elements'.
+		description "See subclause 6.1.1 Presence requirements of Information Elements.
 ";
 	}
 	container cause {
@@ -3339,8 +3389,8 @@ grouping delete_bearer_failure_indication__overload_control_information {
 		gtp:intsancenum 0;
 	}
 }
-grouping a_create_indirect_data_forwarding_tunnel_request {
-	gtp:request;
+grouping create_indirect_data_forwarding_tunnel_request {
+	gtp:messageType "request";
 	container imsi {
 		uses gtp_ies:imsi;
 		gtp_ies:order 1;
@@ -3417,8 +3467,8 @@ grouping create_indirect_data_forwarding_tunnel_request__bearer_context {
 		gtp:intsancenum 6;
 	}
 }
-grouping a_create_indirect_data_forwarding_tunnel_response {
-	gtp:response;
+grouping create_indirect_data_forwarding_tunnel_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -3544,12 +3594,12 @@ grouping release_access_bearers_response__overload_control_information {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 		description "See clause 12.3.5.1.2.2 for the description and use of this parameter.
-This IE should be set to '0' if the 'Overload Reduction Metric' is null. This IE shall be ignored by the receiver if the 'Overload Reduction Metric' is null.
+This IE should be set to 0 if the Overload Reduction Metric is null. This IE shall be ignored by the receiver if the Overload Reduction Metric is null.
 ";
 	}
 }
-grouping a_stop_paging_indication {
-	gtp:indication;
+grouping stop_paging_indication {
+	gtp:messageType "indication";
 	container imsi {
 		uses gtp_ies:imsi;
 		gtp_ies:order 1;
@@ -3562,8 +3612,8 @@ grouping a_stop_paging_indication {
 		gtp_ies:order 2;
 	}
 }
-grouping a_modify_access_bearers_request {
-	gtp:request;
+grouping modify_access_bearers_request {
+	gtp:messageType "request";
 	container indication_flags {
 		uses gtp_ies:indication;
 		gtp_ies:order 1;
@@ -3634,8 +3684,8 @@ grouping modify_access_bearers_request__bearer_context_to_be_removed {
 		gtp:intsancenum 0;
 	}
 }
-grouping a_modify_access_bearers_response {
-	gtp:response;
+grouping modify_access_bearers_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -3662,12 +3712,12 @@ grouping a_modify_access_bearers_response {
 		gtp_ies:order 5;
 		gtp:intsancenum 0;
 	}
-	container sgw's_node_level_load_control_information {
+	container sgws_node_level_load_control_information {
 		uses gtp_ies:load_control_information;
 		gtp_ies:order 6;
 		gtp:intsancenum 0;
 	}
-	container sgw's_overload_control_information {
+	container sgws_overload_control_information {
 		uses gtp_ies:overload_control_information;
 		gtp_ies:order 7;
 		gtp:intsancenum 0;
@@ -3766,12 +3816,12 @@ grouping modify_access_bearers_response__overload_control_information {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 		description "See clause 12.3.5.1.2.2 for the description and use of this parameter.
-This IE should be set to '0' if the 'Overload Reduction Metric' is null. This IE shall be ignored by the receiver if the 'Overload Reduction Metric' is null.
+This IE should be set to 0 if the Overload Reduction Metric is null. This IE shall be ignored by the receiver if the Overload Reduction Metric is null.
 ";
 	}
 }
 grouping remote_ue_report_notification {
-	gtp:notification;
+	gtp:messageType "notification";
 	gtp:messageTypeValue 40;
 	container remote_ue_context__connected {
 		uses gtp_ies:remote_ue_context;
@@ -3832,7 +3882,7 @@ grouping remote_ue_report_notification___remote_ue_context_disconnected {
 	}
 }
 grouping remote_ue_report_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 41;
 	container cause {
 		uses gtp_ies:cause;
@@ -3845,14 +3895,14 @@ grouping remote_ue_report_acknowledge {
 		gtp_ies:order 2;
 	}
 }
-grouping a_forward_relocation_request {
-	gtp:request;
+grouping forward_relocation_request {
+	gtp:messageType "request";
 	container imsi {
 		uses gtp_ies:imsi;
 		gtp_ies:order 1;
 		gtp:intsancenum 0;
 	}
-	container sender's_fteid_for_control_plane {
+	container senders_fteid_for_control_plane {
 		uses gtp_ies:fteid;
 		gtp_ies:order 2;
 		gtp:iemandatory;
@@ -3909,7 +3959,7 @@ grouping a_forward_relocation_request {
 		gtp_ies:order 12;
 		gtp:intsancenum 0;
 	}
-	container 1xiws_s102_ip_address {
+	container onexiws_s102_ip_address {
 		uses gtp_ies:ipaddress;
 		gtp_ies:order 13;
 		gtp:intsancenum 1;
@@ -4121,8 +4171,8 @@ grouping forward_relocation_request__mmesgsnamf_ue_eps_pdn_connections {
 		gtp_ies:order 12;
 		gtp:intsancenum 0;
 	}
-	container h(e)nb_information_reporting {
-		uses gtp_ies:h(e)nb_information_reporting;
+	container henb_information_reporting {
+		uses gtp_ies:henb_information_reporting;
 		gtp_ies:order 13;
 		gtp:intsancenum 0;
 	}
@@ -4131,7 +4181,7 @@ grouping forward_relocation_request__mmesgsnamf_ue_eps_pdn_connections {
 		gtp_ies:order 14;
 		gtp:intsancenum 0;
 	}
-	container signalling_priority_indication_ {
+	container signalling_priority_indication {
 		uses gtp_ies:signalling_priority_indication;
 		gtp_ies:order 15;
 		gtp:intsancenum 0;
@@ -4152,7 +4202,7 @@ grouping forward_relocation_request__mmesgsnamf_ue_eps_pdn_connections {
 		gtp:intsancenum 0;
 	}
 	container wlan_offloadability_indication {
-		uses gtp_ies:wlan_offloadability_indication;
+		uses gtp_ies:wlan_offloadability_messageType_indication;
 		gtp_ies:order 19;
 		gtp:intsancenum 0;
 	}
@@ -4270,15 +4320,15 @@ grouping forward_relocation_request__mme_ue_scef_pdn_connections {
 ";
 	}
 }
-grouping a_forward_relocation_response {
-	gtp:response;
+grouping forward_relocation_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 	}
-	container sender's_fteid_for_control_plane {
+	container senders_fteid_for_control_plane {
 		uses gtp_ies:fteid;
 		gtp_ies:order 2;
 		gtp:intsancenum 0;
@@ -4383,14 +4433,14 @@ grouping a_forward_relocation_response {
 		gtp_ies:order 23;
 	}
 }
-grouping a_forward_relocation_complete_notification {
-	gtp:notification;
+grouping forward_relocation_complete_notification {
+	gtp:messageType "notification";
 	container indication_flags {
 		uses gtp_ies:indication;
 		gtp_ies:order 1;
 		gtp:intsancenum 0;
 		description "This IE shall be included if any of the flags are set to 1.
-Idle mode Signalling Reduction Activation Indication: This flag shall be set to 1 if the message is used for inter-RAT handover and the UE has ISR capability. This flag is set to indicate to the source MME/SGSN whether it shall maintain the UE's context and whether it shall activate ISR.
+Idle mode Signalling Reduction Activation Indication: This flag shall be set to 1 if the message is used for inter-RAT handover and the UE has ISR capability. This flag is set to indicate to the source MME/SGSN whether it shall maintain the UEs context and whether it shall activate ISR.
 ";
 	}
 	container private_extension {
@@ -4398,8 +4448,8 @@ Idle mode Signalling Reduction Activation Indication: This flag shall be set to 
 		gtp_ies:order 2;
 	}
 }
-grouping a_forward_relocation_complete_acknowledge {
-	gtp:acknowledge;
+grouping forward_relocation_complete_acknowledge {
+	gtp:messageType "acknowledge";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -4421,8 +4471,8 @@ grouping a_forward_relocation_complete_acknowledge {
 		gtp_ies:order 4;
 	}
 }
-grouping a_context_request {
-	gtp:request;
+grouping context_request {
+	gtp:messageType "request";
 	container imsi {
 		uses gtp_ies:imsi;
 		gtp_ies:order 1;
@@ -4433,7 +4483,7 @@ grouping a_context_request {
 		gtp_ies:order 2;
 		gtp:intsancenum 0;
 	}
-	container packet_tmsi(ptmsi) {
+	container packet_tmsi {
 		uses gtp_ies:ptmsi;
 		gtp_ies:order 4;
 		gtp:intsancenum 0;
@@ -4513,8 +4563,8 @@ grouping a_context_request {
 		gtp_ies:order 20;
 	}
 }
-grouping a_context_response {
-	gtp:response;
+grouping context_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -4566,7 +4616,7 @@ grouping a_context_response {
 		gtp_ies:order 10;
 		gtp:intsancenum 0;
 	}
-	container 1xiws_s102_ip_address {
+	container onexiws_s102_ip_address {
 		uses gtp_ies:ipaddress;
 		gtp_ies:order 11;
 		gtp:intsancenum 1;
@@ -4719,8 +4769,8 @@ grouping context_response__mmesgsn_ue_eps_pdn_connections {
 		gtp_ies:order 13;
 		gtp:intsancenum 0;
 	}
-	container h(e)nb_information_reporting {
-		uses gtp_ies:h(e)nb_information_reporting;
+	container henb_information_reporting {
+		uses gtp_ies:henb_information_reporting;
 		gtp_ies:order 14;
 		gtp:intsancenum 0;
 	}
@@ -4729,7 +4779,7 @@ grouping context_response__mmesgsn_ue_eps_pdn_connections {
 		gtp_ies:order 15;
 		gtp:intsancenum 0;
 	}
-	container signalling_priority_indication_ {
+	container signalling_priority_indication {
 		uses gtp_ies:signalling_priority_indication;
 		gtp_ies:order 16;
 		gtp:intsancenum 0;
@@ -4863,8 +4913,8 @@ grouping context_response__mmesgsn_ue_scef_pdn_connections {
 ";
 	}
 }
-grouping a_context_acknowledge {
-	gtp:acknowledge;
+grouping context_acknowledge {
+	gtp:messageType "acknowledge";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -4926,20 +4976,20 @@ grouping context_acknowledge__bearer_context {
 		gtp:iemandatory;
 		gtp:intsancenum 0;
 		description "The interface type of the Forwarding F-TEID should be set to either: 
-23 ('SGW GTP-U interface for DL data forwarding') for indirect forwarding, 
-0 (' S1-U eNodeB GTP-U interface') or 3 ('S12 RNC GTP-U interface'), if the eNB or RNC supports such forwarding, or
-15 ('S4 SGSN GTP-U interface').
+23 (SGW GTP-U interface for DL data forwarding) for indirect forwarding, 
+0 ( S1-U eNodeB GTP-U interface) or 3 (S12 RNC GTP-U interface), if the eNB or RNC supports such forwarding, or
+15 (S4 SGSN GTP-U interface).
 ";
 	}
 }
-grouping an_identification_request {
-	gtp:request;
+grouping identification_request {
+	gtp:messageType "request";
 	container guti {
 		uses gtp_ies:guti;
 		gtp_ies:order 1;
 		gtp:intsancenum 0;
 	}
-	container packet_tmsi(ptmsi) {
+	container packet_tmsi {
 		uses gtp_ies:ptmsi;
 		gtp_ies:order 3;
 		gtp:intsancenum 0;
@@ -4979,8 +5029,8 @@ grouping an_identification_request {
 		gtp_ies:order 10;
 	}
 }
-grouping an_identification_response {
-	gtp:response;
+grouping identification_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -5017,8 +5067,8 @@ grouping an_identification_response {
 		gtp_ies:order 7;
 	}
 }
-grouping a_forward_access_context_notification {
-	gtp:notification;
+grouping forward_access_context_notification {
+	gtp:messageType "notification";
 	container rab_contexts {
 		uses gtp_ies:rab_context_;
 		gtp_ies:order 1;
@@ -5038,14 +5088,14 @@ For each RAB context in the received RANAP message, the old SGSN shall include t
 		uses gtp_ies:pdu_numbers;
 		gtp_ies:order 3;
 		gtp:intsancenum 0;
-		description "This IE only applies to S16. The old SGSN shall include this IE in the message if the acknowledged peer-to-peer LLC operation is used for the Bearer Context or when 'delivery order' is set in the Bearer Context QoS profile in A/Gb mode to Iu/A/Gb mode PS handover.
+		description "This IE only applies to S16. The old SGSN shall include this IE in the message if the acknowledged peer-to-peer LLC operation is used for the Bearer Context or when delivery order is set in the Bearer Context QoS profile in A/Gb mode to Iu/A/Gb mode PS handover.
 ";
 	}
 	container eutran_transparent_container {
 		uses gtp_ies:fcontainer;
 		gtp_ies:order 4;
 		gtp:intsancenum 0;
-		description "This IE shall be included over S10 to contain the 'eNB Status Transfer Transparent Container' as specified in3GPP TS 36.413 [10].
+		description "This IE shall be included over S10 to contain the eNB Status Transfer Transparent Container as specified in3GPP TS 36.413 [10].
 Container Type shall be set to 3.
 ";
 	}
@@ -5054,8 +5104,8 @@ Container Type shall be set to 3.
 		gtp_ies:order 5;
 	}
 }
-grouping a_forward_access_context_acknowledge {
-	gtp:acknowledge;
+grouping forward_access_context_acknowledge {
+	gtp:messageType "acknowledge";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -5067,8 +5117,8 @@ grouping a_forward_access_context_acknowledge {
 		gtp_ies:order 2;
 	}
 }
-grouping a_detach_notification {
-	gtp:notification;
+grouping detach_notification {
+	gtp:messageType "notification";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -5079,7 +5129,7 @@ grouping a_detach_notification {
 		uses gtp_ies:detach_type;
 		gtp_ies:order 2;
 		gtp:intsancenum 0;
-		description "This IE shall be included by SGSN when the Cause indicates 'Complete Detach' for the combined IMSI/EPS attached UE.
+		description "This IE shall be included by SGSN when the Cause indicates Complete Detach for the combined IMSI/EPS attached UE.
 ";
 	}
 	container private_extension {
@@ -5087,8 +5137,8 @@ grouping a_detach_notification {
 		gtp_ies:order 3;
 	}
 }
-grouping a_detach_acknowledge {
-	gtp:acknowledge;
+grouping detach_acknowledge {
+	gtp:messageType "acknowledge";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -5106,7 +5156,7 @@ grouping a_detach_acknowledge {
 	}
 }
 grouping relocation_cancel_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 139;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -5149,7 +5199,7 @@ Unauthenticated IMSI: This flag shall be set to 1 if the IMSI present in the mes
 	}
 }
 grouping relocation_cancel_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 140;
 	container cause {
 		uses gtp_ies:cause;
@@ -5162,14 +5212,14 @@ grouping relocation_cancel_response {
 		gtp_ies:order 2;
 	}
 }
-grouping a_configuration_transfer_tunnel_message {
-	gtp:message;
+grouping configuration_transfer_tunnel_message {
+	gtp:messageType "request";
 	container eutran_transparent_container {
 		uses gtp_ies:fcontainer;
 		gtp_ies:order 1;
 		gtp:iemandatory;
 		gtp:intsancenum 0;
-		description "This IE shall contain the 'SON Configuration Transfer' as specified in 3GPP TS 36.413 [10].
+		description "This IE shall contain the SON Configuration Transfer as specified in 3GPP TS 36.413 [10].
 Container Type shall be set to 3.
 ";
 	}
@@ -5182,14 +5232,14 @@ Container Type shall be set to 3.
 ";
 	}
 }
-grouping a_ran_information_relay {
-	gtp:relay;
+grouping ran_information_relay {
+	gtp:messageType "relay";
 	container bss_container {
 		uses gtp_ies:fcontainer;
 		gtp_ies:order 1;
 		gtp:iemandatory;
 		gtp:intsancenum 0;
-		description "All information elements from the BSSGP RIM PDU, starting from and including the BSSGP 'PDU type', shall be contained within the BSS Container and forwarded to the destination MME/SGSN in the RAN Information Relay message. The Container Type shall be set to 2.
+		description "All information elements from the BSSGP RIM PDU, starting from and including the BSSGP PDU type, shall be contained within the BSS Container and forwarded to the destination MME/SGSN in the RAN Information Relay message. The Container Type shall be set to 2.
 ";
 	}
 	container rim_routing_address {
@@ -5210,8 +5260,8 @@ the Target eNodeB ID when the target is E-UTRAN.
 ";
 	}
 }
-grouping an_isr_status_indication {
-	gtp:indication;
+grouping isr_status_indication {
+	gtp:messageType "indication";
 	container action_indication {
 		uses gtp_ies:action_indication;
 		gtp_ies:order 1;
@@ -5229,7 +5279,7 @@ Paging Stop Indication: If the value is set to 3, this indicates to the ISR asso
 	}
 }
 grouping ue_registration_query_request {
-	gtp:request;
+	gtp:messageType "request";
 	gtp:messageTypeValue 158;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -5243,7 +5293,7 @@ grouping ue_registration_query_request {
 	}
 }
 grouping ue_registration_query_response {
-	gtp:response;
+	gtp:messageType "response";
 	gtp:messageTypeValue 159;
 	container cause {
 		uses gtp_ies:cause;
@@ -5269,7 +5319,7 @@ grouping ue_registration_query_response {
 	}
 }
 grouping alert_mme_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 154;
 	container cause {
 		uses gtp_ies:cause;
@@ -5283,7 +5333,7 @@ grouping alert_mme_acknowledge {
 	}
 }
 grouping ue_activity_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 156;
 	container cause {
 		uses gtp_ies:cause;
@@ -5296,8 +5346,8 @@ grouping ue_activity_acknowledge {
 		gtp_ies:order 2;
 	}
 }
-grouping a_create_forwarding_tunnel_request {
-	gtp:request;
+grouping create_forwarding_tunnel_request {
+	gtp:messageType "request";
 	container s103_pdn_data_forwarding_info {
 		uses gtp_ies:s103pdf;
 		gtp_ies:order 1;
@@ -5312,8 +5362,8 @@ The Serving GW shall forward downlink data to the HSGW via the GRE tunnel identi
 		gtp_ies:order 2;
 	}
 }
-grouping a_create_forwarding_tunnel_response {
-	gtp:response;
+grouping create_forwarding_tunnel_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -5324,7 +5374,7 @@ grouping a_create_forwarding_tunnel_response {
 		uses gtp_ies:s1udf;
 		gtp_ies:order 2;
 		gtp:intsancenum 0;
-		description "S1-U Data Forwarding Info shall be included in the message if the Cause contains the value 'Request accepted'. For each EPS bearer requesting data forwarding which is included in the S103 PDN Data Forwarding Info fields of corresponding Create Forwarding Tunnel Request message, the Serving GW shall assign a Serving GW S1-U Address and Serving GW S1-U TEID pair and included it in the response message as S1-U Data Forwarding Info information element. For each of those EPS bearers, an IE with the same type and instance value shall be included.
+		description "S1-U Data Forwarding Info shall be included in the message if the Cause contains the value Request accepted. For each EPS bearer requesting data forwarding which is included in the S103 PDN Data Forwarding Info fields of corresponding Create Forwarding Tunnel Request message, the Serving GW shall assign a Serving GW S1-U Address and Serving GW S1-U TEID pair and included it in the response message as S1-U Data Forwarding Info information element. For each of those EPS bearers, an IE with the same type and instance value shall be included.
 The eNodeB shall forward downlink data of the EPS bearer to the Serving GW via the GTP-U tunnel identified by the Serving GW S1-U Address and Serving GW S1-U TEID.
 ";
 	}
@@ -5333,8 +5383,8 @@ The eNodeB shall forward downlink data of the EPS bearer to the Serving GW via t
 		gtp_ies:order 3;
 	}
 }
-grouping a_delete_pdn_connection_set_response {
-	gtp:response;
+grouping delete_pdn_connection_set_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -5355,8 +5405,8 @@ grouping a_delete_pdn_connection_set_response {
 ";
 	}
 }
-grouping a_update_pdn_connection_set_request {
-	gtp:request;
+grouping update_pdn_connection_set_request {
+	gtp:messageType "request";
 	container mmefqcsid {
 		uses gtp_ies:fqcsid;
 		gtp_ies:order 1;
@@ -5376,8 +5426,8 @@ grouping a_update_pdn_connection_set_request {
 		gtp_ies:order 3;
 	}
 }
-grouping a_update_pdn_connection_set_response {
-	gtp:response;
+grouping update_pdn_connection_set_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -5404,7 +5454,7 @@ grouping a_update_pdn_connection_set_response {
 	}
 }
 grouping pgw_restart_notification {
-	gtp:notification;
+	gtp:messageType "notification";
 	gtp:messageTypeValue 179;
 	container pgw_s5s8_ip_address_for_control_plane_or_pmip {
 		uses gtp_ies:ip_address;
@@ -5422,7 +5472,7 @@ grouping pgw_restart_notification {
 		uses gtp_ies:cause;
 		gtp_ies:order 3;
 		gtp:intsancenum 0;
-		description "The SGW shall send the Cause IE with the value 'PGW not responding' if it sends the PGW Restart Notification to notify that the peer PGW has failed and not restarted. 
+		description "The SGW shall send the Cause IE with the value PGW not responding if it sends the PGW Restart Notification to notify that the peer PGW has failed and not restarted. 
 ";
 	}
 	container private_extension {
@@ -5431,7 +5481,7 @@ grouping pgw_restart_notification {
 	}
 }
 grouping pgw_restart_notification_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 180;
 	container cause {
 		uses gtp_ies:cause;
@@ -5445,7 +5495,7 @@ grouping pgw_restart_notification_acknowledge {
 	}
 }
 grouping pgw_downlink_triggering_notification {
-	gtp:notification;
+	gtp:messageType "notification";
 	gtp:messageTypeValue 103;
 	container imsi {
 		uses gtp_ies:imsi;
@@ -5469,7 +5519,7 @@ grouping pgw_downlink_triggering_notification {
 	}
 }
 grouping pgw_downlink_triggering_acknowledge {
-	gtp:acknowledge;
+	gtp:messageType "acknowledge";
 	gtp:messageTypeValue 104;
 	container cause {
 		uses gtp_ies:cause;
@@ -5481,14 +5531,14 @@ grouping pgw_downlink_triggering_acknowledge {
 		uses gtp_ies:imsi;
 		gtp_ies:order 2;
 		gtp:intsancenum 0;
-		description "This IE shall be included on S11/S4 interface if the Cause is indicating the rejection value 'Context Not Found' and if the MME/S4-SGSN identifier is included in the corresponding PGW Downlink Triggering Notification message.
+		description "This IE shall be included on S11/S4 interface if the Cause is indicating the rejection value Context Not Found and if the MME/S4-SGSN identifier is included in the corresponding PGW Downlink Triggering Notification message.
 ";
 	}
 	container mmes4sgsn_identifier {
 		uses gtp_ies:ip_address;
 		gtp_ies:order 3;
 		gtp:intsancenum 0;
-		description "This IE shall be included on S11/S4 interface if the Cause is indicating the rejection value 'Context Not Found' and if the MME/S4-SGSN identifier is included in the corresponding PGW Downlink Triggering Notification message.
+		description "This IE shall be included on S11/S4 interface if the Cause is indicating the rejection value Context Not Found and if the MME/S4-SGSN identifier is included in the corresponding PGW Downlink Triggering Notification message.
 ";
 	}
 	container private_extension {
@@ -5496,8 +5546,8 @@ grouping pgw_downlink_triggering_acknowledge {
 		gtp_ies:order 4;
 	}
 }
-grouping a_trace_session_activation {
-	gtp:activation;
+grouping trace_session_activation {
+	gtp:messageType "activation";
 	container imsi {
 		uses gtp_ies:imsi;
 		gtp_ies:order 1;
@@ -5515,8 +5565,8 @@ grouping a_trace_session_activation {
 		gtp:intsancenum 0;
 	}
 }
-grouping a_trace_session_deactivation {
-	gtp:deactivation;
+grouping trace_session_deactivation {
+	gtp:messageType "activation";
 	container trace_reference {
 		uses gtp_ies:trace_reference;
 		gtp_ies:order 1;
@@ -5524,8 +5574,8 @@ grouping a_trace_session_deactivation {
 		gtp:intsancenum 0;
 	}
 }
-grouping a_mbms_session_start_request {
-	gtp:request;
+grouping mbms_session_start_request {
+	gtp:messageType "request";
 	container sender_fteid_for_control_plane {
 		uses gtp_ies:fteid;
 		gtp_ies:order 1;
@@ -5607,8 +5657,8 @@ grouping a_mbms_session_start_request {
 		gtp_ies:order 15;
 	}
 }
-grouping a_mbms_session_start_response {
-	gtp:response;
+grouping mbms_session_start_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -5622,7 +5672,7 @@ grouping a_mbms_session_start_response {
 		gtp:intsancenum 0;
 	}
 	container mbms_distribution_acknowledge {
-		uses gtp_ies:mbms_distribution_acknowledge;
+		uses gtp_ies:mbms_distribution_messageType_acknowledge;
 		gtp_ies:order 3;
 		gtp:intsancenum 0;
 		description "This IE shall be included on the Sn interface.
@@ -5647,8 +5697,8 @@ grouping a_mbms_session_start_response {
 		gtp_ies:order 6;
 	}
 }
-grouping a_mbms_session_update_request {
-	gtp:request;
+grouping mbms_session_update_request {
+	gtp:messageType "request";
 	container mbms_service_area {
 		uses gtp_ies:mbms_service_area;
 		gtp_ies:order 1;
@@ -5707,8 +5757,8 @@ grouping a_mbms_session_update_request {
 		gtp_ies:order 11;
 	}
 }
-grouping a_mbms_session_update_response {
-	gtp:response;
+grouping mbms_session_update_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -5716,7 +5766,7 @@ grouping a_mbms_session_update_response {
 		gtp:intsancenum 0;
 	}
 	container mbms_distribution_acknowledge {
-		uses gtp_ies:mbms_distribution_acknowledge;
+		uses gtp_ies:mbms_distribution_messageType_acknowledge;
 		gtp_ies:order 2;
 		gtp:intsancenum 0;
 		description "This IE shall be included on the Sn interface if service area is changed.
@@ -5741,8 +5791,8 @@ grouping a_mbms_session_update_response {
 		gtp_ies:order 5;
 	}
 }
-grouping a_mbms_session_stop_request {
-	gtp:request;
+grouping mbms_session_stop_request {
+	gtp:messageType "request";
 	container mbms_flow_identifier {
 		uses gtp_ies:mbms_flow_identifier;
 		gtp_ies:order 1;
@@ -5763,8 +5813,8 @@ grouping a_mbms_session_stop_request {
 		gtp_ies:order 4;
 	}
 }
-grouping a_mbms_session_stop_response {
-	gtp:response;
+grouping mbms_session_stop_response {
+	gtp:messageType "response";
 	container cause {
 		uses gtp_ies:cause;
 		gtp_ies:order 1;
@@ -5785,3 +5835,5 @@ grouping a_mbms_session_stop_response {
 }
 
 
+
+}
