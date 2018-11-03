@@ -1,4 +1,4 @@
-module ts29274-ies-f40-2 {
+module ts29274-ies-f40 {
 
 namespace "urn:onf:params:xml:ns:yang:ts29274:f";
 prefix "gtp";
@@ -202,7 +202,7 @@ grouping ip_address {
 		}
 	}
 }
-grouping mobile_equipment {
+grouping mobile_equipment_identity {
 	gtp:ie-type 75;
 	leaf-list imei {
 		gtp:order 5;
@@ -3625,7 +3625,7 @@ typedef used_gprs_integrity_protection_algorithm_values {
 		enum "spare7" { value 7; }
 	}
 }
-grouping pdu_connection {
+grouping pdn_connection {
 	gtp:ie-type 109;
 	gtp:groupedie;
 }
@@ -3684,9 +3684,9 @@ grouping packet_tmsi {
 		type binary;
 	}
 }
-grouping p-tmsi_signature {
+grouping ptmsi_signature {
 	gtp:ie-type 112;
-	leaf p-tmsi_signature {
+	leaf ptmsi_signature {
 		gtp:order 5;
 		mandatory true;
 		type binary; 
@@ -4752,7 +4752,7 @@ typedef valid_combinations_of_apn_restriction {
 		enum "private-2" { value 4; }
 	}
 }
-grouping selection_mode_information_element {
+grouping selection_mode {
 	gtp:ie-type 128;
 	leaf spare2 {
 		gtp:order 5;
@@ -5164,7 +5164,7 @@ typedef csg_membership_indication_values {
 		enum "csg_membership" { value 1; }	
 	}
 }
-grouping csg_reporting_action {
+grouping csg_information_reporting_action {
 	gtp:ie-type 146;
 	leaf spare2 {
 		gtp:order 5;
@@ -5291,7 +5291,7 @@ grouping local_distinguished_name {
 		type binary;
 	}
 }
-grouping node_features_ie {
+grouping node_features {
 	gtp:ie-type 152;
 	leaf supported-features {
 		gtp:order 5;
