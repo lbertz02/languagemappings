@@ -3625,6 +3625,40 @@ typedef used_gprs_integrity_protection_algorithm_values {
 		enum "spare7" { value 7; }
 	}
 }
+grouping mm_context {
+	choice mm_context {
+		case gsm_key_and_triplets {
+		  container gsm_key_and_triplets {
+			uses gsm_key_and_triplets;
+		  }
+		}
+		case umts_key_used_cipher_and_quintuplets {
+		  container umts_key_used_cipher_and_quintuplet {
+			uses umts_key_used_cipher_and_quintuplets;
+		  }
+		}
+		case gsm_key_used_cipher_and_quintuplets {
+		  container gsm_key_used_cipher_and_quintuplets {
+			uses gsm_key_used_cipher_and_quintuplets;
+		  }
+		}
+		case umts_key_and_quintuplets {
+		  container umts_key_and_quintuplets {
+			uses umts_key_and_quintuplets;
+		  }
+		}
+		case eps_security_context_and_quadruplets {
+		  container eps_security_context_and_quadruplets {
+			uses eps_security_context_and_quadruplets;
+		  }
+		}
+		case umts_key_quadruplets_and_quintuplets {
+		  container umts_key_quadruplets_and_quintuplets {
+			uses umts_key_quadruplets_and_quintuplets;
+		  }
+		}
+	}
+}
 grouping pdn_connection {
 	gtp:ie-type 109;
 	gtp:groupedie;
@@ -4819,7 +4853,7 @@ grouping change_reporting_action {
 		type binary;
 	}
 }
-typedef figure_8.611_change_reporting_action {
+typedef change_reporting_action_values {
 	type enumeration {
 		enum "StopReporting" { value 0; }
 		enum "StartReportingCGI_SAI" { value 1; }

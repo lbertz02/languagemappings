@@ -4045,8 +4045,8 @@ grouping forward_relocation_request {
 		gtp_ies:order 29;
 		gtp:intsancenum 0;
 	}
-	container stnsr {
-		uses gtp_ies:stn_sr;
+	container stn_sr {
+		uses  sv_ies:stn_sr;
 		gtp_ies:order 30;
 		gtp:intsancenum 0;
 	}
@@ -4489,7 +4489,7 @@ grouping context_request {
 		gtp:intsancenum 0;
 	}
 	container guti {
-		uses gtp_ies:gutransaction_identifier;
+		uses gtp_ies:guti;
 		gtp_ies:order 2;
 		gtp:intsancenum 0;
 	}
@@ -4998,7 +4998,7 @@ grouping identification_request {
 	gtp:messageType "request";
 	gtp:messageTypeValue 128;
 	container guti {
-		uses gtp_ies:gutransaction_identifier;
+		uses gtp_ies:guti;
 		gtp_ies:order 1;
 		gtp:intsancenum 0;
 	}
