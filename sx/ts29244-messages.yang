@@ -1,0 +1,1882 @@
+module ts29244-messages {
+
+namespace "urn:onf:params:xml:ns:yang:ts29244:messages";
+prefix "pfcp";
+
+import ts29274-ies-f40 {	
+	prefix "gtp_ies";
+}
+
+description "Messages defined in 3GPP TS 29.244 (verision ??).
+
+   Copyright 2018 Lyle Bertz.
+
+   Licensed under the Apache License, Version 2.0 (the \"License\");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an \"AS IS\" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.";
+
+extension intsancenum {
+	description "The instance number of the IE in the message";
+	argument "number";
+}
+
+extension messageTypeValue {
+	description "The eGTP Message Type number";
+	argument "number";
+}
+
+extension messageType {
+	description "GTP Message Type.  It is one of Request, Response, Notification, Acknowledge or Indication";
+    argument "string";
+}
+
+extension iemandatory {
+	description "Indicates that the IE (container) is mandatory";
+}
+
+extension containingMessage {
+	description "Notes the message that contains the specific grouped IE subtype.";
+	argument "number";
+}
+
+extension groupedie-type {
+	description "Indicates that the grouping is a grouped IE type and its IE type number";
+	argument "number";
+}
+
+grouping pfcp_heartbeat_request {
+	pfcp:messageType "request";
+	pfcp:messageTypeValue 1;
+	container recovery_time_stamp {
+		uses pfcp_ies:recovery_time_stamp;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping pfcp_heartbeat_response {
+	pfcp:messageType "response";
+	pfcp:messageTypeValue 2;
+	container recovery_time_stamp {
+		uses pfcp_ies:recovery_time_stamp;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping pfcp_pfd_management_request {
+	pfcp:messageType "request";
+	pfcp:messageTypeValue 3;
+	list application_ids_pfds {
+		uses pfcp_ies:application_id's_pfds;
+		pfcp_ies:order 0;
+	}
+}
+grouping application_ids_pfds {
+	pfcp:groupedie-type 58;
+	pfcp:containingMessage 3;
+	container application_id {
+		uses pfcp_ies:application_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	list pfd {
+		uses pfcp_ies:pfd;
+		pfcp_ies:order 1;
+	}
+}
+grouping pfd {
+	pfcp:groupedie-type 59;
+	pfcp:containingMessage 58;
+	list pfd_contents {
+		uses pfcp_ies:pfd_contents;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping pfcp_pfd_management_response {
+	pfcp:messageType "response";
+	pfcp:messageTypeValue 4;
+	container cause {
+		uses pfcp_ies:cause;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container offending_ie {
+		uses pfcp_ies:offending_ie;
+		pfcp_ies:order 1;
+	}
+}
+grouping pfcp_association_setup_request {
+	pfcp:messageType "request";
+	pfcp:messageTypeValue 5;
+	container node_id {
+		uses pfcp_ies:node_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container recovery_time_stamp {
+		uses pfcp_ies:recovery_time_stamp;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container up_function_features {
+		uses pfcp_ies:up_function_features;
+		pfcp_ies:order 2;
+	}
+	container cp_function_features {
+		uses pfcp_ies:cp_function_features;
+		pfcp_ies:order 3;
+	}
+	list user_plane_ip_resource_information {
+		uses pfcp_ies:user_plane_ip_resource_information;
+		pfcp_ies:order 4;
+	}
+}
+grouping pfcp_association_setup_response {
+	pfcp:messageType "response";
+	pfcp:messageTypeValue 6;
+	container node_id {
+		uses pfcp_ies:node_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container cause {
+		uses pfcp_ies:cause;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container recovery_time_stamp {
+		uses pfcp_ies:recovery_time_stamp;
+		pfcp_ies:order 2;
+		pfcp:iemandatory;
+	}
+	container up_function_features {
+		uses pfcp_ies:up_function_features;
+		pfcp_ies:order 3;
+	}
+	container cp_function_features {
+		uses pfcp_ies:cp_function_features;
+		pfcp_ies:order 4;
+	}
+	list user_plane_ip_resource_information {
+		uses pfcp_ies:user_plane_ip_resource_information;
+		pfcp_ies:order 5;
+	}
+}
+grouping pfcp_association_update_request {
+	pfcp:messageType "request";
+	pfcp:messageTypeValue 7;
+	container node_id {
+		uses pfcp_ies:node_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container up_function_features {
+		uses pfcp_ies:up_function_features;
+		pfcp_ies:order 1;
+	}
+	container cp_function_features {
+		uses pfcp_ies:cp_function_features;
+		pfcp_ies:order 2;
+	}
+	container pfcp_association_release_request {
+		uses pfcp_ies:pfcp_association_release_request;
+		pfcp_ies:order 3;
+	}
+	container graceful_release_period {
+		uses pfcp_ies:graceful_release_period;
+		pfcp_ies:order 4;
+	}
+	list user_plane_ip_resource_information {
+		uses pfcp_ies:user_plane_ip_resource_information;
+		pfcp_ies:order 5;
+	}
+}
+grouping pfcp_association_update_response {
+	pfcp:messageType "response";
+	pfcp:messageTypeValue 8;
+	container node_id {
+		uses pfcp_ies:node_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container cause {
+		uses pfcp_ies:cause;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container up_function_features {
+		uses pfcp_ies:up_function_features;
+		pfcp_ies:order 2;
+	}
+	container cp_function_features {
+		uses pfcp_ies:cp_function_features;
+		pfcp_ies:order 3;
+	}
+}
+grouping pfcp_association_release_request {
+	pfcp:messageType "request";
+	pfcp:messageTypeValue 9;
+	container node_id {
+		uses pfcp_ies:node_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping pfcp_association_release_response {
+	pfcp:messageType "response";
+	pfcp:messageTypeValue 10;
+	container node_id {
+		uses pfcp_ies:node_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container cause {
+		uses pfcp_ies:cause;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+}
+grouping pfcp_node_report_request {
+	pfcp:messageType "request";
+	pfcp:messageTypeValue 12;
+	container node_id {
+		uses pfcp_ies:node_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container node_report_type {
+		uses pfcp_ies:node_report_type;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container user_plane_path_failure_report {
+		uses pfcp_ies:user_plane_path_failure_report;
+		pfcp_ies:order 2;
+	}
+}
+grouping user_plane_path_failure_ie {
+	pfcp:groupedie-type 102;
+	pfcp:containingMessage 12;
+	container remote_gtpu_peer_ {
+		uses pfcp_ies:remote_gtpu_peer;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping pfcp_node_report_response {
+	pfcp:messageType "response";
+	pfcp:messageTypeValue 13;
+	container node_id {
+		uses pfcp_ies:node_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container cause {
+		uses pfcp_ies:cause;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container offending_ie {
+		uses pfcp_ies:offending_ie;
+		pfcp_ies:order 2;
+	}
+}
+grouping pfcp_session_set_deletion_request {
+	pfcp:messageType "request";
+	pfcp:messageTypeValue 14;
+	container node_id {
+		uses pfcp_ies:node_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container sgwc_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 1;
+	}
+	container pgwc_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 2;
+	}
+	container sgwu_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 3;
+	}
+	container pgwu_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 4;
+	}
+	container twan_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 5;
+	}
+	container epdg_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 6;
+	}
+	container mme_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 7;
+	}
+}
+grouping pfcp_session_set_deletion_response {
+	pfcp:messageType "response";
+	pfcp:messageTypeValue 15;
+	container node_id {
+		uses pfcp_ies:node_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container cause {
+		uses pfcp_ies:cause;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container offending_ie {
+		uses pfcp_ies:offending_ie;
+		pfcp_ies:order 2;
+	}
+}
+grouping pfcp_an_pfcp_session_establishment_request {
+	pfcp:messageType "request";
+	container node_id {
+		uses pfcp_ies:node_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container cp_fseid {
+		uses pfcp_ies:fseid;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	list create_pdr {
+		uses pfcp_ies:create_pdr;
+		pfcp_ies:order 2;
+		pfcp:iemandatory;
+	}
+	list create_far {
+		uses pfcp_ies:create_far;
+		pfcp_ies:order 3;
+		pfcp:iemandatory;
+	}
+	container create_urr {
+		uses pfcp_ies:create_urr;
+		pfcp_ies:order 4;
+	}
+	container create_qer {
+		uses pfcp_ies:create_qer;
+		pfcp_ies:order 5;
+	}
+	container create_bar {
+		uses pfcp_ies:create_bar;
+		pfcp_ies:order 6;
+	}
+	container create_traffic_endpoint {
+		uses pfcp_ies:create_traffic_endpoint;
+		pfcp_ies:order 7;
+	}
+	container pdn_type {
+		uses pfcp_ies:pdn_type;
+		pfcp_ies:order 8;
+	}
+	container sgwc_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 9;
+	}
+	container mme_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 10;
+	}
+	container pgwc_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 11;
+	}
+	container epdg_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 12;
+	}
+	container twan_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 13;
+	}
+	container user_plane_inactivity_timer {
+		uses pfcp_ies:user_plane_inactivity_timer;
+		pfcp_ies:order 14;
+	}
+	container user_id {
+		uses pfcp_ies:user_id;
+		pfcp_ies:order 15;
+	}
+	container trace_information {
+		uses pfcp_ies:trace_information;
+		pfcp_ies:order 16;
+	}
+}
+grouping create_pdr_ie {
+	pfcp:groupedie-type 1;
+	pfcp:containingMessage 50;
+	container pdr_id {
+		uses pfcp_ies:pdr_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container precedence {
+		uses pfcp_ies:precedence;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container pdi {
+		uses pfcp_ies:pdi;
+		pfcp_ies:order 2;
+		pfcp:iemandatory;
+	}
+	container outer_header_removal {
+		uses pfcp_ies:outer_header_removal;
+		pfcp_ies:order 3;
+	}
+	container far_id {
+		uses pfcp_ies:far_id;
+		pfcp_ies:order 4;
+	}
+	container urr_id {
+		uses pfcp_ies:urr_id;
+		pfcp_ies:order 5;
+	}
+	container qer_id {
+		uses pfcp_ies:qer_id;
+		pfcp_ies:order 6;
+	}
+	list activate_predefined_rules {
+		uses pfcp_ies:activate_predefined_rules_;
+		pfcp_ies:order 7;
+	}
+}
+grouping pdi_ie {
+	pfcp:groupedie-type 2;
+	pfcp:containingMessage 50;
+	container source_interface {
+		uses pfcp_ies:source_interface;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container local_fteid {
+		uses pfcp_ies:fteid;
+		pfcp_ies:order 1;
+	}
+	container network_instance {
+		uses pfcp_ies:network_instance;
+		pfcp_ies:order 2;
+	}
+	container ue_ip_address {
+		uses pfcp_ies:ue_ip_address;
+		pfcp_ies:order 3;
+	}
+	container traffic_endpoint_id {
+		uses pfcp_ies:traffic_endpoint_id;
+		pfcp_ies:order 4;
+	}
+	list sdf_filter {
+		uses pfcp_ies:sdf_filter;
+		pfcp_ies:order 5;
+	}
+	container application_id {
+		uses pfcp_ies:application_id;
+		pfcp_ies:order 6;
+	}
+	container ethernet_pdu_session_information {
+		uses pfcp_ies:ethernet_pdu_session_information;
+		pfcp_ies:order 7;
+	}
+	list ethernet_packet_filter {
+		uses pfcp_ies:ethernet_packet_filter;
+		pfcp_ies:order 8;
+	}
+	list qfi {
+		uses pfcp_ies:qfi;
+		pfcp_ies:order 9;
+	}
+	list framedroute {
+		uses pfcp_ies:framedroute;
+		pfcp_ies:order 10;
+	}
+	container framedrouting {
+		uses pfcp_ies:framedrouting;
+		pfcp_ies:order 11;
+	}
+	list framedipv6route {
+		uses pfcp_ies:framedipv6route;
+		pfcp_ies:order 12;
+	}
+}
+grouping ethernet_packet_filter_ie {
+	pfcp:groupedie-type 132;
+	pfcp:containingMessage 50;
+	container ethernet_filter_id {
+		uses pfcp_ies:ethernet_filter_id;
+		pfcp_ies:order 0;
+	}
+	container ethernet_filter_properties {
+		uses pfcp_ies:ethernet_filter_properties;
+		pfcp_ies:order 1;
+	}
+	container mac_address {
+		uses pfcp_ies:mac_address;
+		pfcp_ies:order 2;
+	}
+	container ethertype {
+		uses pfcp_ies:ethertype;
+		pfcp_ies:order 3;
+	}
+	container ctag {
+		uses pfcp_ies:ctag;
+		pfcp_ies:order 4;
+	}
+	container stag {
+		uses pfcp_ies:stag;
+		pfcp_ies:order 5;
+	}
+	list sdf_filter {
+		uses pfcp_ies:sdf_filter;
+		pfcp_ies:order 6;
+	}
+}
+grouping create_far_ie {
+	pfcp:groupedie-type 3;
+	pfcp:containingMessage 50;
+	container far_id {
+		uses pfcp_ies:far_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container apply_action {
+		uses pfcp_ies:apply_action;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container forwarding_parameters {
+		uses pfcp_ies:forwarding_parameters;
+		pfcp_ies:order 2;
+	}
+	list duplicating_parameters {
+		uses pfcp_ies:duplicating_parameters;
+		pfcp_ies:order 3;
+	}
+	container bar_id {
+		uses pfcp_ies:bar_id;
+		pfcp_ies:order 4;
+	}
+}
+grouping forward {
+	pfcp:groupedie-type 4;
+	container destination_interface {
+		uses pfcp_ies:destination_interface;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container network_instance {
+		uses pfcp_ies:network_instance;
+		pfcp_ies:order 1;
+	}
+	container redirect_information {
+		uses pfcp_ies:redirect_information;
+		pfcp_ies:order 2;
+	}
+	container outer_header_creation {
+		uses pfcp_ies:outer_header_creation;
+		pfcp_ies:order 3;
+	}
+	container transport_level_marking {
+		uses pfcp_ies:transport_level_marking;
+		pfcp_ies:order 4;
+	}
+	container forwarding_policy {
+		uses pfcp_ies:forwarding_policy;
+		pfcp_ies:order 5;
+	}
+	container header_enrichment {
+		uses pfcp_ies:header_enrichment;
+		pfcp_ies:order 6;
+	}
+	container linked_traffic_endpoint_id {
+		uses pfcp_ies:traffic_endpoint_id;
+		pfcp_ies:order 7;
+	}
+	container proxying {
+		uses pfcp_ies:proxying;
+		pfcp_ies:order 8;
+	}
+}
+grouping duplicat {
+	pfcp:groupedie-type 5;
+	container destination_interface {
+		uses pfcp_ies:destination_interface;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container outer_header_creation {
+		uses pfcp_ies:outer_header_creation;
+		pfcp_ies:order 1;
+	}
+	container transport_level_marking {
+		uses pfcp_ies:transport_level_marking;
+		pfcp_ies:order 2;
+	}
+	container forwarding_policy {
+		uses pfcp_ies:forwarding_policy;
+		pfcp_ies:order 3;
+	}
+}
+grouping create_urr_ie {
+	pfcp:groupedie-type 6;
+	pfcp:containingMessage 50;
+	container urr_id {
+		uses pfcp_ies:urr_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container measurement_method {
+		uses pfcp_ies:measurement_method;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container reporting_triggers {
+		uses pfcp_ies:reporting_triggers;
+		pfcp_ies:order 2;
+		pfcp:iemandatory;
+	}
+	container measurement_period {
+		uses pfcp_ies:measurement_period;
+		pfcp_ies:order 3;
+	}
+	container volume_threshold {
+		uses pfcp_ies:volume_threshold;
+		pfcp_ies:order 4;
+	}
+	container volume_quota {
+		uses pfcp_ies:volume_quota;
+		pfcp_ies:order 5;
+	}
+	container time_threshold {
+		uses pfcp_ies:time_threshold;
+		pfcp_ies:order 6;
+	}
+	container time_quota {
+		uses pfcp_ies:time_quota;
+		pfcp_ies:order 7;
+	}
+	container quota_holding_time {
+		uses pfcp_ies:quota_holding_time;
+		pfcp_ies:order 8;
+	}
+	container dropped_dl_traffic_threshold {
+		uses pfcp_ies:dropped_dl_traffic_threshold;
+		pfcp_ies:order 9;
+	}
+	container monitoring_time {
+		uses pfcp_ies:monitoring_time;
+		pfcp_ies:order 10;
+	}
+	list event_information {
+		uses pfcp_ies:event_information;
+		pfcp_ies:order 11;
+	}
+	container subsequent_volume_threshold {
+		uses pfcp_ies:subsequent_volume_threshold;
+		pfcp_ies:order 12;
+	}
+	container subsequent_time_threshold {
+		uses pfcp_ies:subsequent_time_threshold;
+		pfcp_ies:order 13;
+	}
+	container subsequent_volume_quota {
+		uses pfcp_ies:subsequent_volume_quota;
+		pfcp_ies:order 14;
+	}
+	container subsequent_time_quota {
+		uses pfcp_ies:subsequent_time_quota;
+		pfcp_ies:order 15;
+	}
+	container inactivity_detection_time {
+		uses pfcp_ies:inactivity_detection_time;
+		pfcp_ies:order 16;
+	}
+	list linked_urr_id {
+		uses pfcp_ies:linked_urr_id_;
+		pfcp_ies:order 17;
+	}
+	container measurement_information {
+		uses pfcp_ies:measurement_information;
+		pfcp_ies:order 18;
+	}
+	container time_quota_mechanism {
+		uses pfcp_ies:time_quota_mechanism;
+		pfcp_ies:order 19;
+	}
+	list aggregated_urrs {
+		uses pfcp_ies:aggregated_urrs;
+		pfcp_ies:order 20;
+	}
+	container far_id_for_quota_action {
+		uses pfcp_ies:far_id;
+		pfcp_ies:order 21;
+	}
+	container ethernet_inactivity_timer {
+		uses pfcp_ies:ethernet_inactivity_timer;
+		pfcp_ies:order 22;
+	}
+	list additional_monitoring_time {
+		uses pfcp_ies:additional_monitoring_time;
+		pfcp_ies:order 23;
+	}
+}
+grouping aggregated_urrs {
+	pfcp:groupedie-type 118;
+	pfcp:containingMessage 6;
+	container aggregated_urr_id {
+		uses pfcp_ies:aggregated_urr_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container multiplier {
+		uses pfcp_ies:multiplier;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+}
+grouping additional_monitor {
+	pfcp:groupedie-type 147;
+	container monitoring_time {
+		uses pfcp_ies:monitoring_time;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container subsequent_volume_threshold {
+		uses pfcp_ies:subsequent_volume_threshold;
+		pfcp_ies:order 1;
+	}
+	container subsequent_time_threshold {
+		uses pfcp_ies:subsequent_time_threshold;
+		pfcp_ies:order 2;
+	}
+	container subsequent_volume_quota {
+		uses pfcp_ies:subsequent_volume_quota;
+		pfcp_ies:order 3;
+	}
+	container subsequent_time_quota {
+		uses pfcp_ies:subsequent_time_quota;
+		pfcp_ies:order 4;
+	}
+}
+grouping event_information {
+	pfcp:groupedie-type 148;
+	pfcp:containingMessage 6;
+	container event_id {
+		uses pfcp_ies:event_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container event_threshold {
+		uses pfcp_ies:event_threshold;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+}
+grouping create_qer_ie {
+	pfcp:groupedie-type 7;
+	pfcp:containingMessage 50;
+	container qer_id {
+		uses pfcp_ies:qer_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container qer_correlation_id {
+		uses pfcp_ies:qer_correlation_id;
+		pfcp_ies:order 1;
+	}
+	container gate_status {
+		uses pfcp_ies:gate_status;
+		pfcp_ies:order 2;
+		pfcp:iemandatory;
+	}
+	container maximum_bitrate {
+		uses pfcp_ies:mbr;
+		pfcp_ies:order 3;
+	}
+	container guaranteed_bitrate {
+		uses pfcp_ies:gbr;
+		pfcp_ies:order 4;
+	}
+	container packet_rate {
+		uses pfcp_ies:packet_rate;
+		pfcp_ies:order 5;
+	}
+	container dl_flow_level_marking {
+		uses pfcp_ies:dl_flow_level_marking;
+		pfcp_ies:order 6;
+	}
+	container qos_flow_identifier {
+		uses pfcp_ies:qfi;
+		pfcp_ies:order 7;
+	}
+	container reflective_qos {
+		uses pfcp_ies:rqi;
+		pfcp_ies:order 8;
+	}
+}
+grouping create_bar_ie {
+	pfcp:groupedie-type 85;
+	pfcp:containingMessage 50;
+	container bar_id {
+		uses pfcp_ies:bar_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container downlink_data_notification_delay {
+		uses pfcp_ies:downlink_data_notification_delay;
+		pfcp_ies:order 1;
+	}
+	container suggested_buffering_packets_count {
+		uses pfcp_ies:suggested_buffering_packets_count;
+		pfcp_ies:order 2;
+	}
+}
+grouping create_traffic_endpoint_ie {
+	container traffic_endpoint_id {
+		uses pfcp_ies:traffic_endpoint_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container local_fteid {
+		uses pfcp_ies:fteid;
+		pfcp_ies:order 1;
+	}
+	container network_instance {
+		uses pfcp_ies:network_instance;
+		pfcp_ies:order 2;
+	}
+	container ue_ip_address {
+		uses pfcp_ies:ue_ip_address;
+		pfcp_ies:order 3;
+	}
+	container ethernet_pdu_session_information {
+		uses pfcp_ies:ethernet_pdu_session_information;
+		pfcp_ies:order 4;
+	}
+	list framedroute {
+		uses pfcp_ies:framedroute;
+		pfcp_ies:order 5;
+	}
+	container framedrouting {
+		uses pfcp_ies:framedrouting;
+		pfcp_ies:order 6;
+	}
+	list framedipv6route {
+		uses pfcp_ies:framedipv6route;
+		pfcp_ies:order 7;
+	}
+}
+grouping pfcp_session_establishment_response {
+	pfcp:messageType "response";
+	pfcp:messageTypeValue 51;
+	container node_id {
+		uses pfcp_ies:node_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container cause {
+		uses pfcp_ies:cause;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container offending_ie {
+		uses pfcp_ies:offending_ie;
+		pfcp_ies:order 2;
+	}
+	container up_fseid {
+		uses pfcp_ies:fseid;
+		pfcp_ies:order 3;
+	}
+	container created_pdr {
+		uses pfcp_ies:created_pdr;
+		pfcp_ies:order 4;
+	}
+	container load_control_information {
+		uses pfcp_ies:load_control_information;
+		pfcp_ies:order 5;
+	}
+	container overload_control_information {
+		uses pfcp_ies:overload_control_information;
+		pfcp_ies:order 6;
+	}
+	container sgwu_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 7;
+	}
+	container pgwu_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 8;
+	}
+	container failed_rule_id {
+		uses pfcp_ies:failed_rule_id;
+		pfcp_ies:order 9;
+	}
+	container created_traffic_endpoint {
+		uses pfcp_ies:created_traffic_endpoint;
+		pfcp_ies:order 10;
+	}
+}
+grouping created_pdr_ie {
+	pfcp:groupedie-type 8;
+	pfcp:containingMessage 51;
+	container pdr_id {
+		uses pfcp_ies:pdr_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container local_fteid {
+		uses pfcp_ies:fteid;
+		pfcp_ies:order 1;
+	}
+}
+grouping load_control_information_ie {
+	pfcp:groupedie-type 51;
+	pfcp:containingMessage 51;
+	container load_control_sequence_number {
+		uses pfcp_ies:sequence_number;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container load_metric {
+		uses pfcp_ies:metric;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+}
+grouping overload_control_information_ie {
+	pfcp:groupedie-type 54;
+	pfcp:containingMessage 51;
+	container overload_control_sequence_number {
+		uses pfcp_ies:sequence_number;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container overload_reduction_metric {
+		uses pfcp_ies:metric;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container period_of_validity {
+		uses pfcp_ies:timer;
+		pfcp_ies:order 2;
+		pfcp:iemandatory;
+	}
+	container overload_control_information_flags {
+		uses pfcp_ies:oci_flags;
+		pfcp_ies:order 3;
+	}
+}
+grouping created_traffic_endpoint_ie {
+	pfcp:groupedie-type 128;
+	container traffic_endpoint_id {
+		uses pfcp_ies:traffic_endpoint_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container local_fteid {
+		uses pfcp_ies:fteid;
+		pfcp_ies:order 1;
+	}
+}
+grouping pfcp_session_modification_request {
+	pfcp:messageType "request";
+	pfcp:messageTypeValue 52;
+	container cp_fseid {
+		uses pfcp_ies:fseid;
+		pfcp_ies:order 0;
+	}
+	container remove_pdr {
+		uses pfcp_ies:remove_pdr;
+		pfcp_ies:order 1;
+	}
+	container remove_far {
+		uses pfcp_ies:remove_far;
+		pfcp_ies:order 2;
+	}
+	container remove_urr {
+		uses pfcp_ies:remove_urr;
+		pfcp_ies:order 3;
+	}
+	container remove_qer {
+		uses pfcp_ies:remove_qer;
+		pfcp_ies:order 4;
+	}
+	container remove_bar {
+		uses pfcp_ies:remove_bar;
+		pfcp_ies:order 5;
+	}
+	container remove_traffic_endpoint {
+		uses pfcp_ies:remove_traffic_endpoint;
+		pfcp_ies:order 6;
+	}
+	container create_pdr {
+		uses pfcp_ies:create_pdr;
+		pfcp_ies:order 7;
+	}
+	container create_far {
+		uses pfcp_ies:create_far;
+		pfcp_ies:order 8;
+	}
+	container create_urr {
+		uses pfcp_ies:create_urr;
+		pfcp_ies:order 9;
+	}
+	container create_qer {
+		uses pfcp_ies:create_qer;
+		pfcp_ies:order 10;
+	}
+	container create_bar {
+		uses pfcp_ies:create_bar;
+		pfcp_ies:order 11;
+	}
+	container create_traffic_endpoint {
+		uses pfcp_ies:create_traffic_endpoint;
+		pfcp_ies:order 12;
+	}
+	container update_pdr {
+		uses pfcp_ies:update_pdr;
+		pfcp_ies:order 13;
+	}
+	container update_far {
+		uses pfcp_ies:update_far;
+		pfcp_ies:order 14;
+	}
+	container update_urr {
+		uses pfcp_ies:update_urr;
+		pfcp_ies:order 15;
+	}
+	container update_qer {
+		uses pfcp_ies:update_qer;
+		pfcp_ies:order 16;
+	}
+	container update_bar {
+		uses pfcp_ies:update_bar;
+		pfcp_ies:order 17;
+	}
+	container update_traffic_endpoint {
+		uses pfcp_ies:update_traffic_endpoint;
+		pfcp_ies:order 18;
+	}
+	container pfcpsmreqflags {
+		uses pfcp_ies:pfcpsmreqflags;
+		pfcp_ies:order 19;
+	}
+	container query_urr {
+		uses pfcp_ies:query_urr;
+		pfcp_ies:order 20;
+	}
+	container pgwc_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 21;
+	}
+	container sgwc_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 22;
+	}
+	container mme_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 23;
+	}
+	container epdg_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 24;
+	}
+	container twan_fqcsid {
+		uses pfcp_ies:fqcsid;
+		pfcp_ies:order 25;
+	}
+	container user_plane_inactivity_timer {
+		uses pfcp_ies:user_plane_inactivity_timer;
+		pfcp_ies:order 26;
+	}
+	container query_urr_reference {
+		uses pfcp_ies:query_urr_reference;
+		pfcp_ies:order 27;
+	}
+	container trace_information {
+		uses pfcp_ies:trace_information;
+		pfcp_ies:order 28;
+	}
+}
+grouping update_pdr_ie {
+	pfcp:groupedie-type 9;
+	pfcp:containingMessage 52;
+	container pdr_id {
+		uses pfcp_ies:pdr_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container outer_header_removal {
+		uses pfcp_ies:outer_header_removal;
+		pfcp_ies:order 1;
+	}
+	container precedence {
+		uses pfcp_ies:precedence;
+		pfcp_ies:order 2;
+	}
+	container pdi {
+		uses pfcp_ies:pdi;
+		pfcp_ies:order 3;
+	}
+	container far_id {
+		uses pfcp_ies:far_id;
+		pfcp_ies:order 4;
+	}
+	container urr_id {
+		uses pfcp_ies:urr_id;
+		pfcp_ies:order 5;
+	}
+	container qer_id {
+		uses pfcp_ies:qer_id;
+		pfcp_ies:order 6;
+	}
+	list activate_predefined_rules {
+		uses pfcp_ies:activate_predefined_rules_;
+		pfcp_ies:order 7;
+	}
+	list deactivate_predefined_rules {
+		uses pfcp_ies:deactivate_predefined_rules_;
+		pfcp_ies:order 8;
+	}
+}
+grouping update_far_ie {
+	pfcp:groupedie-type 10;
+	pfcp:containingMessage 52;
+	container far_id {
+		uses pfcp_ies:far_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container apply_action {
+		uses pfcp_ies:apply_action;
+		pfcp_ies:order 1;
+	}
+	container update_forwarding_parameters {
+		uses pfcp_ies:update_forwarding_parameters;
+		pfcp_ies:order 2;
+	}
+	list update_duplicating_parameters {
+		uses pfcp_ies:update_duplicating_parameters;
+		pfcp_ies:order 3;
+	}
+	container bar_id {
+		uses pfcp_ies:bar_id;
+		pfcp_ies:order 4;
+	}
+}
+grouping update_forward {
+	pfcp:groupedie-type 11;
+	container destination_interface {
+		uses pfcp_ies:destination_interface;
+		pfcp_ies:order 0;
+	}
+	container network_instance {
+		uses pfcp_ies:network_instance;
+		pfcp_ies:order 1;
+	}
+	container redirect_information {
+		uses pfcp_ies:redirect_information;
+		pfcp_ies:order 2;
+	}
+	container outer_header_creation {
+		uses pfcp_ies:outer_header_creation;
+		pfcp_ies:order 3;
+	}
+	container transport_level_marking {
+		uses pfcp_ies:transport_level_marking;
+		pfcp_ies:order 4;
+	}
+	container forwarding_policy {
+		uses pfcp_ies:forwarding_policy;
+		pfcp_ies:order 5;
+	}
+	container header_enrichment {
+		uses pfcp_ies:header_enrichment;
+		pfcp_ies:order 6;
+	}
+	container pfcpsmreqflags {
+		uses pfcp_ies:pfcpsmreqflags;
+		pfcp_ies:order 7;
+	}
+	container linked_traffic_endpoint_id {
+		uses pfcp_ies:traffic_endpoint_id;
+		pfcp_ies:order 8;
+	}
+}
+grouping update_duplicat {
+	pfcp:groupedie-type 105;
+	container destination_interface {
+		uses pfcp_ies:destination_interface;
+		pfcp_ies:order 0;
+	}
+	container outer_header_creation {
+		uses pfcp_ies:outer_header_creation;
+		pfcp_ies:order 1;
+	}
+	container transport_level_marking {
+		uses pfcp_ies:transport_level_marking;
+		pfcp_ies:order 2;
+	}
+	container forwarding_policy {
+		uses pfcp_ies:forwarding_policy;
+		pfcp_ies:order 3;
+	}
+}
+grouping update_urr_ie {
+	pfcp:groupedie-type 13;
+	pfcp:containingMessage 52;
+	container urr_id {
+		uses pfcp_ies:urr_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container measurement_method {
+		uses pfcp_ies:measurement_method;
+		pfcp_ies:order 1;
+	}
+	container reporting_triggers {
+		uses pfcp_ies:reporting_triggers;
+		pfcp_ies:order 2;
+	}
+	container measurement_period {
+		uses pfcp_ies:measurement_period;
+		pfcp_ies:order 3;
+	}
+	container volume_threshold {
+		uses pfcp_ies:volume_threshold;
+		pfcp_ies:order 4;
+	}
+	container volume_quota {
+		uses pfcp_ies:volume_quota;
+		pfcp_ies:order 5;
+	}
+	container time_threshold {
+		uses pfcp_ies:time_threshold;
+		pfcp_ies:order 6;
+	}
+	container time_quota {
+		uses pfcp_ies:time_quota;
+		pfcp_ies:order 7;
+	}
+	container quota_holding_time {
+		uses pfcp_ies:quota_holding_time;
+		pfcp_ies:order 8;
+	}
+	container dropped_dl_traffic_threshold {
+		uses pfcp_ies:dropped_dl_traffic_threshold;
+		pfcp_ies:order 9;
+	}
+	container monitoring_time {
+		uses pfcp_ies:monitoring_time;
+		pfcp_ies:order 10;
+	}
+	list event_information {
+		uses pfcp_ies:event_information;
+		pfcp_ies:order 11;
+	}
+	container subsequent_volume_threshold {
+		uses pfcp_ies:subsequent_volume_threshold;
+		pfcp_ies:order 12;
+	}
+	container subsequent_time_threshold {
+		uses pfcp_ies:subsequent_time_threshold;
+		pfcp_ies:order 13;
+	}
+	container subsequent_volume_quota {
+		uses pfcp_ies:subsequent_volume_quota;
+		pfcp_ies:order 14;
+	}
+	container subsequent_time_quota {
+		uses pfcp_ies:subsequent_time_quota;
+		pfcp_ies:order 15;
+	}
+	container inactivity_detection_time {
+		uses pfcp_ies:inactivity_detection_time;
+		pfcp_ies:order 16;
+	}
+	list linked_urr_id {
+		uses pfcp_ies:linked_urr_id_;
+		pfcp_ies:order 17;
+	}
+	container measurement_information {
+		uses pfcp_ies:measurement_information;
+		pfcp_ies:order 18;
+	}
+	container time_quota_mechanism {
+		uses pfcp_ies:time_quota_mechanism;
+		pfcp_ies:order 19;
+	}
+	list aggregated_urrs {
+		uses pfcp_ies:aggregated_urrs;
+		pfcp_ies:order 20;
+	}
+	container far_id_for_quota_action {
+		uses pfcp_ies:far_id;
+		pfcp_ies:order 21;
+	}
+	container ethernet_inactivity_timer {
+		uses pfcp_ies:ethernet_inactivity_timer;
+		pfcp_ies:order 22;
+	}
+	container additional_monitoring_time {
+		uses pfcp_ies:additional_monitoring_time;
+		pfcp_ies:order 23;
+	}
+}
+grouping update_qer_ie {
+	pfcp:groupedie-type 14;
+	pfcp:containingMessage 52;
+	container qer_id {
+		uses pfcp_ies:qer_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container qer_correlation_id {
+		uses pfcp_ies:qer_correlation_id;
+		pfcp_ies:order 1;
+	}
+	container gate_status {
+		uses pfcp_ies:gate_status;
+		pfcp_ies:order 2;
+	}
+	container maximum_bitrate {
+		uses pfcp_ies:mbr;
+		pfcp_ies:order 3;
+	}
+	container guaranteed_bitrate {
+		uses pfcp_ies:gbr;
+		pfcp_ies:order 4;
+	}
+	container packet_rate {
+		uses pfcp_ies:packet_rate;
+		pfcp_ies:order 5;
+	}
+	container dl_flow_level_marking {
+		uses pfcp_ies:dl_flow_level_marking;
+		pfcp_ies:order 6;
+	}
+	container qos_flow_identifier {
+		uses pfcp_ies:qfi;
+		pfcp_ies:order 7;
+	}
+	container reflective_qos {
+		uses pfcp_ies:rqi;
+		pfcp_ies:order 8;
+	}
+}
+grouping remove_pdr_ie {
+	pfcp:groupedie-type 15;
+	pfcp:containingMessage 52;
+	container pdr_id {
+		uses pfcp_ies:pdr_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping remove_far_ie {
+	pfcp:groupedie-type 16;
+	pfcp:containingMessage 52;
+	container far_id {
+		uses pfcp_ies:far_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping remove_urr_ie {
+	pfcp:groupedie-type 17;
+	pfcp:containingMessage 52;
+	container urr_id {
+		uses pfcp_ies:urr_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping remove_qer_ie_pfcp_session_modification_request {
+	pfcp:groupedie-type 18;
+	container qer_id {
+		uses pfcp_ies:qer_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping query_urr_ie {
+	pfcp:groupedie-type 77;
+	pfcp:containingMessage 52;
+	container urr_id {
+		uses pfcp_ies:urr_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping update_bar_ie {
+	pfcp:groupedie-type 86;
+	pfcp:containingMessage 52;
+	container bar_id {
+		uses pfcp_ies:bar_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container downlink_data_notification_delay {
+		uses pfcp_ies:downlink_data_notification_delay;
+		pfcp_ies:order 1;
+	}
+	container suggested_buffering_packets_count {
+		uses pfcp_ies:suggested_buffering_packets_count;
+		pfcp_ies:order 2;
+	}
+}
+grouping remove_bar_ie {
+	pfcp:groupedie-type 87;
+	pfcp:containingMessage 52;
+	container bar_id {
+		uses pfcp_ies:bar_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping update_traffic_endpoint_ie {
+	container traffic_endpoint_id {
+		uses pfcp_ies:traffic_endpoint_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container local_fteid {
+		uses pfcp_ies:fteid;
+		pfcp_ies:order 1;
+	}
+	container network_instance {
+		uses pfcp_ies:network_instance;
+		pfcp_ies:order 2;
+	}
+	container ue_ip_address {
+		uses pfcp_ies:ue_ip_address;
+		pfcp_ies:order 3;
+	}
+	list framedroute {
+		uses pfcp_ies:framedroute;
+		pfcp_ies:order 4;
+	}
+	container framedrouting {
+		uses pfcp_ies:framedrouting;
+		pfcp_ies:order 5;
+	}
+	list framedipv6route {
+		uses pfcp_ies:framedipv6route;
+		pfcp_ies:order 6;
+	}
+}
+grouping remove_traffic_endpoint_ie {
+	pfcp:groupedie-type 130;
+	container traffic_endpoint_id {
+		uses pfcp_ies:traffic_endpoint_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping pfcp_session_modification_response {
+	pfcp:messageType "response";
+	pfcp:messageTypeValue 53;
+	container cause {
+		uses pfcp_ies:cause;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container offending_ie {
+		uses pfcp_ies:offending_ie;
+		pfcp_ies:order 1;
+	}
+	container created_pdr {
+		uses pfcp_ies:created_pdr;
+		pfcp_ies:order 2;
+	}
+	container load_control_information {
+		uses pfcp_ies:load_control_information;
+		pfcp_ies:order 3;
+	}
+	container overload_control_information {
+		uses pfcp_ies:overload_control_information;
+		pfcp_ies:order 4;
+	}
+	container usage_report {
+		uses pfcp_ies:usage_report;
+		pfcp_ies:order 5;
+	}
+	container failed_rule_id {
+		uses pfcp_ies:failed_rule_id;
+		pfcp_ies:order 6;
+	}
+	container additional_usage_reports_information {
+		uses pfcp_ies:additional_usage_reports_information;
+		pfcp_ies:order 7;
+	}
+	container createdupdated_traffic_endpoint {
+		uses pfcp_ies:created_traffic_endpoint;
+		pfcp_ies:order 8;
+	}
+}
+grouping usage_report_ie {
+	pfcp:groupedie-type 78;
+	pfcp:containingMessage 53;
+	container urr_id {
+		uses pfcp_ies:urr_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container urseqn {
+		uses pfcp_ies:urseqn;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container usage_report_trigger {
+		uses pfcp_ies:usage_report_trigger;
+		pfcp_ies:order 2;
+		pfcp:iemandatory;
+	}
+	container start_time {
+		uses pfcp_ies:start_time;
+		pfcp_ies:order 3;
+	}
+	container end_time {
+		uses pfcp_ies:end_time;
+		pfcp_ies:order 4;
+	}
+	container volume_measurement {
+		uses pfcp_ies:volume_measurement;
+		pfcp_ies:order 5;
+	}
+	container duration_measurement {
+		uses pfcp_ies:duration_measurement;
+		pfcp_ies:order 6;
+	}
+	container time_of_first_packet {
+		uses pfcp_ies:time_of_first_packet;
+		pfcp_ies:order 7;
+	}
+	container time_of_last_packet {
+		uses pfcp_ies:time_of_last_packet;
+		pfcp_ies:order 8;
+	}
+	container usage_information {
+		uses pfcp_ies:usage_information;
+		pfcp_ies:order 9;
+	}
+	container query_urr_reference {
+		uses pfcp_ies:query_urr_reference;
+		pfcp_ies:order 10;
+	}
+	container ethernet_traffic_information {
+		uses pfcp_ies:ethernet_traffic_information;
+		pfcp_ies:order 11;
+	}
+}
+grouping pfcp_session_deletion_request {
+	pfcp:messageType "request";
+	pfcp:messageTypeValue 54;
+	container  {
+		uses pfcp_ies:;
+		pfcp_ies:order 0;
+	}
+}
+grouping pfcp_session_deletion_response {
+	pfcp:messageType "response";
+	pfcp:messageTypeValue 55;
+	container cause {
+		uses pfcp_ies:cause;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container offending_ie {
+		uses pfcp_ies:offending_ie;
+		pfcp_ies:order 1;
+	}
+	container load_control_information {
+		uses pfcp_ies:load_control_information;
+		pfcp_ies:order 2;
+	}
+	container overload_control_information {
+		uses pfcp_ies:overload_control_information;
+		pfcp_ies:order 3;
+	}
+	container usage_report {
+		uses pfcp_ies:usage_report;
+		pfcp_ies:order 4;
+	}
+}
+grouping usage_report_ie {
+	pfcp:groupedie-type 79;
+	pfcp:containingMessage 55;
+	container urr_id {
+		uses pfcp_ies:urr_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container urseqn {
+		uses pfcp_ies:urseqn;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container usage_report_trigger {
+		uses pfcp_ies:usage_report_trigger;
+		pfcp_ies:order 2;
+		pfcp:iemandatory;
+	}
+	container start_time {
+		uses pfcp_ies:start_time;
+		pfcp_ies:order 3;
+	}
+	container end_time {
+		uses pfcp_ies:end_time;
+		pfcp_ies:order 4;
+	}
+	container volume_measurement {
+		uses pfcp_ies:volume_measurement;
+		pfcp_ies:order 5;
+	}
+	container duration_measurement {
+		uses pfcp_ies:duration_measurement;
+		pfcp_ies:order 6;
+	}
+	container time_of_first_packet {
+		uses pfcp_ies:time_of_first_packet;
+		pfcp_ies:order 7;
+	}
+	container time_of_last_packet {
+		uses pfcp_ies:time_of_last_packet;
+		pfcp_ies:order 8;
+	}
+	container usage_information {
+		uses pfcp_ies:usage_information;
+		pfcp_ies:order 9;
+	}
+	container ethernet_traffic_information {
+		uses pfcp_ies:ethernet_traffic_information;
+		pfcp_ies:order 10;
+	}
+}
+grouping pfcp_session_report_request {
+	pfcp:messageType "request";
+	pfcp:messageTypeValue 56;
+	container report_type {
+		uses pfcp_ies:report_type;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container downlink_data_report {
+		uses pfcp_ies:downlink_data_report;
+		pfcp_ies:order 1;
+	}
+	container usage_report {
+		uses pfcp_ies:usage_report;
+		pfcp_ies:order 2;
+	}
+	container error_indication_report {
+		uses pfcp_ies:error_indication_report;
+		pfcp_ies:order 3;
+	}
+	container load_control_information {
+		uses pfcp_ies:load_control_information;
+		pfcp_ies:order 4;
+	}
+	container overload_control_information {
+		uses pfcp_ies:overload_control_information;
+		pfcp_ies:order 5;
+	}
+	container additional_usage_reports_information {
+		uses pfcp_ies:additional_usage_reports_information;
+		pfcp_ies:order 6;
+	}
+}
+grouping downlink_data_report_ie {
+	pfcp:groupedie-type 83;
+	pfcp:containingMessage 56;
+	container pdr_id {
+		uses pfcp_ies:pdr_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container downlink_data_service_information {
+		uses pfcp_ies:downlink_data_service_information;
+		pfcp_ies:order 1;
+	}
+}
+grouping usage_report_ie {
+	pfcp:groupedie-type 80;
+	pfcp:containingMessage 56;
+	container urr_id {
+		uses pfcp_ies:urr_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container urseqn {
+		uses pfcp_ies:urseqn;
+		pfcp_ies:order 1;
+		pfcp:iemandatory;
+	}
+	container usage_report_trigger {
+		uses pfcp_ies:usage_report_trigger;
+		pfcp_ies:order 2;
+		pfcp:iemandatory;
+	}
+	container start_time {
+		uses pfcp_ies:start_time;
+		pfcp_ies:order 3;
+	}
+	container end_time {
+		uses pfcp_ies:end_time;
+		pfcp_ies:order 4;
+	}
+	container volume_measurement {
+		uses pfcp_ies:volume_measurement;
+		pfcp_ies:order 5;
+	}
+	container duration_measurement {
+		uses pfcp_ies:duration_measurement;
+		pfcp_ies:order 6;
+	}
+	container application_detection_information {
+		uses pfcp_ies:application_detection_information;
+		pfcp_ies:order 7;
+	}
+	container ue_ip_address {
+		uses pfcp_ies:ue_ip_address;
+		pfcp_ies:order 8;
+	}
+	container network_instance {
+		uses pfcp_ies:network_instance;
+		pfcp_ies:order 9;
+	}
+	container time_of_first_packet {
+		uses pfcp_ies:time_of_first_packet;
+		pfcp_ies:order 10;
+	}
+	container time_of_last_packet {
+		uses pfcp_ies:time_of_last_packet;
+		pfcp_ies:order 11;
+	}
+	container usage_information {
+		uses pfcp_ies:usage_information;
+		pfcp_ies:order 12;
+	}
+	container query_urr_reference {
+		uses pfcp_ies:query_urr_reference;
+		pfcp_ies:order 13;
+	}
+	list event_reporting {
+		uses pfcp_ies:event_reporting;
+		pfcp_ies:order 14;
+	}
+	container ethernet_traffic_information {
+		uses pfcp_ies:ethernet_traffic_information;
+		pfcp_ies:order 15;
+	}
+}
+grouping application_detection_information_ie {
+	pfcp:groupedie-type 68;
+	container application_id {
+		uses pfcp_ies:application_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container application_instance_id {
+		uses pfcp_ies:application_instance_id;
+		pfcp_ies:order 1;
+	}
+	container flow_information {
+		uses pfcp_ies:flow_information;
+		pfcp_ies:order 2;
+	}
+}
+grouping event_reporting_ie {
+	pfcp:groupedie-type 149;
+	container event_id {
+		uses pfcp_ies:event_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping ethernet_traffic_information_ie {
+	pfcp:groupedie-type 143;
+	container mac_addresses_detected {
+		uses pfcp_ies:mac_addresses_detected;
+		pfcp_ies:order 0;
+	}
+	container mac_addresses_removed {
+		uses pfcp_ies:mac_addresses_removed;
+		pfcp_ies:order 1;
+	}
+}
+grouping error_indication_report_ie {
+	pfcp:groupedie-type 99;
+	pfcp:containingMessage 56;
+	container remote_fteid {
+		uses pfcp_ies:fteid;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+}
+grouping pfcp_session_report_response {
+	pfcp:messageType "response";
+	pfcp:messageTypeValue 57;
+	container cause {
+		uses pfcp_ies:cause;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container offending_ie {
+		uses pfcp_ies:offending_ie;
+		pfcp_ies:order 1;
+	}
+	container update_bar {
+		uses pfcp_ies:update_bar;
+		pfcp_ies:order 2;
+	}
+	container sxsrrspflags {
+		uses pfcp_ies:sxsrrspflags;
+		pfcp_ies:order 3;
+	}
+}
+grouping update_bar_ie {
+	pfcp:groupedie-type 12;
+	pfcp:containingMessage 57;
+	container bar_id {
+		uses pfcp_ies:bar_id;
+		pfcp_ies:order 0;
+		pfcp:iemandatory;
+	}
+	container downlink_data_notification_delay {
+		uses pfcp_ies:downlink_data_notification_delay;
+		pfcp_ies:order 1;
+	}
+	container dl_buffering_duration {
+		uses pfcp_ies:dl_buffering_duration;
+		pfcp_ies:order 2;
+	}
+	container dl_buffering_suggested_packet_count {
+		uses pfcp_ies:dl_buffering_suggested_packet_count;
+		pfcp_ies:order 3;
+	}
+	container suggested_buffering_packets_count {
+		uses pfcp_ies:suggested_buffering_packets_count;
+		pfcp_ies:order 4;
+	}
+}
+
+
+
+}
