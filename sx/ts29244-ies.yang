@@ -1999,9 +1999,7 @@ grouping application_instance_id {
 	leaf application_instance_identifier {
 		pfcp_ies:order 3;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 }
 grouping flow_information {
@@ -2031,10 +2029,8 @@ grouping flow_information {
 	leaf flow_description {
 		pfcp_ies:order 6;
 		mandatory true;
-		type binary {
-			length "8";
-		}
-	}
+		type binary;
+	}	
 	pfcp_ies:explicit-extensible true;
 }
 typedef flow_direction {
@@ -2276,10 +2272,8 @@ grouping header_enrichment {
 	leaf header_field_name {
 		pfcp_ies:order 6;
 		mandatory true;
-		type binary {
-			length "8";
-		}
-	}
+		type binary;
+	}	
 	leaf length_of_header_field_value {
 		pfcp_ies:order 7;
 		mandatory true;
@@ -2289,9 +2283,7 @@ grouping header_enrichment {
 	}
 	leaf header_field_value {
 		pfcp_ies:order 8;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	pfcp_ies:explicit-extensible true;
 }
@@ -2404,9 +2396,7 @@ grouping activate_predefined_rules {
 	leaf predefined_rules_name {
 		pfcp_ies:order 3;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 }
 grouping deactivate_predefined_rules {
@@ -2414,9 +2404,7 @@ grouping deactivate_predefined_rules {
 	leaf predefined_rules_name {
 		pfcp_ies:order 3;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 }
 grouping far_id {
@@ -2555,9 +2543,7 @@ grouping failed_rule_id {
 	leaf rule_id_value {
 		pfcp_ies:order 5;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 	pfcp_ies:explicit-extensible true;
 }
@@ -2667,9 +2653,8 @@ grouping user_plane_ip_resource_information {
 	}
 	leaf network_instance {
 		pfcp_ies:order 12;
-		type binary {
-			length "8";
-		}
+		type binary; 
+		
 	}
 	leaf spare2 {
 		pfcp_ies:order 13;
@@ -2849,14 +2834,7 @@ grouping additional_usage_reports_information {
 		pfcp_ies:order 4;
 		mandatory true;
 		type binary {
-			length "7";
-		}
-	}
-	leaf number_of_additional_usage_reports_value2 {
-		pfcp_ies:order 5;
-		mandatory true;
-		type binary {
-			length "8";
+			length "15";
 		}
 	}
 	pfcp_ies:explicit-extensible true;
@@ -2878,7 +2856,7 @@ grouping mac_address {
 		pfcp_ies:order 3;
 		mandatory true;
 		type binary {
-			length "5";
+			length "1";
 		}
 		pfcp_ies:spareformat;
 	}
@@ -2971,7 +2949,7 @@ grouping c-tag {
 		pfcp_ies:order 7;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
 	}
 	leaf dei_flag {
@@ -3003,7 +2981,7 @@ grouping s-tag {
 		pfcp_ies:order 3;
 		mandatory true;
 		type binary {
-			length "6";
+			length "5";
 		}
 		pfcp_ies:spareformat;
 	}
@@ -3032,7 +3010,7 @@ grouping s-tag {
 		pfcp_ies:order 7;
 		mandatory true;
 		type binary {
-			length "5";
+			length "4";
 		}
 	}
 	leaf dei_flag {
@@ -3175,56 +3153,43 @@ grouping user_id {
 	}
 	leaf length_of_imsi {
 		pfcp_ies:order 8;
-		mandatory true;
 		type binary {
 			length "8";
 		}
 	}
 	leaf imsi {
 		pfcp_ies:order 9;
-		mandatory true;
-		type binary {
-			length "8";
-		}
-	}
+		type binary;
+	}	
 	leaf length_of_imei {
 		pfcp_ies:order 10;
-		mandatory true;
 		type binary {
 			length "8";
 		}
 	}
 	leaf imei {
 		pfcp_ies:order 11;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 	leaf length_of_msisdn {
 		pfcp_ies:order 12;
-		mandatory true;
 		type binary {
 			length "8";
 		}
 	}
 	leaf msisdn {
 		pfcp_ies:order 13;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 	leaf length_of_nai {
 		pfcp_ies:order 14;
-		mandatory true;
 		type binary {
 			length "8";
 		}
 	}
 	leaf nai {
 		pfcp_ies:order 15;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 	pfcp_ies:explicit-extensible true;
 }
@@ -3256,21 +3221,8 @@ grouping mac_addresses_detected {
 			length "8";
 		}
 	}
-	leaf mac_address_value_1 {
+	leaf-list mac_address_value_1 {
 		pfcp_ies:order 4;
-		mandatory true;
-		type binary {
-			length "48";
-		}
-	}
-	leaf mac_address_value_2 {
-		pfcp_ies:order 5;
-		type binary {
-			length "48";
-		}
-	}
-	leaf mac_address_value_k {
-		pfcp_ies:order 7;
 		type binary {
 			length "48";
 		}
@@ -3286,21 +3238,8 @@ grouping mac_addresses_removed {
 			length "8";
 		}
 	}
-	leaf mac_address_value_1 {
+	leaf-list mac_address_value_1 {
 		pfcp_ies:order 4;
-		mandatory true;
-		type binary {
-			length "48";
-		}
-	}
-	leaf mac_address_value_2 {
-		pfcp_ies:order 5;
-		type binary {
-			length "48";
-		}
-	}
-	leaf mac_address_value_k {
-		pfcp_ies:order 7;
 		type binary {
 			length "48";
 		}
@@ -3401,9 +3340,7 @@ grouping trace_information {
 	leaf triggering_events {
 		pfcp_ies:order 11;
 		mandatory true;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 	leaf session_trace_depth {
 		pfcp_ies:order 12;
@@ -3421,9 +3358,7 @@ grouping trace_information {
 	}
 	leaf list_of_interfaces {
 		pfcp_ies:order 14;
-		type binary {
-			length "8";
-		}
+		type binary;
 	}
 	leaf length_of_ip_address_of_trace_collection_entity {
 		pfcp_ies:order 15;
@@ -3434,9 +3369,7 @@ grouping trace_information {
 	}
 	leaf ip_address_of_trace_collection_entity {
 		pfcp_ies:order 16;
-		type binary {
-			length "8";
-		}
+		type binary; 
 	}
 	pfcp_ies:explicit-extensible true;
 }
