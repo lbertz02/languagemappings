@@ -3,8 +3,8 @@ module ts29244-messages {
 namespace "urn:onf:params:xml:ns:yang:ts29244:messages";
 prefix "pfcp";
 
-import ts29274-ies-f40 {	
-	prefix "gtp_ies";
+import ts29244-ies {	
+	prefix "pfcp_ies";
 }
 
 description "Messages defined in 3GPP TS 29.244 (verision ??).
@@ -52,8 +52,14 @@ extension groupedie-type {
 	argument "number";
 }
 
+extension applicability {
+	description "Applicability of the structure to interfaces";
+	argument "string";
+}
+
 grouping pfcp_heartbeat_request {
 	pfcp:messageType "request";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 1;
 	container recovery_time_stamp {
 		uses pfcp_ies:recovery_time_stamp;
@@ -63,6 +69,7 @@ grouping pfcp_heartbeat_request {
 }
 grouping pfcp_heartbeat_response {
 	pfcp:messageType "response";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 2;
 	container recovery_time_stamp {
 		uses pfcp_ies:recovery_time_stamp;
@@ -72,9 +79,10 @@ grouping pfcp_heartbeat_response {
 }
 grouping pfcp_pfd_management_request {
 	pfcp:messageType "request";
+	pfcp:applicability "Sxb Sxc N4";
 	pfcp:messageTypeValue 3;
 	list application_ids_pfds {
-		uses pfcp_ies:application_id's_pfds;
+		uses application_ids_pfds;
 		pfcp_ies:order 0;
 	}
 }
@@ -87,7 +95,7 @@ grouping application_ids_pfds {
 		pfcp:iemandatory;
 	}
 	list pfd {
-		uses pfcp_ies:pfd;
+		uses pfd;
 		pfcp_ies:order 1;
 	}
 }
@@ -102,6 +110,7 @@ grouping pfd {
 }
 grouping pfcp_pfd_management_response {
 	pfcp:messageType "response";
+	pfcp:applicability "Sxb Sxc N4";
 	pfcp:messageTypeValue 4;
 	container cause {
 		uses pfcp_ies:cause;
@@ -115,6 +124,7 @@ grouping pfcp_pfd_management_response {
 }
 grouping pfcp_association_setup_request {
 	pfcp:messageType "request";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 5;
 	container node_id {
 		uses pfcp_ies:node_id;
@@ -141,6 +151,7 @@ grouping pfcp_association_setup_request {
 }
 grouping pfcp_association_setup_response {
 	pfcp:messageType "response";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 6;
 	container node_id {
 		uses pfcp_ies:node_id;
@@ -172,6 +183,7 @@ grouping pfcp_association_setup_response {
 }
 grouping pfcp_association_update_request {
 	pfcp:messageType "request";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 7;
 	container node_id {
 		uses pfcp_ies:node_id;
@@ -201,6 +213,7 @@ grouping pfcp_association_update_request {
 }
 grouping pfcp_association_update_response {
 	pfcp:messageType "response";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 8;
 	container node_id {
 		uses pfcp_ies:node_id;
@@ -223,6 +236,7 @@ grouping pfcp_association_update_response {
 }
 grouping pfcp_association_release_request {
 	pfcp:messageType "request";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 9;
 	container node_id {
 		uses pfcp_ies:node_id;
@@ -232,6 +246,7 @@ grouping pfcp_association_release_request {
 }
 grouping pfcp_association_release_response {
 	pfcp:messageType "response";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 10;
 	container node_id {
 		uses pfcp_ies:node_id;
@@ -246,6 +261,7 @@ grouping pfcp_association_release_response {
 }
 grouping pfcp_node_report_request {
 	pfcp:messageType "request";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 12;
 	container node_id {
 		uses pfcp_ies:node_id;
@@ -258,21 +274,23 @@ grouping pfcp_node_report_request {
 		pfcp:iemandatory;
 	}
 	container user_plane_path_failure_report {
-		uses pfcp_ies:user_plane_path_failure_report;
+		uses user_plane_path_failure_report;
 		pfcp_ies:order 2;
 	}
 }
-grouping user_plane_path_failure_ie {
+grouping user_plane_path_failure_report {
 	pfcp:groupedie-type 102;
 	pfcp:containingMessage 12;
 	container remote_gtpu_peer_ {
-		uses pfcp_ies:remote_gtpu_peer;
+		uses pfcp_ies:remote_gtp-u_peer;
+		pfcp:applicability "Sxa Sxb N4";
 		pfcp_ies:order 0;
 		pfcp:iemandatory;
 	}
 }
 grouping pfcp_node_report_response {
 	pfcp:messageType "response";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 13;
 	container node_id {
 		uses pfcp_ies:node_id;
@@ -291,6 +309,7 @@ grouping pfcp_node_report_response {
 }
 grouping pfcp_session_set_deletion_request {
 	pfcp:messageType "request";
+	pfcp:applicability "Sxa Sxb";
 	pfcp:messageTypeValue 14;
 	container node_id {
 		uses pfcp_ies:node_id;
@@ -298,36 +317,41 @@ grouping pfcp_session_set_deletion_request {
 		pfcp:iemandatory;
 	}
 	container sgwc_fqcsid {
-		uses pfcp_ies:fqcsid;
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 1;
 	}
 	container pgwc_fqcsid {
-		uses pfcp_ies:fqcsid;
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 2;
 	}
 	container sgwu_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxa";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 3;
 	}
 	container pgwu_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 4;
 	}
 	container twan_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 5;
 	}
 	container epdg_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 6;
 	}
 	container mme_fqcsid {
-		uses pfcp_ies:fqcsid;
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 7;
 	}
 }
 grouping pfcp_session_set_deletion_response {
 	pfcp:messageType "response";
+	pfcp:applicability "Sxa Sxb";
 	pfcp:messageTypeValue 15;
 	container node_id {
 		uses pfcp_ies:node_id;
@@ -344,69 +368,80 @@ grouping pfcp_session_set_deletion_response {
 		pfcp_ies:order 2;
 	}
 }
-grouping pfcp_an_pfcp_session_establishment_request {
+grouping pfcp_session_establishment_request {
 	pfcp:messageType "request";
+	pfcp:applicability "Sxa Sxb Sxc N4";
+	pfcp:messageTypeValue 50;
 	container node_id {
 		uses pfcp_ies:node_id;
 		pfcp_ies:order 0;
 		pfcp:iemandatory;
 	}
 	container cp_fseid {
-		uses pfcp_ies:fseid;
+		uses pfcp_ies:f-seid;
 		pfcp_ies:order 1;
 		pfcp:iemandatory;
 	}
 	list create_pdr {
-		uses pfcp_ies:create_pdr;
+		uses create_pdr;
 		pfcp_ies:order 2;
 		pfcp:iemandatory;
 	}
 	list create_far {
-		uses pfcp_ies:create_far;
+		uses create_far;
 		pfcp_ies:order 3;
 		pfcp:iemandatory;
 	}
-	container create_urr {
-		uses pfcp_ies:create_urr;
+	list create_urr {
+		uses create_urr;
 		pfcp_ies:order 4;
 	}
-	container create_qer {
-		uses pfcp_ies:create_qer;
+	list create_qer {
+		pfcp:applicability "Sxb Sxc N4";
+		uses create_qer;
 		pfcp_ies:order 5;
 	}
 	container create_bar {
-		uses pfcp_ies:create_bar;
+		pfcp:applicability "Sxa N4";
+		uses create_bar;
 		pfcp_ies:order 6;
 	}
-	container create_traffic_endpoint {
-		uses pfcp_ies:create_traffic_endpoint;
+	list create_traffic_endpoint {
+		uses create_traffic_endpoint;
 		pfcp_ies:order 7;
 	}
 	container pdn_type {
+		pfcp:applicability "Sxa Sxb N4";
 		uses pfcp_ies:pdn_type;
 		pfcp_ies:order 8;
 	}
 	container sgwc_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxa Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 9;
 	}
 	container mme_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxa Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 10;
 	}
 	container pgwc_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxa Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 11;
 	}
 	container epdg_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 12;
 	}
 	container twan_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 13;
 	}
 	container user_plane_inactivity_timer {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:user_plane_inactivity_timer;
 		pfcp_ies:order 14;
 	}
@@ -419,7 +454,7 @@ grouping pfcp_an_pfcp_session_establishment_request {
 		pfcp_ies:order 16;
 	}
 }
-grouping create_pdr_ie {
+grouping create_pdr {
 	pfcp:groupedie-type 1;
 	pfcp:containingMessage 50;
 	container pdr_id {
@@ -428,16 +463,18 @@ grouping create_pdr_ie {
 		pfcp:iemandatory;
 	}
 	container precedence {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:precedence;
 		pfcp_ies:order 1;
 		pfcp:iemandatory;
 	}
 	container pdi {
-		uses pfcp_ies:pdi;
+		uses pfcp:pdi;
 		pfcp_ies:order 2;
 		pfcp:iemandatory;
 	}
 	container outer_header_removal {
+		pfcp:applicability "Sxa Sxb N4";
 		uses pfcp_ies:outer_header_removal;
 		pfcp_ies:order 3;
 	}
@@ -445,20 +482,22 @@ grouping create_pdr_ie {
 		uses pfcp_ies:far_id;
 		pfcp_ies:order 4;
 	}
-	container urr_id {
+	list urr_id {
 		uses pfcp_ies:urr_id;
 		pfcp_ies:order 5;
 	}
-	container qer_id {
+	list qer_id {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:qer_id;
 		pfcp_ies:order 6;
 	}
 	list activate_predefined_rules {
-		uses pfcp_ies:activate_predefined_rules_;
+		pfcp:applicability "Sxb Sxc N4";
+		uses pfcp_ies:activate_predefined_rules;
 		pfcp_ies:order 7;
 	}
 }
-grouping pdi_ie {
+grouping pdi {
 	pfcp:groupedie-type 2;
 	pfcp:containingMessage 50;
 	container source_interface {
@@ -467,7 +506,8 @@ grouping pdi_ie {
 		pfcp:iemandatory;
 	}
 	container local_fteid {
-		uses pfcp_ies:fteid;
+		pfcp:applicability "Sxa Sxb N4";
+		uses pfcp_ies:f-teid;
 		pfcp_ies:order 1;
 	}
 	container network_instance {
@@ -475,6 +515,7 @@ grouping pdi_ie {
 		pfcp_ies:order 2;
 	}
 	container ue_ip_address {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:ue_ip_address;
 		pfcp_ies:order 3;
 	}
@@ -483,39 +524,47 @@ grouping pdi_ie {
 		pfcp_ies:order 4;
 	}
 	list sdf_filter {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:sdf_filter;
 		pfcp_ies:order 5;
 	}
 	container application_id {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:application_id;
 		pfcp_ies:order 6;
 	}
 	container ethernet_pdu_session_information {
+		pfcp:applicability "N4";
 		uses pfcp_ies:ethernet_pdu_session_information;
 		pfcp_ies:order 7;
 	}
 	list ethernet_packet_filter {
-		uses pfcp_ies:ethernet_packet_filter;
+		pfcp:applicability "N4";
+		uses ethernet_packet_filter;
 		pfcp_ies:order 8;
 	}
 	list qfi {
+		pfcp:applicability "N4";
 		uses pfcp_ies:qfi;
 		pfcp_ies:order 9;
 	}
 	list framedroute {
-		uses pfcp_ies:framedroute;
+		pfcp:applicability "Sxb N4";
+		uses pfcp_ies:framed-route;
 		pfcp_ies:order 10;
 	}
 	container framedrouting {
-		uses pfcp_ies:framedrouting;
+		pfcp:applicability "Sxb N4";
+		uses pfcp_ies:framed-routing;
 		pfcp_ies:order 11;
 	}
 	list framedipv6route {
-		uses pfcp_ies:framedipv6route;
+		pfcp:applicability "Sxb N4";
+		uses pfcp_ies:framed-ipv6-route;
 		pfcp_ies:order 12;
 	}
 }
-grouping ethernet_packet_filter_ie {
+grouping ethernet_packet_filter {
 	pfcp:groupedie-type 132;
 	pfcp:containingMessage 50;
 	container ethernet_filter_id {
@@ -535,11 +584,11 @@ grouping ethernet_packet_filter_ie {
 		pfcp_ies:order 3;
 	}
 	container ctag {
-		uses pfcp_ies:ctag;
+		uses pfcp_ies:c-tag;
 		pfcp_ies:order 4;
 	}
 	container stag {
-		uses pfcp_ies:stag;
+		uses pfcp_ies:s-tag;
 		pfcp_ies:order 5;
 	}
 	list sdf_filter {
@@ -547,7 +596,7 @@ grouping ethernet_packet_filter_ie {
 		pfcp_ies:order 6;
 	}
 }
-grouping create_far_ie {
+grouping create_far {
 	pfcp:groupedie-type 3;
 	pfcp:containingMessage 50;
 	container far_id {
@@ -555,25 +604,27 @@ grouping create_far_ie {
 		pfcp_ies:order 0;
 		pfcp:iemandatory;
 	}
-	container apply_action {
-		uses pfcp_ies:apply_action;
+	container apply-action {
+		uses pfcp_ies:apply-action;
 		pfcp_ies:order 1;
 		pfcp:iemandatory;
 	}
 	container forwarding_parameters {
-		uses pfcp_ies:forwarding_parameters;
+		uses pfcp:forwarding_parameters;
 		pfcp_ies:order 2;
 	}
 	list duplicating_parameters {
-		uses pfcp_ies:duplicating_parameters;
+		pfcp:applicability "Sxa Sxb N4";
+		uses pfcp:duplicating_parameters;
 		pfcp_ies:order 3;
 	}
 	container bar_id {
+		pfcp:applicability "Sxa N4";
 		uses pfcp_ies:bar_id;
 		pfcp_ies:order 4;
 	}
 }
-grouping forward {
+grouping forwarding_parameters {
 	pfcp:groupedie-type 4;
 	container destination_interface {
 		uses pfcp_ies:destination_interface;
@@ -585,35 +636,42 @@ grouping forward {
 		pfcp_ies:order 1;
 	}
 	container redirect_information {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:redirect_information;
 		pfcp_ies:order 2;
 	}
 	container outer_header_creation {
+		pfcp:applicability "Sxa Sxb N4";
 		uses pfcp_ies:outer_header_creation;
 		pfcp_ies:order 3;
 	}
 	container transport_level_marking {
+		pfcp:applicability "Sxa Sxb N4";
 		uses pfcp_ies:transport_level_marking;
 		pfcp_ies:order 4;
 	}
 	container forwarding_policy {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:forwarding_policy;
 		pfcp_ies:order 5;
 	}
 	container header_enrichment {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:header_enrichment;
 		pfcp_ies:order 6;
 	}
 	container linked_traffic_endpoint_id {
+		pfcp:applicability "Sxa Sxb N4";
 		uses pfcp_ies:traffic_endpoint_id;
 		pfcp_ies:order 7;
 	}
 	container proxying {
+		pfcp:applicability "N4";
 		uses pfcp_ies:proxying;
 		pfcp_ies:order 8;
 	}
 }
-grouping duplicat {
+grouping duplicating_parameters {
 	pfcp:groupedie-type 5;
 	container destination_interface {
 		uses pfcp_ies:destination_interface;
@@ -633,9 +691,10 @@ grouping duplicat {
 		pfcp_ies:order 3;
 	}
 }
-grouping create_urr_ie {
+grouping create_urr {
 	pfcp:groupedie-type 6;
 	pfcp:containingMessage 50;
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	container urr_id {
 		uses pfcp_ies:urr_id;
 		pfcp_ies:order 0;
@@ -660,6 +719,7 @@ grouping create_urr_ie {
 		pfcp_ies:order 4;
 	}
 	container volume_quota {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:volume_quota;
 		pfcp_ies:order 5;
 	}
@@ -668,14 +728,17 @@ grouping create_urr_ie {
 		pfcp_ies:order 6;
 	}
 	container time_quota {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:time_quota;
 		pfcp_ies:order 7;
 	}
 	container quota_holding_time {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:quota_holding_time;
 		pfcp_ies:order 8;
 	}
 	container dropped_dl_traffic_threshold {
+		pfcp:applicability "Sxa N4";
 		uses pfcp_ies:dropped_dl_traffic_threshold;
 		pfcp_ies:order 9;
 	}
@@ -684,7 +747,8 @@ grouping create_urr_ie {
 		pfcp_ies:order 10;
 	}
 	list event_information {
-		uses pfcp_ies:event_information;
+		pfcp:applicability "Sxb Sxc N4";
+		uses pfcp:event_information;
 		pfcp_ies:order 11;
 	}
 	container subsequent_volume_threshold {
@@ -696,49 +760,59 @@ grouping create_urr_ie {
 		pfcp_ies:order 13;
 	}
 	container subsequent_volume_quota {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:subsequent_volume_quota;
 		pfcp_ies:order 14;
 	}
 	container subsequent_time_quota {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:subsequent_time_quota;
 		pfcp_ies:order 15;
 	}
 	container inactivity_detection_time {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:inactivity_detection_time;
 		pfcp_ies:order 16;
 	}
 	list linked_urr_id {
-		uses pfcp_ies:linked_urr_id_;
+		pfcp:applicability "Sxb Sxc N4";
+		uses pfcp_ies:linked_urr_id;
 		pfcp_ies:order 17;
 	}
 	container measurement_information {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:measurement_information;
 		pfcp_ies:order 18;
+		description "NOTE when not Measurement before qos flag applicability is only Sxb & N4";
 	}
 	container time_quota_mechanism {
+		pfcp:applicability "Sxb";
 		uses pfcp_ies:time_quota_mechanism;
 		pfcp_ies:order 19;
 	}
 	list aggregated_urrs {
-		uses pfcp_ies:aggregated_urrs;
+		pfcp:applicability "Sxb";
+		uses pfcp:aggregated_urrs;
 		pfcp_ies:order 20;
 	}
 	container far_id_for_quota_action {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:far_id;
 		pfcp_ies:order 21;
 	}
 	container ethernet_inactivity_timer {
+		pfcp:applicability "N4";
 		uses pfcp_ies:ethernet_inactivity_timer;
 		pfcp_ies:order 22;
 	}
 	list additional_monitoring_time {
-		uses pfcp_ies:additional_monitoring_time;
+		uses pfcp:additional_monitoring_time;
 		pfcp_ies:order 23;
 	}
 }
 grouping aggregated_urrs {
 	pfcp:groupedie-type 118;
-	pfcp:containingMessage 6;
+	pfcp:containingMessage 50;
 	container aggregated_urr_id {
 		uses pfcp_ies:aggregated_urr_id;
 		pfcp_ies:order 0;
@@ -750,8 +824,9 @@ grouping aggregated_urrs {
 		pfcp:iemandatory;
 	}
 }
-grouping additional_monitor {
+grouping additional_monitoring_time {
 	pfcp:groupedie-type 147;
+	pfcp:containingMessage 50;
 	container monitoring_time {
 		uses pfcp_ies:monitoring_time;
 		pfcp_ies:order 0;
@@ -766,17 +841,19 @@ grouping additional_monitor {
 		pfcp_ies:order 2;
 	}
 	container subsequent_volume_quota {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:subsequent_volume_quota;
 		pfcp_ies:order 3;
 	}
 	container subsequent_time_quota {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:subsequent_time_quota;
 		pfcp_ies:order 4;
 	}
 }
 grouping event_information {
 	pfcp:groupedie-type 148;
-	pfcp:containingMessage 6;
+	pfcp:containingMessage 50;
 	container event_id {
 		uses pfcp_ies:event_id;
 		pfcp_ies:order 0;
@@ -788,7 +865,7 @@ grouping event_information {
 		pfcp:iemandatory;
 	}
 }
-grouping create_qer_ie {
+grouping create_qer {
 	pfcp:groupedie-type 7;
 	pfcp:containingMessage 50;
 	container qer_id {
@@ -797,6 +874,7 @@ grouping create_qer_ie {
 		pfcp:iemandatory;
 	}
 	container qer_correlation_id {
+		pfcp:applicability "Sxb N4";
 		uses pfcp_ies:qer_correlation_id;
 		pfcp_ies:order 1;
 	}
@@ -814,23 +892,27 @@ grouping create_qer_ie {
 		pfcp_ies:order 4;
 	}
 	container packet_rate {
+		pfcp:applicability "Sxb";
 		uses pfcp_ies:packet_rate;
 		pfcp_ies:order 5;
 	}
 	container dl_flow_level_marking {
+		pfcp:applicability "Sxb Sxc";
 		uses pfcp_ies:dl_flow_level_marking;
 		pfcp_ies:order 6;
 	}
 	container qos_flow_identifier {
+		pfcp:applicability "N4";
 		uses pfcp_ies:qfi;
 		pfcp_ies:order 7;
 	}
 	container reflective_qos {
+		pfcp:applicability "N4";
 		uses pfcp_ies:rqi;
 		pfcp_ies:order 8;
 	}
 }
-grouping create_bar_ie {
+grouping create_bar {
 	pfcp:groupedie-type 85;
 	pfcp:containingMessage 50;
 	container bar_id {
@@ -839,22 +921,27 @@ grouping create_bar_ie {
 		pfcp:iemandatory;
 	}
 	container downlink_data_notification_delay {
+		pfcp:applicability "Sxa";
 		uses pfcp_ies:downlink_data_notification_delay;
 		pfcp_ies:order 1;
 	}
 	container suggested_buffering_packets_count {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:suggested_buffering_packets_count;
 		pfcp_ies:order 2;
 	}
 }
-grouping create_traffic_endpoint_ie {
+grouping create_traffic_endpoint {
+	pfcp:groupedie-type 127;
+	pfcp:containingMessage 50;
 	container traffic_endpoint_id {
 		uses pfcp_ies:traffic_endpoint_id;
 		pfcp_ies:order 0;
 		pfcp:iemandatory;
 	}
 	container local_fteid {
-		uses pfcp_ies:fteid;
+		pfcp:applicability "Sxa Sxc N4";
+		uses pfcp_ies:f-teid;
 		pfcp_ies:order 1;
 	}
 	container network_instance {
@@ -862,28 +949,34 @@ grouping create_traffic_endpoint_ie {
 		pfcp_ies:order 2;
 	}
 	container ue_ip_address {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:ue_ip_address;
 		pfcp_ies:order 3;
 	}
 	container ethernet_pdu_session_information {
+		pfcp:applicability "N4";
 		uses pfcp_ies:ethernet_pdu_session_information;
 		pfcp_ies:order 4;
 	}
 	list framedroute {
-		uses pfcp_ies:framedroute;
+		pfcp:applicability "Sxb N4";
+		uses pfcp_ies:framed-route;
 		pfcp_ies:order 5;
 	}
 	container framedrouting {
-		uses pfcp_ies:framedrouting;
+		pfcp:applicability "Sxb N4";
+		uses pfcp_ies:framed-routing;
 		pfcp_ies:order 6;
 	}
 	list framedipv6route {
-		uses pfcp_ies:framedipv6route;
+		pfcp:applicability "Sxb N4";
+		uses pfcp_ies:framed-ipv6-route;
 		pfcp_ies:order 7;
 	}
 }
 grouping pfcp_session_establishment_response {
 	pfcp:messageType "response";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 51;
 	container node_id {
 		uses pfcp_ies:node_id;
@@ -900,39 +993,43 @@ grouping pfcp_session_establishment_response {
 		pfcp_ies:order 2;
 	}
 	container up_fseid {
-		uses pfcp_ies:fseid;
+		uses pfcp_ies:f-seid;
 		pfcp_ies:order 3;
 	}
-	container created_pdr {
-		uses pfcp_ies:created_pdr;
+	list created_pdr {
+		pfcp:applicability "Sxa Sxb N4";
+		uses created_pdr;
 		pfcp_ies:order 4;
 	}
 	container load_control_information {
-		uses pfcp_ies:load_control_information;
+		uses pfcp:load_control_information;
 		pfcp_ies:order 5;
 	}
 	container overload_control_information {
-		uses pfcp_ies:overload_control_information;
+		uses pfcp:overload_control_information;
 		pfcp_ies:order 6;
 	}
 	container sgwu_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxa";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 7;
 	}
 	container pgwu_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 8;
 	}
 	container failed_rule_id {
 		uses pfcp_ies:failed_rule_id;
 		pfcp_ies:order 9;
 	}
-	container created_traffic_endpoint {
-		uses pfcp_ies:created_traffic_endpoint;
+	list created_traffic_endpoint {
+		pfcp:applicability "Sxa Sxb N4";
+		uses created_traffic_endpoint;
 		pfcp_ies:order 10;
 	}
 }
-grouping created_pdr_ie {
+grouping created_pdr {
 	pfcp:groupedie-type 8;
 	pfcp:containingMessage 51;
 	container pdr_id {
@@ -941,11 +1038,11 @@ grouping created_pdr_ie {
 		pfcp:iemandatory;
 	}
 	container local_fteid {
-		uses pfcp_ies:fteid;
+		uses pfcp_ies:f-teid;
 		pfcp_ies:order 1;
 	}
 }
-grouping load_control_information_ie {
+grouping load_control_information {
 	pfcp:groupedie-type 51;
 	pfcp:containingMessage 51;
 	container load_control_sequence_number {
@@ -959,7 +1056,7 @@ grouping load_control_information_ie {
 		pfcp:iemandatory;
 	}
 }
-grouping overload_control_information_ie {
+grouping overload_control_information {
 	pfcp:groupedie-type 54;
 	pfcp:containingMessage 51;
 	container overload_control_sequence_number {
@@ -982,126 +1079,140 @@ grouping overload_control_information_ie {
 		pfcp_ies:order 3;
 	}
 }
-grouping created_traffic_endpoint_ie {
+grouping created_traffic_endpoint {
 	pfcp:groupedie-type 128;
+	pfcp:containingMessage 51;
 	container traffic_endpoint_id {
 		uses pfcp_ies:traffic_endpoint_id;
 		pfcp_ies:order 0;
 		pfcp:iemandatory;
 	}
 	container local_fteid {
-		uses pfcp_ies:fteid;
+		uses pfcp_ies:f-teid;
 		pfcp_ies:order 1;
 	}
 }
 grouping pfcp_session_modification_request {
 	pfcp:messageType "request";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 52;
 	container cp_fseid {
-		uses pfcp_ies:fseid;
+		uses pfcp_ies:f-seid;
 		pfcp_ies:order 0;
 	}
-	container remove_pdr {
-		uses pfcp_ies:remove_pdr;
+	list remove_pdr {
+		uses remove_pdr;
 		pfcp_ies:order 1;
 	}
-	container remove_far {
-		uses pfcp_ies:remove_far;
+	list remove_far {
+		uses remove_far;
 		pfcp_ies:order 2;
 	}
-	container remove_urr {
-		uses pfcp_ies:remove_urr;
+	list remove_urr {
+		uses remove_urr;
 		pfcp_ies:order 3;
 	}
-	container remove_qer {
-		uses pfcp_ies:remove_qer;
+	list remove_qer {
+		pfcp:applicability "Sxb Sxc N4";
+		uses remove_qer;
 		pfcp_ies:order 4;
 	}
 	container remove_bar {
-		uses pfcp_ies:remove_bar;
+		pfcp:applicability "Sxa N4";
+		uses remove_bar;
 		pfcp_ies:order 5;
 	}
 	container remove_traffic_endpoint {
-		uses pfcp_ies:remove_traffic_endpoint;
+		uses remove_traffic_endpoint;
 		pfcp_ies:order 6;
 	}
-	container create_pdr {
-		uses pfcp_ies:create_pdr;
+	list create_pdr {
+		uses create_pdr;
 		pfcp_ies:order 7;
 	}
-	container create_far {
-		uses pfcp_ies:create_far;
+	list create_far {
+		uses create_far;
 		pfcp_ies:order 8;
 	}
-	container create_urr {
-		uses pfcp_ies:create_urr;
+	list create_urr {
+		uses create_urr;
 		pfcp_ies:order 9;
 	}
-	container create_qer {
-		uses pfcp_ies:create_qer;
+	list create_qer {
+		pfcp:applicability "Sxb Sxc N4";
+		uses create_qer;
 		pfcp_ies:order 10;
 	}
 	container create_bar {
-		uses pfcp_ies:create_bar;
+		pfcp:applicability "Sxa N4";
+		uses create_bar;
 		pfcp_ies:order 11;
 	}
 	container create_traffic_endpoint {
-		uses pfcp_ies:create_traffic_endpoint;
+		uses create_traffic_endpoint;
 		pfcp_ies:order 12;
 	}
-	container update_pdr {
-		uses pfcp_ies:update_pdr;
+	list update_pdr {
+		uses update_pdr;
 		pfcp_ies:order 13;
 	}
-	container update_far {
-		uses pfcp_ies:update_far;
+	list update_far {
+		uses update_far;
 		pfcp_ies:order 14;
 	}
-	container update_urr {
-		uses pfcp_ies:update_urr;
+	list update_urr {
+		uses update_urr;
 		pfcp_ies:order 15;
 	}
 	container update_qer {
-		uses pfcp_ies:update_qer;
+		uses update_qer;
 		pfcp_ies:order 16;
 	}
 	container update_bar {
-		uses pfcp_ies:update_bar;
+		pfcp:applicability "Sxa N4";
+		uses update_bar;
 		pfcp_ies:order 17;
 	}
 	container update_traffic_endpoint {
-		uses pfcp_ies:update_traffic_endpoint;
+		uses update_traffic_endpoint;
 		pfcp_ies:order 18;
 	}
 	container pfcpsmreqflags {
-		uses pfcp_ies:pfcpsmreqflags;
+		uses pfcp_ies:pfcpsmreq-flags;
 		pfcp_ies:order 19;
+		description "When DROBU then only applicable to Sxa and N4";
 	}
-	container query_urr {
-		uses pfcp_ies:query_urr;
+	list query_urr {
+		uses query_urr;
 		pfcp_ies:order 20;
 	}
 	container pgwc_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxa Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 21;
 	}
 	container sgwc_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxa Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 22;
 	}
 	container mme_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxa Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 23;
 	}
 	container epdg_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 24;
 	}
 	container twan_fqcsid {
-		uses pfcp_ies:fqcsid;
+		pfcp:applicability "Sxb";
+		uses pfcp_ies:fq-csid;
 		pfcp_ies:order 25;
 	}
 	container user_plane_inactivity_timer {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:user_plane_inactivity_timer;
 		pfcp_ies:order 26;
 	}
@@ -1114,7 +1225,7 @@ grouping pfcp_session_modification_request {
 		pfcp_ies:order 28;
 	}
 }
-grouping update_pdr_ie {
+grouping update_pdr {
 	pfcp:groupedie-type 9;
 	pfcp:containingMessage 52;
 	container pdr_id {
@@ -1123,15 +1234,17 @@ grouping update_pdr_ie {
 		pfcp:iemandatory;
 	}
 	container outer_header_removal {
+		pfcp:applicability "Sxa Sxb N4";
 		uses pfcp_ies:outer_header_removal;
 		pfcp_ies:order 1;
 	}
 	container precedence {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:precedence;
 		pfcp_ies:order 2;
 	}
 	container pdi {
-		uses pfcp_ies:pdi;
+		uses pfcp:pdi;
 		pfcp_ies:order 3;
 	}
 	container far_id {
@@ -1143,19 +1256,22 @@ grouping update_pdr_ie {
 		pfcp_ies:order 5;
 	}
 	container qer_id {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:qer_id;
 		pfcp_ies:order 6;
 	}
 	list activate_predefined_rules {
-		uses pfcp_ies:activate_predefined_rules_;
+		pfcp:applicability "Sxb Sxc N4";
+		uses pfcp_ies:activate_predefined_rules;
 		pfcp_ies:order 7;
 	}
 	list deactivate_predefined_rules {
-		uses pfcp_ies:deactivate_predefined_rules_;
+		pfcp:applicability "Sxb Sxc N4";
+		uses pfcp_ies:deactivate_predefined_rules;
 		pfcp_ies:order 8;
 	}
 }
-grouping update_far_ie {
+grouping update_far {
 	pfcp:groupedie-type 10;
 	pfcp:containingMessage 52;
 	container far_id {
@@ -1163,24 +1279,26 @@ grouping update_far_ie {
 		pfcp_ies:order 0;
 		pfcp:iemandatory;
 	}
-	container apply_action {
-		uses pfcp_ies:apply_action;
+	container apply-action {
+		uses pfcp_ies:apply-action;
 		pfcp_ies:order 1;
 	}
 	container update_forwarding_parameters {
-		uses pfcp_ies:update_forwarding_parameters;
+		uses pfcp:update_forwarding_parameters;
 		pfcp_ies:order 2;
 	}
 	list update_duplicating_parameters {
-		uses pfcp_ies:update_duplicating_parameters;
+		pfcp:applicability "Sxa Sxb N4";
+		uses update_duplicating_parameters;
 		pfcp_ies:order 3;
 	}
 	container bar_id {
+		pfcp:applicability "Sxa N4";
 		uses pfcp_ies:bar_id;
 		pfcp_ies:order 4;
 	}
 }
-grouping update_forward {
+grouping update_forwarding_parameters {
 	pfcp:groupedie-type 11;
 	container destination_interface {
 		uses pfcp_ies:destination_interface;
@@ -1191,35 +1309,42 @@ grouping update_forward {
 		pfcp_ies:order 1;
 	}
 	container redirect_information {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:redirect_information;
 		pfcp_ies:order 2;
 	}
 	container outer_header_creation {
+		pfcp:applicability "Sxa Sxb N4";
 		uses pfcp_ies:outer_header_creation;
 		pfcp_ies:order 3;
 	}
 	container transport_level_marking {
+		pfcp:applicability "Sxa Sxb N4";
 		uses pfcp_ies:transport_level_marking;
 		pfcp_ies:order 4;
 	}
 	container forwarding_policy {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:forwarding_policy;
 		pfcp_ies:order 5;
 	}
 	container header_enrichment {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:header_enrichment;
 		pfcp_ies:order 6;
 	}
 	container pfcpsmreqflags {
-		uses pfcp_ies:pfcpsmreqflags;
+		pfcp:applicability "Sxa Sxb N4";
+		uses pfcp_ies:pfcpsmreq-flags;
 		pfcp_ies:order 7;
 	}
 	container linked_traffic_endpoint_id {
+		pfcp:applicability "Sxa Sxb N4";
 		uses pfcp_ies:traffic_endpoint_id;
 		pfcp_ies:order 8;
 	}
 }
-grouping update_duplicat {
+grouping update_duplicating_parameters {
 	pfcp:groupedie-type 105;
 	container destination_interface {
 		uses pfcp_ies:destination_interface;
@@ -1234,11 +1359,12 @@ grouping update_duplicat {
 		pfcp_ies:order 2;
 	}
 	container forwarding_policy {
+		pfcp:applicability "Sxb N4";
 		uses pfcp_ies:forwarding_policy;
 		pfcp_ies:order 3;
 	}
 }
-grouping update_urr_ie {
+grouping update_urr {
 	pfcp:groupedie-type 13;
 	pfcp:containingMessage 52;
 	container urr_id {
@@ -1263,6 +1389,7 @@ grouping update_urr_ie {
 		pfcp_ies:order 4;
 	}
 	container volume_quota {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:volume_quota;
 		pfcp_ies:order 5;
 	}
@@ -1271,14 +1398,17 @@ grouping update_urr_ie {
 		pfcp_ies:order 6;
 	}
 	container time_quota {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:time_quota;
 		pfcp_ies:order 7;
 	}
 	container quota_holding_time {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:quota_holding_time;
 		pfcp_ies:order 8;
 	}
 	container dropped_dl_traffic_threshold {
+		pfcp:applicability "Sxa N4";
 		uses pfcp_ies:dropped_dl_traffic_threshold;
 		pfcp_ies:order 9;
 	}
@@ -1287,7 +1417,8 @@ grouping update_urr_ie {
 		pfcp_ies:order 10;
 	}
 	list event_information {
-		uses pfcp_ies:event_information;
+		pfcp:applicability "Sxb Sxc N4";
+		uses pfcp:event_information;
 		pfcp_ies:order 11;
 	}
 	container subsequent_volume_threshold {
@@ -1299,47 +1430,56 @@ grouping update_urr_ie {
 		pfcp_ies:order 13;
 	}
 	container subsequent_volume_quota {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:subsequent_volume_quota;
 		pfcp_ies:order 14;
 	}
 	container subsequent_time_quota {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:subsequent_time_quota;
 		pfcp_ies:order 15;
 	}
 	container inactivity_detection_time {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:inactivity_detection_time;
 		pfcp_ies:order 16;
 	}
 	list linked_urr_id {
-		uses pfcp_ies:linked_urr_id_;
+		pfcp:applicability "Sxb Sxc N4";
+		uses pfcp_ies:linked_urr_id;
 		pfcp_ies:order 17;
 	}
 	container measurement_information {
+		pfcp:applicability "Sxb N4";
 		uses pfcp_ies:measurement_information;
 		pfcp_ies:order 18;
 	}
 	container time_quota_mechanism {
+		pfcp:applicability "Sxb";
 		uses pfcp_ies:time_quota_mechanism;
 		pfcp_ies:order 19;
 	}
 	list aggregated_urrs {
-		uses pfcp_ies:aggregated_urrs;
+		pfcp:applicability "Sxb";
+		uses pfcp:aggregated_urrs;
 		pfcp_ies:order 20;
 	}
 	container far_id_for_quota_action {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:far_id;
 		pfcp_ies:order 21;
 	}
 	container ethernet_inactivity_timer {
+		pfcp:applicability "N4";
 		uses pfcp_ies:ethernet_inactivity_timer;
 		pfcp_ies:order 22;
 	}
 	container additional_monitoring_time {
-		uses pfcp_ies:additional_monitoring_time;
+		uses pfcp:additional_monitoring_time;
 		pfcp_ies:order 23;
 	}
 }
-grouping update_qer_ie {
+grouping update_qer {
 	pfcp:groupedie-type 14;
 	pfcp:containingMessage 52;
 	container qer_id {
@@ -1348,6 +1488,7 @@ grouping update_qer_ie {
 		pfcp:iemandatory;
 	}
 	container qer_correlation_id {
+		pfcp:applicability "Sxb N4";
 		uses pfcp_ies:qer_correlation_id;
 		pfcp_ies:order 1;
 	}
@@ -1364,23 +1505,27 @@ grouping update_qer_ie {
 		pfcp_ies:order 4;
 	}
 	container packet_rate {
+		pfcp:applicability "Sxb";
 		uses pfcp_ies:packet_rate;
 		pfcp_ies:order 5;
 	}
 	container dl_flow_level_marking {
+		pfcp:applicability "Sxb Sxc";
 		uses pfcp_ies:dl_flow_level_marking;
 		pfcp_ies:order 6;
 	}
 	container qos_flow_identifier {
+		pfcp:applicability "N4";
 		uses pfcp_ies:qfi;
 		pfcp_ies:order 7;
 	}
 	container reflective_qos {
+		pfcp:applicability "N4";
 		uses pfcp_ies:rqi;
 		pfcp_ies:order 8;
 	}
 }
-grouping remove_pdr_ie {
+grouping remove_pdr {
 	pfcp:groupedie-type 15;
 	pfcp:containingMessage 52;
 	container pdr_id {
@@ -1389,7 +1534,7 @@ grouping remove_pdr_ie {
 		pfcp:iemandatory;
 	}
 }
-grouping remove_far_ie {
+grouping remove_far {
 	pfcp:groupedie-type 16;
 	pfcp:containingMessage 52;
 	container far_id {
@@ -1398,7 +1543,7 @@ grouping remove_far_ie {
 		pfcp:iemandatory;
 	}
 }
-grouping remove_urr_ie {
+grouping remove_urr {
 	pfcp:groupedie-type 17;
 	pfcp:containingMessage 52;
 	container urr_id {
@@ -1407,15 +1552,16 @@ grouping remove_urr_ie {
 		pfcp:iemandatory;
 	}
 }
-grouping remove_qer_ie_pfcp_session_modification_request {
+grouping remove_qer {
 	pfcp:groupedie-type 18;
+	pfcp:containingMessage 52;
 	container qer_id {
 		uses pfcp_ies:qer_id;
 		pfcp_ies:order 0;
 		pfcp:iemandatory;
 	}
 }
-grouping query_urr_ie {
+grouping query_urr {
 	pfcp:groupedie-type 77;
 	pfcp:containingMessage 52;
 	container urr_id {
@@ -1424,7 +1570,7 @@ grouping query_urr_ie {
 		pfcp:iemandatory;
 	}
 }
-grouping update_bar_ie {
+grouping update_bar {
 	pfcp:groupedie-type 86;
 	pfcp:containingMessage 52;
 	container bar_id {
@@ -1437,11 +1583,12 @@ grouping update_bar_ie {
 		pfcp_ies:order 1;
 	}
 	container suggested_buffering_packets_count {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:suggested_buffering_packets_count;
 		pfcp_ies:order 2;
 	}
 }
-grouping remove_bar_ie {
+grouping remove_bar {
 	pfcp:groupedie-type 87;
 	pfcp:containingMessage 52;
 	container bar_id {
@@ -1450,14 +1597,17 @@ grouping remove_bar_ie {
 		pfcp:iemandatory;
 	}
 }
-grouping update_traffic_endpoint_ie {
+grouping update_traffic_endpoint {
+	pfcp:groupedie-type 129;
+	pfcp:containingMessage 52;
 	container traffic_endpoint_id {
 		uses pfcp_ies:traffic_endpoint_id;
 		pfcp_ies:order 0;
 		pfcp:iemandatory;
 	}
 	container local_fteid {
-		uses pfcp_ies:fteid;
+		pfcp:applicability "Sxa N4";
+		uses pfcp_ies:f-teid;
 		pfcp_ies:order 1;
 	}
 	container network_instance {
@@ -1465,24 +1615,29 @@ grouping update_traffic_endpoint_ie {
 		pfcp_ies:order 2;
 	}
 	container ue_ip_address {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:ue_ip_address;
 		pfcp_ies:order 3;
 	}
 	list framedroute {
-		uses pfcp_ies:framedroute;
+		pfcp:applicability "Sxb N4";
+		uses pfcp_ies:framed-route;
 		pfcp_ies:order 4;
 	}
 	container framedrouting {
-		uses pfcp_ies:framedrouting;
+		pfcp:applicability "Sxb N4";
+		uses pfcp_ies:framed-routing;
 		pfcp_ies:order 5;
 	}
 	list framedipv6route {
-		uses pfcp_ies:framedipv6route;
+		pfcp:applicability "Sxb N4";
+		uses pfcp_ies:framed-ipv6-route;
 		pfcp_ies:order 6;
 	}
 }
-grouping remove_traffic_endpoint_ie {
+grouping remove_traffic_endpoint {
 	pfcp:groupedie-type 130;
+	pfcp:containingMessage 52;
 	container traffic_endpoint_id {
 		uses pfcp_ies:traffic_endpoint_id;
 		pfcp_ies:order 0;
@@ -1491,6 +1646,7 @@ grouping remove_traffic_endpoint_ie {
 }
 grouping pfcp_session_modification_response {
 	pfcp:messageType "response";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 53;
 	container cause {
 		uses pfcp_ies:cause;
@@ -1502,19 +1658,20 @@ grouping pfcp_session_modification_response {
 		pfcp_ies:order 1;
 	}
 	container created_pdr {
-		uses pfcp_ies:created_pdr;
+		pfcp:applicability "Sxa Sxb N4";
+		uses created_pdr;
 		pfcp_ies:order 2;
 	}
 	container load_control_information {
-		uses pfcp_ies:load_control_information;
+		uses pfcp:load_control_information;
 		pfcp_ies:order 3;
 	}
 	container overload_control_information {
-		uses pfcp_ies:overload_control_information;
+		uses pfcp:overload_control_information;
 		pfcp_ies:order 4;
 	}
-	container usage_report {
-		uses pfcp_ies:usage_report;
+	list usage_report {
+		uses pfcp:usage_report;
 		pfcp_ies:order 5;
 	}
 	container failed_rule_id {
@@ -1526,11 +1683,12 @@ grouping pfcp_session_modification_response {
 		pfcp_ies:order 7;
 	}
 	container createdupdated_traffic_endpoint {
-		uses pfcp_ies:created_traffic_endpoint;
+		pfcp:applicability "Sxa Sxb N4";
+		uses created_traffic_endpoint;
 		pfcp_ies:order 8;
 	}
 }
-grouping usage_report_ie {
+grouping usage_report {
 	pfcp:groupedie-type 78;
 	pfcp:containingMessage 53;
 	container urr_id {
@@ -1539,7 +1697,7 @@ grouping usage_report_ie {
 		pfcp:iemandatory;
 	}
 	container urseqn {
-		uses pfcp_ies:urseqn;
+		uses pfcp_ies:ur-seqn;
 		pfcp_ies:order 1;
 		pfcp:iemandatory;
 	}
@@ -1581,20 +1739,19 @@ grouping usage_report_ie {
 		pfcp_ies:order 10;
 	}
 	container ethernet_traffic_information {
-		uses pfcp_ies:ethernet_traffic_information;
+		pfcp:applicability "N4";
+		uses pfcp:ethernet_traffic_information;
 		pfcp_ies:order 11;
 	}
 }
 grouping pfcp_session_deletion_request {
 	pfcp:messageType "request";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 54;
-	container  {
-		uses pfcp_ies:;
-		pfcp_ies:order 0;
-	}
 }
 grouping pfcp_session_deletion_response {
 	pfcp:messageType "response";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 55;
 	container cause {
 		uses pfcp_ies:cause;
@@ -1606,28 +1763,28 @@ grouping pfcp_session_deletion_response {
 		pfcp_ies:order 1;
 	}
 	container load_control_information {
-		uses pfcp_ies:load_control_information;
+		uses pfcp:load_control_information;
 		pfcp_ies:order 2;
 	}
 	container overload_control_information {
-		uses pfcp_ies:overload_control_information;
+		uses pfcp:overload_control_information;
 		pfcp_ies:order 3;
 	}
-	container usage_report {
-		uses pfcp_ies:usage_report;
+	list usage_report {
+		uses pfcp:session_deletion_usage_report;
 		pfcp_ies:order 4;
 	}
 }
-grouping usage_report_ie {
+grouping session_deletion_usage_report {
+	description "Added session_deletion_ to the name to correct conflict with usage_report name";
 	pfcp:groupedie-type 79;
-	pfcp:containingMessage 55;
 	container urr_id {
 		uses pfcp_ies:urr_id;
 		pfcp_ies:order 0;
 		pfcp:iemandatory;
 	}
 	container urseqn {
-		uses pfcp_ies:urseqn;
+		uses pfcp_ies:ur-seqn;
 		pfcp_ies:order 1;
 		pfcp:iemandatory;
 	}
@@ -1665,12 +1822,14 @@ grouping usage_report_ie {
 		pfcp_ies:order 9;
 	}
 	container ethernet_traffic_information {
-		uses pfcp_ies:ethernet_traffic_information;
+		pfcp:applicability "N4";
+		uses pfcp:ethernet_traffic_information;
 		pfcp_ies:order 10;
 	}
 }
 grouping pfcp_session_report_request {
 	pfcp:messageType "request";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 56;
 	container report_type {
 		uses pfcp_ies:report_type;
@@ -1678,23 +1837,25 @@ grouping pfcp_session_report_request {
 		pfcp:iemandatory;
 	}
 	container downlink_data_report {
-		uses pfcp_ies:downlink_data_report;
+		pfcp:applicability "Sxa N4";
+		uses pfcp:downlink_data_report;
 		pfcp_ies:order 1;
 	}
 	container usage_report {
-		uses pfcp_ies:usage_report;
+		uses pfcp:session_report_usage_report;
 		pfcp_ies:order 2;
 	}
 	container error_indication_report {
-		uses pfcp_ies:error_indication_report;
+		pfcp:applicability "Sxa Sxb N4";
+		uses pfcp:error_indication_report;
 		pfcp_ies:order 3;
 	}
 	container load_control_information {
-		uses pfcp_ies:load_control_information;
+		uses pfcp:load_control_information;
 		pfcp_ies:order 4;
 	}
 	container overload_control_information {
-		uses pfcp_ies:overload_control_information;
+		uses pfcp:overload_control_information;
 		pfcp_ies:order 5;
 	}
 	container additional_usage_reports_information {
@@ -1702,10 +1863,9 @@ grouping pfcp_session_report_request {
 		pfcp_ies:order 6;
 	}
 }
-grouping downlink_data_report_ie {
+grouping downlink_data_report {
 	pfcp:groupedie-type 83;
-	pfcp:containingMessage 56;
-	container pdr_id {
+	list pdr_id {
 		uses pfcp_ies:pdr_id;
 		pfcp_ies:order 0;
 		pfcp:iemandatory;
@@ -1715,16 +1875,16 @@ grouping downlink_data_report_ie {
 		pfcp_ies:order 1;
 	}
 }
-grouping usage_report_ie {
+grouping session_report_usage_report {
+	description "Added session_report_ to avoid the usage_report conflict";
 	pfcp:groupedie-type 80;
-	pfcp:containingMessage 56;
 	container urr_id {
 		uses pfcp_ies:urr_id;
 		pfcp_ies:order 0;
 		pfcp:iemandatory;
 	}
 	container urseqn {
-		uses pfcp_ies:urseqn;
+		uses pfcp_ies:ur-seqn;
 		pfcp_ies:order 1;
 		pfcp:iemandatory;
 	}
@@ -1750,14 +1910,17 @@ grouping usage_report_ie {
 		pfcp_ies:order 6;
 	}
 	container application_detection_information {
-		uses pfcp_ies:application_detection_information;
+		pfcp:applicability "Sxb Sxc N4";
+		uses pfcp:application_detection_information;
 		pfcp_ies:order 7;
 	}
 	container ue_ip_address {
+		pfcp:applicability "Sxc N4";
 		uses pfcp_ies:ue_ip_address;
 		pfcp_ies:order 8;
 	}
 	container network_instance {
+		pfcp:applicability "Sxc N4";
 		uses pfcp_ies:network_instance;
 		pfcp_ies:order 9;
 	}
@@ -1778,15 +1941,17 @@ grouping usage_report_ie {
 		pfcp_ies:order 13;
 	}
 	list event_reporting {
-		uses pfcp_ies:event_reporting;
+		pfcp:applicability "Sxb Sxc N4";
+		uses pfcp:event_reporting;
 		pfcp_ies:order 14;
 	}
 	container ethernet_traffic_information {
-		uses pfcp_ies:ethernet_traffic_information;
+		pfcp:applicability "N4";
+		uses pfcp:ethernet_traffic_information;
 		pfcp_ies:order 15;
 	}
 }
-grouping application_detection_information_ie {
+grouping application_detection_information {
 	pfcp:groupedie-type 68;
 	container application_id {
 		uses pfcp_ies:application_id;
@@ -1802,7 +1967,7 @@ grouping application_detection_information_ie {
 		pfcp_ies:order 2;
 	}
 }
-grouping event_reporting_ie {
+grouping event_reporting {
 	pfcp:groupedie-type 149;
 	container event_id {
 		uses pfcp_ies:event_id;
@@ -1810,7 +1975,7 @@ grouping event_reporting_ie {
 		pfcp:iemandatory;
 	}
 }
-grouping ethernet_traffic_information_ie {
+grouping ethernet_traffic_information {
 	pfcp:groupedie-type 143;
 	container mac_addresses_detected {
 		uses pfcp_ies:mac_addresses_detected;
@@ -1821,17 +1986,18 @@ grouping ethernet_traffic_information_ie {
 		pfcp_ies:order 1;
 	}
 }
-grouping error_indication_report_ie {
+grouping error_indication_report {
 	pfcp:groupedie-type 99;
 	pfcp:containingMessage 56;
 	container remote_fteid {
-		uses pfcp_ies:fteid;
+		uses pfcp_ies:f-teid;
 		pfcp_ies:order 0;
 		pfcp:iemandatory;
 	}
 }
 grouping pfcp_session_report_response {
 	pfcp:messageType "response";
+	pfcp:applicability "Sxa Sxb Sxc N4";
 	pfcp:messageTypeValue 57;
 	container cause {
 		uses pfcp_ies:cause;
@@ -1843,15 +2009,18 @@ grouping pfcp_session_report_response {
 		pfcp_ies:order 1;
 	}
 	container update_bar {
-		uses pfcp_ies:update_bar;
+		pfcp:applicability "Sxa N4";
+		uses session_report_response_update_bar;
 		pfcp_ies:order 2;
 	}
 	container sxsrrspflags {
-		uses pfcp_ies:sxsrrspflags;
+		pfcp:applicability "Sxa N4";
+		uses pfcp_ies:pfcpsrrsp-flags;
 		pfcp_ies:order 3;
 	}
 }
-grouping update_bar_ie {
+grouping session_report_response_update_bar {
+	description "Added session_report_response to name to avoid name conflict";
 	pfcp:groupedie-type 12;
 	pfcp:containingMessage 57;
 	container bar_id {
@@ -1872,6 +2041,7 @@ grouping update_bar_ie {
 		pfcp_ies:order 3;
 	}
 	container suggested_buffering_packets_count {
+		pfcp:applicability "Sxb Sxc N4";
 		uses pfcp_ies:suggested_buffering_packets_count;
 		pfcp_ies:order 4;
 	}
